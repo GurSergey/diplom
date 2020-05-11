@@ -1,0 +1,27 @@
+version: '3.1'
+services:
+  tomcat:
+    depends_on:
+      - db
+    image: tomcat:9.0-jdk8
+    environment:
+      - JPDA_ADDRESS=8000
+      - JPDA_TRANSPORT=dt_socket
+      - JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
+    entrypoint: /usr/local/tomcat/bin/catalina.sh jpda run
+    ports:
+      - 8888:8080
+      - 8002:8000
+    volumes:
+      - ./apps:/usr/local/tomcat/webapps
+  db:
+    hostname: db
+    image: postgres
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: course
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
