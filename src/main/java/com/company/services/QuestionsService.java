@@ -1,19 +1,17 @@
 package com.company.services;
 
-import com.company.db.QuestionsRepositoryDB;
 import com.company.enitities.QuestionEntity;
 import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.exceptions.UpdateException;
-import com.company.repositories.QuestionsRepository;
-import com.company.repositories.VariantsRepository;
+import com.company.dao.QueueDAO;
 
 public class QuestionsService {
-    private QuestionsRepository repository;
+    private QueueDAO repository;
 
-    public QuestionsService(QuestionsRepository questionsRepository) {
-        this.repository = questionsRepository;
+    public QuestionsService(QueueDAO questionsDAO) {
+        this.repository = questionsDAO;
     }
 
     public QuestionEntity[] getQuestionsByIdPoll(int id) throws SelectException {

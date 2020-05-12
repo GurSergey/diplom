@@ -17,7 +17,7 @@
     </style>
 </head>
     <body>
-    <jsp:include page="../admin_nav.jsp" />
+    <jsp:include page="admin_nav.jsp" />
 
         <h1> Список вариантов в голосовании c идентификатором ${questionId}  </h1>
 
@@ -96,6 +96,6 @@
         </div>
     </div>
     </div>
-    <jsp:include page="../footer.jsp" />
+    <jsp:include page="footer.jsp" />
     </body>
 </html>

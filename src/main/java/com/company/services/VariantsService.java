@@ -1,32 +1,32 @@
 package com.company.services;
 
-import com.company.enitities.VariantEntity;
+import com.company.enitities.KeyEntity;
 import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.exceptions.UpdateException;
-import com.company.repositories.VariantsRepository;
+import com.company.dao.VariantsDAO;
 
 public class VariantsService {
-    private VariantsRepository repository;
+    private VariantsDAO repository;
 
-    public VariantsService(VariantsRepository variantsRepository) {
-        this.repository = variantsRepository;
+    public VariantsService(VariantsDAO variantsDAO) {
+        this.repository = variantsDAO;
     }
 
-    public VariantEntity[] getVariantsByIdQuestion(int id) throws SelectException {
+    public KeyEntity[] getVariantsByIdQuestion(int id) throws SelectException {
         return this.repository.getAllVariantsByQuestionId(id);
     }
 
-    public void saveVariant(VariantEntity question) throws InsertException {
+    public void saveVariant(KeyEntity question) throws InsertException {
         this.repository.saveVariant(question);
     }
 
-    public void updateVariant(VariantEntity question) throws UpdateException {
+    public void updateVariant(KeyEntity question) throws UpdateException {
         this.repository.updateVariant(question);
     }
 
-    public void deleteVariant(VariantEntity question) throws DeleteException {
+    public void deleteVariant(KeyEntity question) throws DeleteException {
         this.repository.deleteVariant(question);
     }
 }

@@ -1,17 +1,17 @@
 package com.company.services;
 
-import com.company.enitities.VoterEntity;
+import com.company.enitities.UserEntity;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.exceptions.UpdateException;
-import com.company.repositories.UserRepository;
+import com.company.dao.UserDAO;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class UserService {
-    UserRepository repository;
+    UserDAO repository;
 
     public static String hashedPassword(String st) {
         MessageDigest messageDigest = null;
@@ -32,29 +32,29 @@ public class UserService {
         return md5Hex;
     }
 
-    public UserService(UserRepository repository) {
+    public UserService(UserDAO repository) {
         this.repository = repository;
     }
 
-    public VoterEntity getUserByLoginPassword(String login, String password) throws SelectException{
+    public UserEntity getUserByLoginPassword(String login, String password) throws SelectException{
         return repository.getUserByLoginPassword(login, hashedPassword(password));
     }
 
-    public VoterEntity getVoterById(int id) throws SelectException{
+    public UserEntity getVoterById(int id) throws SelectException{
         return repository.getVoterById(id);
     }
 
-    public void updateVoter(VoterEntity voter) throws UpdateException{
+    public void updateVoter(UserEntity voter) throws UpdateException{
         voter.setPassword(hashedPassword(voter.getPassword()));
         repository.updateVoter(voter);
     }
 
-    public void createUser(VoterEntity voter) throws InsertException {
+    public void createUser(UserEntity voter) throws InsertException {
         voter.setPassword(hashedPassword(voter.getPassword()));
         repository.createUser(voter);
     }
 
-    public VoterEntity[] getAllUsers() throws SelectException{
+    public UserEntity[] getAllUsers() throws SelectException{
         return repository.getAllUsers();
     }
 }

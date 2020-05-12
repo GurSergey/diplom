@@ -1,39 +1,34 @@
-CREATE TABLE voter (
+CREATE TABLE "user" (
 	id serial PRIMARY KEY,
-	registration_date date NOT NULL,
-	name varchar(255) NOT NULL,
+	registration_date date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	password varchar(255) NOT NULL,
-	login varchar(255) NOT NULL,
-	phone varchar(11) UNIQUE
+	login varchar(255) NOT NULL UNIQUE
 );
 
-CREATE TABLE poll(
+CREATE TABLE dataset (
 	id serial PRIMARY KEY,
 	title varchar(255) NOT NULL,
-	visible boolean NOT NULL,
-	date_to date NOT NULL,
-	start_date date NOT NULL CHECK (date_to > start_date ),
-	create_date date NOT NULL
+	filename varchar(255) NOT NULL,
+	created_date date NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE question(
+CREATE TABLE model(
 	id serial PRIMARY KEY,
-	poll_id int NOT NULL REFERENCES poll(id) ON DELETE CASCADE,
-	question varchar(255) NOT NULL,
-	created_date date NOT NULL
+	title varchar(255) NOT NULL,
+	dataset_id int NOT NULL REFERENCES dataset(id) ON DELETE CASCADE,
+	created_date date NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE variants(
+CREATE TABLE key(
 	id serial PRIMARY KEY,
-	question_id int NOT NULL REFERENCES question(id) ON DELETE CASCADE,
-	text varchar(255) NOT NULL
+	name varchar(255) NOT NULL,
+	key_str varchar(255) NOT NULL,
+	created_date date NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE answer(
-	id serial PRIMARY KEY ,
-	voter_id int NOT NULL REFERENCES voter(id) ON DELETE CASCADE,
-	variant_id int NOT NULL REFERENCES variants(id) ON DELETE CASCADE,
-	answer_date date NOT NULL
-);
-
-
+CREATE TABLE queue_task(
+    id serial PRIMARY KEY,
+    completed_learn boolean NOT NULL,
+    model_id int REFERENCES model(id) ON DELETE CASCADE,
+    created_date date NOT NULL DEFAULT CURRENT_TIMESTAMP
+)

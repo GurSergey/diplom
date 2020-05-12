@@ -18,7 +18,7 @@
 </head>
     <body>
 
-    <jsp:include page="../admin_nav.jsp" />
+    <jsp:include page="admin_nav.jsp" />
         <h1> Список пользователей в системе </h1>
         <%@ page import="com.company.enums.EntityError" %>
         <c:if test="${error==EntityError.NO_ERROR_UPDATE}">
@@ -72,6 +72,6 @@
             </div>
         </div>
 
-    <jsp:include page="../footer.jsp" />
+    <jsp:include page="footer.jsp" />
     </body>
 </html>

@@ -2,8 +2,8 @@ package com.company.enitities;
 
 import java.sql.Date;
 
-public class VoterEntity implements Entity {
-    public VoterEntity(){}
+public class UserEntity implements Entity {
+    public UserEntity(){}
 
     public int getId() {
         return id;
@@ -21,35 +21,16 @@ public class VoterEntity implements Entity {
         this.registrationDate = registrationDate;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public VoterEntity(int id, String login, Date registrationDate, String name, String phone, String password) {
+    public UserEntity(int id, String login, Date registrationDate, String password) {
         this.id = id;
         this.login = login;
         this.registrationDate = registrationDate;
-        this.name = name;
-        this.phone = phone;
         this.password = password;
     }
 
     int id;
     Date registrationDate;
-    String name;
-    String phone;
+
     String login;
 
     public String getLogin() {

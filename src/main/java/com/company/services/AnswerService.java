@@ -2,12 +2,12 @@ package com.company.services;
 
 import com.company.enitities.AnswerEntity;
 import com.company.exceptions.InsertException;
-import com.company.repositories.AnswerRepository;
+import com.company.dao.DatasetDAO;
 
 public class AnswerService {
-    private AnswerRepository answerRepository;
+    private DatasetDAO answerRepository;
 
-    public AnswerService(AnswerRepository answerRepository){
+    public AnswerService(DatasetDAO answerRepository){
         this.answerRepository = answerRepository;
     }
 

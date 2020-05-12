@@ -1,11 +1,10 @@
 package com.company.servlet;
 
-import com.company.db.UserRepositoryDB;
-import com.company.enitities.VoterEntity;
+import com.company.db.UserDAODB;
+import com.company.enitities.UserEntity;
 import com.company.exceptions.SelectException;
 import com.company.helpers.CookieHelper;
 import com.company.services.UserService;
-import com.company.session.AdminSessionStorage;
 import com.company.session.UserSessionStorage;
 
 import javax.servlet.ServletContext;
@@ -14,9 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.util.Random;
 
 public class UserAuthServlet extends HttpServlet {
     public UserAuthServlet(){
@@ -63,10 +60,10 @@ public class UserAuthServlet extends HttpServlet {
             throws ServletException, IOException{
         String password = request.getParameter("password");
         String login = request.getParameter("login");
-        UserService service = new UserService(new UserRepositoryDB());
+        UserService service = new UserService(new UserDAODB());
         ServletContext context = getServletContext();
         try {
-            VoterEntity voter = service.getUserByLoginPassword(login, password);
+            UserEntity voter = service.getUserByLoginPassword(login, password);
             if(voter != null){
                 String sessionId = generateSessionId();
                 CookieHelper.setCookieByName(request, response, "userSession", sessionId,

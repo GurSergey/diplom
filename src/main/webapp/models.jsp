@@ -17,7 +17,7 @@
     </style>
 </head>
     <body>
-    <jsp:include page="../admin_nav.jsp" />
+    <jsp:include page="admin_nav.jsp" />
 
         <h1> Список вопросов в голосовании c идентификатором ${pollId}  </h1>
 
@@ -100,6 +100,6 @@
 
             </div>
         </div>
-    <jsp:include page="../footer.jsp" />
+    <jsp:include page="footer.jsp" />
     </body>
 </html>

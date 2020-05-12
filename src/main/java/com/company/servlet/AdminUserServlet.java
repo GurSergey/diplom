@@ -7,8 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class AdminMenuServlet extends HttpServlet {
-    public AdminMenuServlet(){
+public class AdminUserServlet extends HttpServlet {
+
+    public AdminUserServlet(){
         super();
     }
 
@@ -16,5 +17,9 @@ public class AdminMenuServlet extends HttpServlet {
             throws ServletException, IOException {
         ServletContext context = getServletContext();
         context.getRequestDispatcher("/menu.jsp").forward(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response){
+
     }
 }
