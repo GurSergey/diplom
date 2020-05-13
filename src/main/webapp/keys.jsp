@@ -11,7 +11,7 @@
 <html>
 
 <head>
-    <title>Список голосований</title>
+    <title>Список ключей</title>
     <style>
         <%@include file="css/style.css"%>
     </style>
@@ -40,8 +40,8 @@
             <p style="color: red;">Возникла ошибка обновления записей из БД. Повторите попытку позже</p>
         </c:if>
 <%--        <jsp:useBean id="polls" scope="request" type="java.util.List"/>--%>
-        <c:forEach var="poll" items="${polls}">
-            <form action="" method="post" id="poll_form_${poll.id}"></form>
+        <c:forEach var="key" items="${keys}">
+            <form action="" method="post" id="key_form_${key.id}"></form>
         </c:forEach>
         <div class="row">
             <div class="col s12 m12">
@@ -50,46 +50,47 @@
                     <thead>
                         <tr>
                             <th>id</th>
-                            <th>Логин</th>
-                            <th>Хеш пароля</th>
-                            <th>Дата регистрации</th>
+                            <th>Название</th>
+                            <th>Ключ</th>
+                            <th>Дата создания</th>
 
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="user" items="${users}">
+                        <c:forEach var="key" items="${keys}">
                                  <tr>
-                                     <td>${user.id}<input name="id" type="text" value="${user.id}" form="poll_form_${user.id}">
-                                        <input name="typeReq" type="hidden" value="update" form="poll_form_${user.id}"></td>
-                                     <td><input name="title" type="text" value="${user.login}" form="poll_form_${user.login}"></td>
-                                     <td>${user.password}</td>
-                                    <td><input name="createDate" type="date" form="poll_form_${poll.id}"
-                                               value="${poll.createDate}"></td>
-                                    <td><input type="submit" name="delete" value="Удалить" class="waves-effect waves-light btn-small" form="poll_form_${poll.id}"></td>
+                                     <td>${key.id}<input name="id" type="text" value="${key.id}" form="key_form_${key.id}">
+                                        <input name="typeReq" type="hidden" value="update" form="key_form_${key.id}"></td>
+                                     <td><input name="title" type="text" value="${key.title}" form="key_form_${key.title}"></td>
+                                     <td>${key.keyStr}</td>
+                                    <td><input name="createDate" type="date" form="key_form_${key.id}"
+                                               value="${key.createDate}"></td>
+                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Сохранить" form="key_form_${key.id}"></td>
+                                    <td><input type="submit" name="delete" value="Удалить" class="waves-effect waves-light btn-small" form="key_form_${key.id}"></td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
 
 
-            <h3>Добавить нового пользователя</h3>
+            <h3>Добавить новый ключ</h3>
 
             <form action="" method="post" id="new_form"></form>
 
             <table>
                 <thead>
                 <tr>
-                    <th>Логин</th>
-                    <th>Пароль</th>
+                    <th>Название</th>
+                    <th>Ключ</th>
 
                 </tr>
                 </thead>
                 <tr>
                     <td>
-                        <input name="login" type="text" value="" form="new_form">
+                        <input name="title" type="text" value="" form="new_form">
 <%--                        <input name="typeReq" type="hidden" value="save" form="new_form">--%>
                     </td>
-                    <td><input name="login" type="text" value="" form="new_form"></td>
+                    <td><input name="key" type="text" value="" form="new_form"></td>
                     <td><input type="submit" class="waves-effect waves-light btn-small"
                                name="save" value="Сохранить" form="new_form"></td>
                 </tr>

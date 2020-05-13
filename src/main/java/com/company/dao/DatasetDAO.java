@@ -1,5 +1,6 @@
 package com.company.dao;
 
+import com.company.enitities.DatasetEntity;
 import com.company.enitities.KeyEntity;
 import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
@@ -7,8 +8,8 @@ import com.company.exceptions.SelectException;
 import com.company.exceptions.UpdateException;
 
 public interface DatasetDAO {
-    public KeyEntity[] getAllDataSet() throws SelectException;
-    public void saveKey(KeyEntity key) throws InsertException;
-    public void updateKey(KeyEntity key) throws UpdateException;
-    public void deleteKey(KeyEntity poll) throws DeleteException
+    DatasetEntity[] getAllDataSet() throws SelectException;
+    void saveDataset(DatasetEntity key) throws InsertException;
+    void updateDataset(DatasetEntity key) throws UpdateException;
+    void deleteDataset(DatasetEntity poll) throws DeleteException;
 }

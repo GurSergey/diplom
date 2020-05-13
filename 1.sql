@@ -15,6 +15,7 @@ CREATE TABLE dataset (
 CREATE TABLE model(
 	id serial PRIMARY KEY,
 	title varchar(255) NOT NULL,
+	test_accuracy real DEFAULT 0,
 	dataset_id int NOT NULL REFERENCES dataset(id) ON DELETE CASCADE,
 	created_date date NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -28,6 +29,7 @@ CREATE TABLE key(
 
 CREATE TABLE queue_task(
     id serial PRIMARY KEY,
+    progress int DEFAULT 0,
     completed_learn boolean NOT NULL,
     model_id int REFERENCES model(id) ON DELETE CASCADE,
     created_date date NOT NULL DEFAULT CURRENT_TIMESTAMP

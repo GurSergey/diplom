@@ -11,7 +11,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class UserService {
-    UserDAO repository;
+    UserDAO dao;
 
     public static String hashedPassword(String st) {
         MessageDigest messageDigest = null;
@@ -32,29 +32,30 @@ public class UserService {
         return md5Hex;
     }
 
-    public UserService(UserDAO repository) {
-        this.repository = repository;
+    public UserService(UserDAO dao) {
+        this.dao = dao;
     }
 
     public UserEntity getUserByLoginPassword(String login, String password) throws SelectException{
-        return repository.getUserByLoginPassword(login, hashedPassword(password));
+        return dao.getUserByLoginPassword(login, hashedPassword(password));
     }
 
-    public UserEntity getVoterById(int id) throws SelectException{
-        return repository.getVoterById(id);
-    }
+//    public UserEntity getVoterById(int id) throws SelectException{
+//        return repository.getVoterById(id);
+//    }
 
-    public void updateVoter(UserEntity voter) throws UpdateException{
-        voter.setPassword(hashedPassword(voter.getPassword()));
-        repository.updateVoter(voter);
-    }
+//    public void updateUser(UserEntity user) throws UpdateException{
+//        user.setPassword(hashedPassword(user.getPassword()));
+//        dao.
+//        dao.updateUser(user);
+//    }
 
-    public void createUser(UserEntity voter) throws InsertException {
-        voter.setPassword(hashedPassword(voter.getPassword()));
-        repository.createUser(voter);
+    public void createUser(UserEntity user) throws InsertException {
+        user.setPassword(hashedPassword(user.getPassword()));
+        dao.createUser(user);
     }
 
     public UserEntity[] getAllUsers() throws SelectException{
-        return repository.getAllUsers();
+        return dao.getAllUsers();
     }
 }

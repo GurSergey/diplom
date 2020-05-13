@@ -1,18 +1,18 @@
 package com.company.db;
 
 
-import com.company.enitities.KeyEntity;
+import com.company.dao.ModelsDAO;
+import com.company.enitities.DatasetEntity;
 import com.company.enitities.ModelEntity;
 import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.exceptions.UpdateException;
-import com.company.dao.VariantsDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ModelsDAODB implements VariantsDAO {
+public class ModelsDAODB implements ModelsDAO {
 
     public ModelsDAODB()  {
         try {
@@ -41,39 +41,65 @@ public class ModelsDAODB implements VariantsDAO {
 //    }
 
     @Override
-    public ModelEntity[] getAllModels(int questionId) throws SelectException {
-        ArrayList<ModelEntity> variants = new ArrayList<>();
+    public ModelEntity[] getAllModels() throws SelectException {
+        ArrayList<ModelEntity> models = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT id, title, dataset_id " +
-                            "FROM model WHERE question_id = ? JOIN dataset ON dataset_id = dataset.id "
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT id, model.title, queue_task.completed, dataset.title, model.created_date, " +
+                            "queue_task.progress " +
+                            "FROM model JOIN dataset ON dataset_id = dataset.id JOIN queue_task " +
+                            "ON queue_task.model_id = model.id"
             );
-            preparedStatement.setInt(1, questionId);
-            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                variants.add(new KeyEntity(resultSet.getInt(1), resultSet.getInt(2), null,
-                        resultSet.getString(3)));
+                models.add(new ModelEntity(resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getBoolean(3),
+                        resultSet.getString(4),
+                        resultSet.getDate(5),
+                        resultSet.getInt(6)));
             }
-            preparedStatement.close();
             resultSet.close();
             statement.close();
         } catch (SQLException e) {
             throw new SelectException();
         }
-        return variants.toArray(new KeyEntity[variants.size()]);
+        return models.toArray(new ModelEntity[models.size()]);
     }
 
     @Override
-    public void saveVariant(ModelEntity model) throws InsertException {
+    public void saveModel(ModelEntity model, DatasetEntity dataset) throws InsertException {
         try (Connection connection = DBConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO variants(question_id, " +
-                    "text) " +
-                    " VALUES (?, ?)");
-            preparedStatement.setInt(1, variant.getQuestionId());
-            preparedStatement.setString(2, variant.getText());
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO model(title, " +
+                    "dataset_id) " +
+                    "VALUES (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, model.getTitle());
+            preparedStatement.setInt(2, dataset.getId());
+//            preparedStatement.execute();
+//            preparedStatement.close();
+            int affectedRows = preparedStatement.executeUpdate();
+            preparedStatement.close();
+            if (affectedRows == 0) {
+                throw new SQLException();
+            }
+            int modelId;
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    modelId = generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException();
+                }
+            }
+            preparedStatement = connection.prepareStatement("INSERT INTO queue_task(completed_learn, model_id) " +
+                    "VALUES (?, ?)");
+            preparedStatement.setBoolean(1, false);
+            preparedStatement.setInt( 2, modelId);
             preparedStatement.execute();
             preparedStatement.close();
+            connection.commit();
         } catch (SQLException e) {
             throw new InsertException();
         }
@@ -82,10 +108,10 @@ public class ModelsDAODB implements VariantsDAO {
     @Override
     public void updateModel(ModelEntity model) throws UpdateException {
         try (Connection connection = DBConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE variants SET  " +
-                    "text = ?  WHERE id = ?");
-            preparedStatement.setString(1, variant.getText());
-            preparedStatement.setInt(2, variant.getId());
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE models SET  " +
+                    "title = ?  WHERE id = ?");
+            preparedStatement.setString(1, model.getTitle());
+            preparedStatement.setInt(2, model.getId());
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -96,9 +122,9 @@ public class ModelsDAODB implements VariantsDAO {
     @Override
     public void deleteModel(ModelEntity model) throws DeleteException {
         try (Connection connection = DBConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM variants WHERE  " +
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM models WHERE  " +
                     "id = ? ");
-            preparedStatement.setInt(1, variant.getId());
+            preparedStatement.setInt(1, model.getId());
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {

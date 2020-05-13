@@ -28,7 +28,7 @@ public class UserAuthServlet extends HttpServlet {
     private static final int SIZE_SESSION_ID = 100;
 
     private static String generateSessionId() {
-        if (SIZE_SESSION_ID < 1) throw new IllegalArgumentException();
+//        if (SIZE_SESSION_ID < 1) throw new IllegalArgumentException();
 
         StringBuilder sb = new StringBuilder(SIZE_SESSION_ID);
         SecureRandom random = new SecureRandom();

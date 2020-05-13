@@ -27,6 +27,8 @@ public class KeyEntity implements Entity {
         this.createdDate = createdDate;
     }
 
+    public KeyEntity(){};
+
     public KeyEntity(int id, String name, String keyStr, Date createdDate) {
         this.id = id;
         this.name = name;

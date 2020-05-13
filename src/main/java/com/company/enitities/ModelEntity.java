@@ -4,13 +4,14 @@ import java.sql.Date;
 
 public class ModelEntity implements Entity {
     private int id;
-
-    public ModelEntity(int id, String title, boolean completedLearn, DatasetEntity dataset, Date createDate) {
+    public ModelEntity(){}
+    public ModelEntity(int id, String title, boolean completedLearn, String datasetName, Date createDate, int progress) {
         this.id = id;
         this.title = title;
         this.completedLearn = completedLearn;
-        this.dataset = dataset;
+        this.datasetName = datasetName;
         this.createDate = createDate;
+        this.progress = progress;
     }
 
     public int getId() {
@@ -37,13 +38,13 @@ public class ModelEntity implements Entity {
         this.completedLearn = completedLearn;
     }
 
-    public DatasetEntity getDataset() {
-        return dataset;
-    }
-
-    public void setDataset(DatasetEntity dataset) {
-        this.dataset = dataset;
-    }
+//    public DatasetEntity getDataset() {
+//        return dataset;
+//    }
+//
+//    public void setDataset(DatasetEntity dataset) {
+//        this.dataset = dataset;
+//    }
 
     public Date getCreateDate() {
         return createDate;
@@ -57,9 +58,22 @@ public class ModelEntity implements Entity {
         this.progress = progress;
     }
 
+    public int getProgress() {
+        return progress;
+    }
+
     private int progress;
     private String title;
     private boolean completedLearn;
-    private DatasetEntity dataset;
+
+    public String getDatasetName() {
+        return datasetName;
+    }
+
+    public void setDatasetName(String datasetName) {
+        this.datasetName = datasetName;
+    }
+
+    private String datasetName;
     private Date createDate;
 }

@@ -12,6 +12,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AdminLogoutServlet extends HttpServlet {
+    public AdminLogoutServlet(){
+        super();
+    }
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
         ServletContext context = getServletContext();

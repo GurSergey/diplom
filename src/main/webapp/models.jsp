@@ -11,7 +11,7 @@
 <html>
 
 <head>
-    <title>Список голосований</title>
+    <title>Список моделей</title>
     <style>
         <%@include file="css/style.css"%>
     </style>
@@ -47,7 +47,7 @@
         <div class="row">
             <div class="col s12 m12">
                 <div class="card-panel white">
-                    <a href="${path}/admin/polls/edit/">Вернуться к списку голосований</a>
+
         <table>
             <thead>
                 <tr>

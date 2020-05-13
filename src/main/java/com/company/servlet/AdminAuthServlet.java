@@ -24,6 +24,10 @@ public class AdminAuthServlet extends HttpServlet {
     private static final String PASS_PARAMETER = "password";
     private static final String LOGIN_PARAMETER = "login";
 
+    public AdminAuthServlet(){
+        super();
+    }
+
     private String generateSessionId() {
         byte[] array = new byte[SIZE_SESSION_ID]; // length is bounded by 7
         new Random().nextBytes(array);

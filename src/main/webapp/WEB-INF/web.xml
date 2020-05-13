@@ -78,7 +78,7 @@
 
     <servlet>
         <servlet-name>userMenuServlet</servlet-name>
-        <servlet-class>com.company.servlet.UserMenuServlet</servlet-class>
+        <servlet-class>com.company.servlet.UserModelsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>userMenuServlet</servlet-name>
