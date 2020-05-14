@@ -25,6 +25,6 @@ public class UserModelsServlet extends HttpServlet {
         } catch (SelectException e){
             request.setAttribute("error", EntityError.SELECT);
         }
-        getServletContext().getRequestDispatcher("models_user.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/models_user.jsp").forward(request, response);
     }
 }

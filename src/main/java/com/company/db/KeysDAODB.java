@@ -46,13 +46,13 @@ public class KeysDAODB implements KeysDAO {
     @Override
     public void saveKey(KeyEntity key) throws InsertException {
         try (Connection connection = DBConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO poll(name, " +
-                    "key_str, " +
-                    "created_date, " +
-                    ") VALUES (?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO key(name, " +
+                    "key_str " +
+                    " " +
+                    ") VALUES (?, ?)");
             preparedStatement.setString(1, key.getName());
             preparedStatement.setString(2, key.getKeyStr());
-            preparedStatement.setDate(3, key.getCreatedDate());
+//            preparedStatement.setDate(3, key.getCreatedDate());
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -66,6 +66,7 @@ public class KeysDAODB implements KeysDAO {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE key SET name=? " +
                     "WHERE id = ? ");
             preparedStatement.setString(1, key.getName());
+            preparedStatement.setInt(2, key.getId());
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {

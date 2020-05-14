@@ -1,6 +1,6 @@
 package com.company.dao;
 
-import com.company.enitities.QuestionEntity;
+
 import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;

@@ -21,7 +21,8 @@ public class AdminSessionFilter implements Filter{
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-            httpResponse.sendRedirect("/admin/auth.jsp");
+            CookieHelper.deleteCookie(httpResponse, "adminSession");
+            httpResponse.sendRedirect(((HttpServletRequest) servletRequest).getContextPath() + "/admin_auth/");
         }
     }
 

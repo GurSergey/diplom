@@ -1,6 +1,7 @@
 package com.company.db;
 
 import com.company.enitities.UserEntity;
+import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.dao.UserDAO;
@@ -24,7 +25,7 @@ public class UserDAODB implements UserDAO {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
                     "SELECT id, login, registration_date, password " +
-                            "FROM user");
+                            "FROM \"user\" ");
             while (resultSet.next()) {
                 users.add(new UserEntity(
                         resultSet.getInt(1),
@@ -47,7 +48,7 @@ public class UserDAODB implements UserDAO {
 
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT id, login, registration_date,  name, phone, password" +
-                            " FROM voter WHERE login = ? and password = ?");
+                            " FROM \"user\" WHERE login = ? and password = ?");
             preparedStatement.setString(1, login);
             preparedStatement.setString(2,password);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -67,17 +68,29 @@ public class UserDAODB implements UserDAO {
 
     public void createUser(UserEntity user) throws InsertException {
         try (Connection connection = DBConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO voter (registration_date, " +
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO \"user\" ( " +
                     "login, " +
                     "password) " +
-            " VALUES (?, ?, ?)");
-            preparedStatement.setDate(1, user.getRegistrationDate());
-            preparedStatement.setString(2, user.getLogin());
-            preparedStatement.setString(3, user.getPassword());
+            " VALUES ( ?, ?)");
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getPassword());
+
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
             throw new InsertException();
+        }
+    }
+
+    public void deleteUser(UserEntity user) throws DeleteException {
+        try (Connection connection = DBConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM \"user\" WHERE id = ? " +
+                    "");
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.execute();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new DeleteException();
         }
     }
 

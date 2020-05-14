@@ -13,12 +13,20 @@
 <head>
     <title>Авторизация пользователя</title>
     <style>
-        <%@include file="../css/style.css"%>
+        <%@include file="css/style.css"%>
     </style>
 </head>
 <body>
 
-<jsp:include page="../nav.jsp" />
+<nav>
+    <div class="nav-wrapper blue darken-4">
+        <a href="#" class="brand-logo" style="margin-left: 20px">ML</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="${path}/user_auth/">Войти как пользователь</a></li>
+            <li><a href="${path}/admin_auth/">Войти как администратор</a></li>
+        </ul>
+    </div>
+</nav>
 <div class="row">
     <div class="col s12 m12">
         <div class="card">
@@ -43,6 +51,6 @@
         </div>
     </div>
 </div>
-<jsp:include page="../footer.jsp" />
+<jsp:include page="footer.jsp" />
 </body>
 </html>

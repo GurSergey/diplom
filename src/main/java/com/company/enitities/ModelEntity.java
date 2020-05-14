@@ -61,11 +61,6 @@ public class ModelEntity implements Entity {
     public int getProgress() {
         return progress;
     }
-
-    private int progress;
-    private String title;
-    private boolean completedLearn;
-
     public String getDatasetName() {
         return datasetName;
     }
@@ -73,6 +68,12 @@ public class ModelEntity implements Entity {
     public void setDatasetName(String datasetName) {
         this.datasetName = datasetName;
     }
+
+    private int progress;
+    private String title;
+    private boolean completedLearn;
+
+
 
     private String datasetName;
     private Date createDate;

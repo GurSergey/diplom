@@ -32,7 +32,7 @@ public class AdminModelsServlet extends HttpServlet {
         } catch (SelectException e){
             request.setAttribute("error", EntityError.SELECT);
         }
-        getServletContext().getRequestDispatcher("models.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/models.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

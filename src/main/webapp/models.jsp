@@ -19,7 +19,7 @@
     <body>
     <jsp:include page="admin_nav.jsp" />
 
-        <h1> Список вопросов в голосовании c идентификатором ${pollId}  </h1>
+        <h1> Список моделей </h1>
 
         <%@ page import="com.company.enums.EntityError" %>
         <c:if test="${error==EntityError.NO_ERROR_UPDATE}">
@@ -41,33 +41,51 @@
             <p style="color: red;">Возникла ошибка обновления записей из БД. Повторите попытку позже</p>
         </c:if>
 
-        <c:forEach var="question" items="${questions}">
-            <form action="" method="post" id="question_form_${question.id}"></form>
+        <c:forEach var="model" items="${models}">
+            <form action="" method="post" id="model_form_${model.id}"></form>
         </c:forEach>
         <div class="row">
             <div class="col s12 m12">
                 <div class="card-panel white">
+                    private int progress;
+                    private String title;
+                    private boolean completedLearn;
 
+
+
+                    private String datasetName;
+                    private Date createDate;
         <table>
             <thead>
                 <tr>
                     <th>id</th>
-                    <th>Вопрос</th>
+                    <th>Название</th>
+                    <th>Флаг заврешения</th>
+                    <th>Прогресс обучения</th>
+                    <th>Название датасета обучения</th>
                     <th>Дата создания</th>
                 </tr>
             </thead>
             <tbody>
-                        <c:forEach var="question" items="${questions}">
+                        <c:forEach var="model" items="${models}">
                                  <tr>
-                                    <td>${question.id}<input name="id" type="hidden" value="${question.id}" form="question_form_${question.id}">
-                                        <input name="pollId" type="hidden" value="${pollId}" form="question_form_${question.id}"></td>
-                                    <td><input name="question" type="text" value="${question.question}" form="question_form_${question.id}"></td>
-                                    <td><input name="createDate" type="date" form="question_form_${question.id}"
-                                               value="${question.createdDate}"></td>
-                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Сохранить" form="question_form_${question.id}"></td>
-                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="question_form_${question.id}"></td>
-                                    <td><a class="waves-effect waves-light btn-small" href="${path}/admin/variants/?questionId=${question.id}&pollId=${pollId}">
-                                        Перейти к редактированию вариантов</a></td>
+                                    <td>${model.id}<input name="id" type="hidden" value="${model.id}" form="model_form_${model.id}">
+                                        <input name="modelId" type="hidden" value="${model.id}" form="model_form_${model.id}"></td>
+                                    <td><input name="title" type="text" value="${model.title}" form="model_form_${model.title}"></td>
+                                    <td>
+                                         <c:if test="${model.completedLearn==true}">
+                                             <input name="visible" type="checkbox" checked value="${model.completedLearn}" form="model_form_${model.id}" style="opacity: 1.0; pointer-events: auto;">
+                                         </c:if>
+                                         <c:if test="${model.completedLearn==false}">
+                                             <input name="visible" type="checkbox" value="${model.completedLearn}" form="model_form_${model.id}" style="opacity: 1.0; pointer-events: auto;">
+                                         </c:if>
+                                    </td>
+                                    <td>${model.progress}</td>
+                                     <td>${model.datasetName}</td>
+                                     <td>${model.createDate}<td>
+                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Сохранить" form="question_form_${model.id}"></td>
+                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="question_form_${model.id}"></td>
+
                             </tr>
                         </c:forEach>
             </tbody>
@@ -76,22 +94,27 @@
 
 
 
-        <h3>Добавить новый вопрос</h3>
+        <h3>Добавить новую модель</h3>
 
         <form action="" method="post" id="new_form"></form>
 
         <table>
             <thead>
             <tr>
-                <th>Вопрос</th>
+                <th>Название</th>
+                <th>Датасет для обучения</th>
             </tr>
             </thead>
             <tr>
                 <td>
-                    <input name="question" type="text" value="" form="new_form">
-                    <input name="pollId" type="hidden" value="${pollId}" form="new_form">
+                    <input name="title" type="text" value="" form="new_form">
+
 <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
                 </td>
+                <td><select>
+                    <option>Пункт 1</option>
+                    <option>Пункт 2</option>
+                </select></td>>
                 <td>
                     <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить" form="new_form"></td>
             </tr>

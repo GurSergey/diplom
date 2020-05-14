@@ -8,13 +8,13 @@
     <div class="container">
         <div class="row">
             <div class="col l6 s12">
-                <h5 class="white-text">OSES</h5>
+                <h5 class="white-text">ML</h5>
                 <p class="grey-text text-lighten-4"></p>
             </div>
             <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">Перейти</h5>
                 <ul>
-                    <li><span class="red-text">Сверхсекретно!</span> <a class="grey-text text-lighten-3" href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/menu">К админке</a></li>
+                    <li> </li>
                 </ul>
             </div>
         </div>

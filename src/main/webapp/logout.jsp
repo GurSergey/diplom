@@ -11,16 +11,16 @@
 <html>
 
 <head>
-    <title>Выход пользователя</title>
+    <title></title>
     <style>
-        <%@include file="../css/style.css"%>
+        <%@include file="css/style.css"%>
     </style>
 </head>
 <body>
-<jsp:include page="../nav.jsp" />
+<jsp:include page="nav.jsp" />
 
 <p>Вы вышли из системы, можете перейти на главную страницу <a href="${path}">Главная страница</a></p>
 
-<jsp:include page="../footer.jsp" />
+<jsp:include page="footer.jsp" />
 </body>
 </html>

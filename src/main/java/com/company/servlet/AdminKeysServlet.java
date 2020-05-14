@@ -34,7 +34,7 @@ public class AdminKeysServlet extends HttpServlet {
         } catch (SelectException e){
             request.setAttribute("error", EntityError.SELECT);
         }
-        getServletContext().getRequestDispatcher("keys.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/keys.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -44,7 +44,7 @@ public class AdminKeysServlet extends HttpServlet {
         keyEntity.setId(request.getParameterMap().containsKey("id")
                 ? Integer.parseInt(request.getParameter("id"))
                 : -1);
-        keyEntity.setName( request.getParameter("title"));
+        keyEntity.setName(request.getParameter("title"));
         keyEntity.setKeyStr(request.getParameter("keyStr"));
         ServletContext context = this.getServletContext();
         try {
@@ -62,7 +62,7 @@ public class AdminKeysServlet extends HttpServlet {
                 service.deleteKey(keyEntity);
                 request.setAttribute("error", EntityError.NO_ERROR_DELETE);
             }
-            request.setAttribute("polls", service.getAllKeys());
+            request.setAttribute("keys", service.getAllKeys());
         } catch (SelectException e){
             request.setAttribute("error", EntityError.SELECT);
         } catch (InsertException e){

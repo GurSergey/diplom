@@ -1,6 +1,7 @@
 package com.company.services;
 
 import com.company.enitities.UserEntity;
+import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.exceptions.UpdateException;
@@ -38,6 +39,10 @@ public class UserService {
 
     public UserEntity getUserByLoginPassword(String login, String password) throws SelectException{
         return dao.getUserByLoginPassword(login, hashedPassword(password));
+    }
+
+    public void deleteUSer(UserEntity user) throws DeleteException {
+         dao.deleteUser(user);
     }
 
 //    public UserEntity getVoterById(int id) throws SelectException{

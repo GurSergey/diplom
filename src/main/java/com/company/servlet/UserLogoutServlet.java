@@ -20,6 +20,6 @@ public class UserLogoutServlet extends HttpServlet {
         String session = CookieHelper.getCookieByName(request,"userSession");
         if(session!= null && UserSessionStorage.getUser(session) != null)
             UserSessionStorage.deleteSession(session);
-        context.getRequestDispatcher("/user/logout.jsp").forward(request, response);
+        context.getRequestDispatcher("/logout.jsp").forward(request, response);
     }
 }

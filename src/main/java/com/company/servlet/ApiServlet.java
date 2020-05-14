@@ -12,6 +12,6 @@ public class ApiServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-             {}
+    {}
 
 }

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.Random;
 
 public class AdminAuthServlet extends HttpServlet {
@@ -28,10 +29,27 @@ public class AdminAuthServlet extends HttpServlet {
         super();
     }
 
-    private String generateSessionId() {
-        byte[] array = new byte[SIZE_SESSION_ID]; // length is bounded by 7
-        new Random().nextBytes(array);
-        return new String(array, StandardCharsets.UTF_8);
+    private static final String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
+    private static final String CHAR_UPPER = CHAR_LOWER.toUpperCase();
+    private static final String NUMBER = "0123456789";
+    private static final String DATA_FOR_RANDOM_STRING = CHAR_LOWER + CHAR_UPPER + NUMBER;
+
+    private static String generateSessionId() {
+//        if (SIZE_SESSION_ID < 1) throw new IllegalArgumentException();
+
+        StringBuilder sb = new StringBuilder(SIZE_SESSION_ID);
+        SecureRandom random = new SecureRandom();
+        for (int i = 0; i < SIZE_SESSION_ID; i++) {
+
+            int rndCharAt = random.nextInt(DATA_FOR_RANDOM_STRING.length());
+            char rndChar = DATA_FOR_RANDOM_STRING.charAt(rndCharAt);
+            System.out.format("%d\t:\t%c%n", rndCharAt, rndChar);
+            sb.append(rndChar);
+
+        }
+
+        return sb.toString();
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -42,7 +60,7 @@ public class AdminAuthServlet extends HttpServlet {
 
         } else {
             ServletContext context = getServletContext();
-            context.getRequestDispatcher("/admin/auth.jsp").forward(request, response);
+            context.getRequestDispatcher("/auth.jsp").forward(request, response);
         }
     }
 
@@ -55,8 +73,12 @@ public class AdminAuthServlet extends HttpServlet {
             CookieHelper.setCookieByName( request, response,  CookieHelper.ADMIN_SESSION,
                     sessionId, request.getContextPath() + "/admin");
             AdminSessionStorage.setSession(sessionId);
+            response.sendRedirect(request.getContextPath() + "/admin/menu");
+            return;
+        }  else {
+            request.setAttribute("authPassed", false);
         }
         ServletContext context = getServletContext();
-        context.getRequestDispatcher("/admin/auth.jsp").forward(request, response);
+        context.getRequestDispatcher("/auth.jsp").forward(request, response);
     }
 }

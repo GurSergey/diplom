@@ -19,7 +19,7 @@ public class UserSessionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String session = CookieHelper.getCookieByName((HttpServletRequest) servletRequest, "userSession");
         if(session!= null && UserSessionStorage.getUser(session)!=null) {
-            servletRequest.setAttribute("userName", UserSessionStorage.getUser(session).getName());
+            servletRequest.setAttribute("userName", UserSessionStorage.getUser(session).getLogin());
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;

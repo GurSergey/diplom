@@ -1,7 +1,5 @@
 package com.company.db;
 
-
-import com.company.enitities.QueueEntity;
 import com.company.exceptions.InsertException;
 import com.company.dao.QueueDAO;
 

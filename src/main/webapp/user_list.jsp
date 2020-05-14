@@ -48,26 +48,47 @@
             <thead>
                 <tr>
                     <th>id</th>
-                    <th>Имя</th>
                     <th>Логин</th>
                     <th>Дата создания аккаунта</th>
                     <th>Хеш пароля</th>
-                    <th>Телефон </th>
                 </tr>
             </thead>
             <tbody>
-                        <c:forEach var="user" items="${users}">
-                             <tr>
-                                    <td>${user.id}</td>
-                                    <td>${user.name}</td>
-                                    <td>${user.login}</td>
-                                    <td>${user.registrationDate}</td>
-                                    <td>${user.password}</td>
-                                    <td>${user.phone}</td>
-                            </tr>
-                        </c:forEach>
+                <c:forEach var="user" items="${users}">
+                     <tr>
+                        <td>${user.id}</td>
+                        <td>${user.login}</td>
+                        <td>${user.registrationDate}</td>
+                        <td>${user.password}</td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
+
+
+                <h3>Добавить нового пользователя</h3>
+
+                <form action="" method="post" id="new_form"></form>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Логин</th>
+                        <th>Пароль</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td>
+                            <input name="login" type="text" value="" form="new_form">
+                            <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
+                        </td>
+                        <td>
+                            <input name="password" type="text" value="123" form="new_form">
+                        </td>
+                        <td>
+                        <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить" form="new_form"></td>
+                    </tr>
+                </table>
                 </div>
             </div>
         </div>

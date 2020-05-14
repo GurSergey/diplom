@@ -15,11 +15,27 @@
     <style>
         <%@include file="css/style.css"%>
     </style>
+
+    <script>
+        function makeKey(length) {
+            var result           = '';
+            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for ( var i = 0; i < length; i++ ) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+        function setKey() {
+            document.getElementById("newKey").setAttribute("value", makeKey(50));
+        }
+    </script>
+
 </head>
     <body>
     <jsp:include page="admin_nav.jsp" />
 
-        <h1> Список голосований в системе </h1>
+        <h1> Список ключей в системе </h1>
         <%@ page import="com.company.enums.EntityError" %>
         <c:if test="${error==EntityError.NO_ERROR_UPDATE}">
             <p style="color: green;">Запись успешно обновлена</p>
@@ -58,15 +74,16 @@
                     </thead>
                     <tbody>
                         <c:forEach var="key" items="${keys}">
-                                 <tr>
-                                     <td>${key.id}<input name="id" type="text" value="${key.id}" form="key_form_${key.id}">
-                                        <input name="typeReq" type="hidden" value="update" form="key_form_${key.id}"></td>
-                                     <td><input name="title" type="text" value="${key.title}" form="key_form_${key.title}"></td>
-                                     <td>${key.keyStr}</td>
-                                    <td><input name="createDate" type="date" form="key_form_${key.id}"
-                                               value="${key.createDate}"></td>
-                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Сохранить" form="key_form_${key.id}"></td>
-                                    <td><input type="submit" name="delete" value="Удалить" class="waves-effect waves-light btn-small" form="key_form_${key.id}"></td>
+                             <tr>
+                                 <td> ${key.id}<input name="id" type="hidden" value="${key.id}" form="key_form_${key.id}">
+                                    <input name="typeReq" type="hidden" value="update" form="key_form_${key.id}"></td>
+                                 <td>
+                                     <input name="title" type="text" value="${key.name}" form="key_form_${key.id}">
+                                 </td>
+                                 <td>${key.keyStr}</td>
+                                <td>${key.createdDate}</td>
+                                <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Сохранить" form="key_form_${key.id}"></td>
+                                <td><input type="submit" name="delete" value="Удалить" class="waves-effect waves-light btn-small" form="key_form_${key.id}"></td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -85,15 +102,19 @@
 
                 </tr>
                 </thead>
+                <tbody>
                 <tr>
                     <td>
                         <input name="title" type="text" value="" form="new_form">
 <%--                        <input name="typeReq" type="hidden" value="save" form="new_form">--%>
                     </td>
-                    <td><input name="key" type="text" value="" form="new_form"></td>
+                    <td><input name="keyStr" id="newKey" type="text" value="" form="new_form"></td>
+                    <td><input type="button" class="waves-effect waves-light btn-small"
+                         value="Сгенирировать ключ" onclick="setKey()"></td>
                     <td><input type="submit" class="waves-effect waves-light btn-small"
                                name="save" value="Сохранить" form="new_form"></td>
                 </tr>
+                </tbody>
             </table>
 
             </div>
