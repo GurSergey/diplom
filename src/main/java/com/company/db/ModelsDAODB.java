@@ -46,10 +46,37 @@ public class ModelsDAODB implements ModelsDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT id, model.title, queue_task.completed, dataset.title, model.created_date, " +
+                    "SELECT model.id, model.title, queue_task.completed_learn, dataset.title, model.created_date, " +
                             "queue_task.progress " +
                             "FROM model JOIN dataset ON dataset_id = dataset.id JOIN queue_task " +
                             "ON queue_task.model_id = model.id"
+            );
+            while (resultSet.next()) {
+                models.add(new ModelEntity(resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getBoolean(3),
+                        resultSet.getString(4),
+                        resultSet.getDate(5),
+                        resultSet.getInt(6)));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return models.toArray(new ModelEntity[models.size()]);
+    }
+
+    @Override
+    public ModelEntity[] getAllCompletedModels() throws SelectException {
+        ArrayList<ModelEntity> models = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT model.id, model.title, queue_task.completed_learn, dataset.title, model.created_date, " +
+                            "queue_task.progress " +
+                            "FROM model JOIN dataset ON dataset_id = dataset.id JOIN queue_task " +
+                            "ON queue_task.model_id = model.id WHERE queue_task.completed_learn = true"
             );
             while (resultSet.next()) {
                 models.add(new ModelEntity(resultSet.getInt(1),
@@ -81,7 +108,7 @@ public class ModelsDAODB implements ModelsDAO {
 //            preparedStatement.execute();
 //            preparedStatement.close();
             int affectedRows = preparedStatement.executeUpdate();
-            preparedStatement.close();
+
             if (affectedRows == 0) {
                 throw new SQLException();
             }
@@ -93,6 +120,7 @@ public class ModelsDAODB implements ModelsDAO {
                     throw new SQLException();
                 }
             }
+            preparedStatement.close();
             preparedStatement = connection.prepareStatement("INSERT INTO queue_task(completed_learn, model_id) " +
                     "VALUES (?, ?)");
             preparedStatement.setBoolean(1, false);

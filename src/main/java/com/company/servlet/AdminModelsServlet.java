@@ -1,6 +1,7 @@
 package com.company.servlet;
 
 import com.company.dao.ModelsDAO;
+import com.company.db.DatasetDAODB;
 import com.company.db.ModelsDAODB;
 import com.company.enitities.DatasetEntity;
 import com.company.enitities.ModelEntity;
@@ -9,6 +10,7 @@ import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.exceptions.UpdateException;
+import com.company.services.DataSetService;
 import com.company.services.ModelsService;
 
 import javax.servlet.ServletContext;
@@ -29,6 +31,7 @@ public class AdminModelsServlet extends HttpServlet {
         try {
             ModelsService service = new ModelsService(new ModelsDAODB());
             request.setAttribute("models", service.getModels());
+            request.setAttribute("datasets", new DataSetService(new DatasetDAODB()).getAllDataSet());
         } catch (SelectException e){
             request.setAttribute("error", EntityError.SELECT);
         }
@@ -49,7 +52,7 @@ public class AdminModelsServlet extends HttpServlet {
 
             if(request.getParameterMap().containsKey("save")){
                 DatasetEntity datasetEntity = new DatasetEntity();
-                datasetEntity.setId(Integer.parseInt(request.getParameter("dataset_id")));
+                datasetEntity.setId(Integer.parseInt(request.getParameter("datasetId")));
                 service.saveModel(modelEntity, datasetEntity);
                 request.setAttribute("error", EntityError.NO_ERROR_INSERT);
             }
@@ -61,7 +64,9 @@ public class AdminModelsServlet extends HttpServlet {
                 service.deleteModel(modelEntity);
                 request.setAttribute("error", EntityError.NO_ERROR_DELETE);
             }
-            request.setAttribute("polls", service.getModels());
+            request.setAttribute("models", service.getModels());
+//            DatasetEntity[] test = new DataSetService(new DatasetDAODB()).getAllDataSet();
+            request.setAttribute("datasets", new DataSetService(new DatasetDAODB()).getAllDataSet());
         } catch (SelectException e){
             request.setAttribute("error", EntityError.SELECT);
         } catch (InsertException e){

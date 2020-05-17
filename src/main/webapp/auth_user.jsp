@@ -9,7 +9,6 @@
 
 <html>
 
-
 <head>
     <title>Авторизация пользователя</title>
     <style>
@@ -34,8 +33,8 @@
                 <span class="card-title">Вход в систему</span>
                 <c:if test="${!authPassed}">
                     <form action="" method="post">
-                        <p>Для того чтобы продолжить пользоваться вохможностями OSES авторизируйтесь пожалуйста</p>
-                        <p>Вход для пользователей OSES</p>
+                        <p>Для того чтобы продолжить пользоваться возможностями войдите в систему</p>
+                        <p>Вход для пользователей </p>
                         <p>Логин: <input name="login" type="text" value=""></p>
                         <p>Пароль: <input name="password" type="password" value=""> </p>
                         <p><input type="submit" ></p>

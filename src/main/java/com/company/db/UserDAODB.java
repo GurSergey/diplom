@@ -47,10 +47,10 @@ public class UserDAODB implements UserDAO {
         try (Connection connection = DBConnection.getConnection()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT id, login, registration_date,  name, phone, password" +
+                    "SELECT id, login, registration_date, password" +
                             " FROM \"user\" WHERE login = ? and password = ?");
             preparedStatement.setString(1, login);
-            preparedStatement.setString(2,password);
+            preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next() ) {
                 return new UserEntity(

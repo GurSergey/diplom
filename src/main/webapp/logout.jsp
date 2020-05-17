@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-<jsp:include page="nav.jsp" />
+<jsp:include page="admin_nav.jsp" />
 
 <p>Вы вышли из системы, можете перейти на главную страницу <a href="${path}">Главная страница</a></p>
 

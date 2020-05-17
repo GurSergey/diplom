@@ -17,7 +17,7 @@ public class DataSetService {
     private static final String CHAR_UPPER = CHAR_LOWER.toUpperCase();
     private static final String NUMBER = "0123456789";
     private static final String DATA_FOR_RANDOM_STRING = CHAR_LOWER + CHAR_UPPER + NUMBER;
-    private static final int SIZE_FILE_ID = 100;
+    private static final int SIZE_FILE_ID = 50;
     private static String generateFilename() {
 //        if (SIZE_SESSION_ID < 1) throw new IllegalArgumentException();
 
@@ -45,6 +45,7 @@ public class DataSetService {
     }
 
     public void saveDataset(DatasetEntity dataset) throws InsertException {
+        dataset.setFilename(generateFilename());
         this.dao.saveDataset(dataset);
     }
 

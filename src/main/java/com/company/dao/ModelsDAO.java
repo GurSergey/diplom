@@ -9,7 +9,9 @@ import com.company.exceptions.UpdateException;
 
 public interface ModelsDAO {
     ModelEntity[] getAllModels() throws SelectException;
+    ModelEntity[] getAllCompletedModels() throws SelectException;
     void saveModel(ModelEntity model, DatasetEntity dataset) throws InsertException;
     void updateModel(ModelEntity model) throws UpdateException;
     void deleteModel(ModelEntity model) throws DeleteException;
+
 }

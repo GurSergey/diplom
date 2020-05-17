@@ -21,6 +21,6 @@ public class AdminLogoutServlet extends HttpServlet {
         String session = CookieHelper.getCookieByName(request,"adminSession");
         if(session!= null && AdminSessionStorage.sessionIsActive(session))
             AdminSessionStorage.deleteSession(session);
-        context.getRequestDispatcher("/admin/logout.jsp").forward(request, response);
+        context.getRequestDispatcher("/logout.jsp").forward(request, response);
     }
 }

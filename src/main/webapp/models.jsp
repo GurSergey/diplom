@@ -15,6 +15,18 @@
     <style>
         <%@include file="css/style.css"%>
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems, options);
+        });
+
+        // Or with jQuery
+
+        $(document).ready(function(){
+            $('select').formSelect();
+        });
+        </script>
 </head>
     <body>
     <jsp:include page="admin_nav.jsp" />
@@ -83,8 +95,8 @@
                                     <td>${model.progress}</td>
                                      <td>${model.datasetName}</td>
                                      <td>${model.createDate}<td>
-                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Сохранить" form="question_form_${model.id}"></td>
-                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="question_form_${model.id}"></td>
+                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Сохранить" form="model_form_${model.id}"></td>
+                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="model_form_${model.id}"></td>
 
                             </tr>
                         </c:forEach>
@@ -111,10 +123,16 @@
 
 <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
                 </td>
-                <td><select>
-                    <option>Пункт 1</option>
-                    <option>Пункт 2</option>
-                </select></td>>
+                <td>
+                    <div class="input-field col s12">
+                    <select name ="datasetId" style = "display: block;" form="new_form">
+                        <option value="" disabled selected>Выберете датасет</option>
+                        <c:forEach var="dataset" items="${datasets}">
+                            <option value="${dataset.id}">${dataset.title} - ID ${dataset.id}</option>
+                        </c:forEach>
+                    </select>
+                    </div>
+                </td>
                 <td>
                     <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить" form="new_form"></td>
             </tr>

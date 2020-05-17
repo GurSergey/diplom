@@ -21,7 +21,7 @@ public class UserModelsServlet extends HttpServlet {
         ServletContext context = this.getServletContext();
         try {
             ModelsService service = new ModelsService(new ModelsDAODB());
-            request.setAttribute("models", service.getModels());
+            request.setAttribute("models", service.getAllCompletedModels());
         } catch (SelectException e){
             request.setAttribute("error", EntityError.SELECT);
         }

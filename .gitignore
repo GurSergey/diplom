@@ -73,3 +73,5 @@ fabric.properties
 postgres-data/
 target/
 apps/
+datasets/*
+models/*

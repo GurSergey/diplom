@@ -62,9 +62,10 @@ public class DatasetDAODB implements DatasetDAO {
     @Override
     public void updateDataset(DatasetEntity dataset) throws UpdateException {
         try (Connection connection = DBConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE key SET title=? " +
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE dataset SET title=? " +
                     "WHERE id = ? ");
             preparedStatement.setString(1, dataset.getTitle());
+            preparedStatement.setInt(2, dataset.getId());
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -75,7 +76,7 @@ public class DatasetDAODB implements DatasetDAO {
     @Override
     public void deleteDataset(DatasetEntity dataset) throws DeleteException {
         try (Connection connection = DBConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM key WHERE id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM dataset WHERE id = ?");
             preparedStatement.setInt(1, dataset.getId());
             preparedStatement.execute();
             preparedStatement.close();

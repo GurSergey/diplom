@@ -1,85 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://java.sun.com/xml/ns/javaee"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         version="3.0">
+<!--<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--         xmlns="http://java.sun.com/xml/ns/javaee"-->
+<!--         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"-->
+<!--         version="3.0">-->
+            <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+            http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+            version="3.1">
 
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
+            <welcome-file-list>
+                <welcome-file>index.html</welcome-file>
+            </welcome-file-list>
 
-    <filter>
-        <filter-name>UTF8Filter</filter-name>
-        <filter-class>com.company.filters.UTF8Filter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>UTF8Filter</filter-name>
-        <url-pattern>*</url-pattern>
-    </filter-mapping>
+            <servlet>
+                <servlet-name>ArchitectureServlet</servlet-name>
+                <servlet-class>com.company.servlet.ArchitectureServlet</servlet-class>
+            </servlet>
+            <servlet-mapping>
+                <servlet-name>ArchitectureServlet</servlet-name>
+                <url-pattern>/architecture/*</url-pattern>
+            </servlet-mapping>
 
-    <filter>
-        <filter-name>UserSessionFilter</filter-name>
-        <filter-class>com.company.filters.UserSessionFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>UserSessionFilter</filter-name>
-        <url-pattern>/user/*</url-pattern>
-    </filter-mapping>
+            <filter>
+                <filter-name>UTF8Filter</filter-name>
+                <filter-class>com.company.filters.UTF8Filter</filter-class>
+            </filter>
+            <filter-mapping>
+                <filter-name>UTF8Filter</filter-name>
+                <url-pattern>*</url-pattern>
+            </filter-mapping>
 
-    <filter>
-        <filter-name>AdminSessionFilter</filter-name>
-        <filter-class>com.company.filters.AdminSessionFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>AdminSessionFilter</filter-name>
-        <url-pattern>/admin/*</url-pattern>
-    </filter-mapping>
+            <filter>
+                <filter-name>UserSessionFilter</filter-name>
+                <filter-class>com.company.filters.UserSessionFilter</filter-class>
+            </filter>
+            <filter-mapping>
+                <filter-name>UserSessionFilter</filter-name>
+                <url-pattern>/user/*</url-pattern>
+            </filter-mapping>
+
+            <filter>
+                <filter-name>AdminSessionFilter</filter-name>
+                <filter-class>com.company.filters.AdminSessionFilter</filter-class>
+            </filter>
+            <filter-mapping>
+                <filter-name>AdminSessionFilter</filter-name>
+                <url-pattern>/admin/*</url-pattern>
+            </filter-mapping>
 
 
-    <servlet>
-        <servlet-name>adminMenuServlet</servlet-name>
-        <servlet-class>com.company.servlet.AdminMenuServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>adminMenuServlet</servlet-name>
-        <url-pattern>/admin/menu/*</url-pattern>
-    </servlet-mapping>
+            <servlet>
+                <servlet-name>adminMenuServlet</servlet-name>
+                <servlet-class>com.company.servlet.AdminMenuServlet</servlet-class>
+            </servlet>
+            <servlet-mapping>
+                <servlet-name>adminMenuServlet</servlet-name>
+                <url-pattern>/admin/menu/*</url-pattern>
+            </servlet-mapping>
 
-    <servlet>
-        <servlet-name>adminLogoutServlet</servlet-name>
-        <servlet-class>com.company.servlet.AdminLogoutServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>adminLogoutServlet</servlet-name>
-        <url-pattern>/admin/logout/*</url-pattern>
-    </servlet-mapping>
+            <servlet>
+                <servlet-name>adminLogoutServlet</servlet-name>
+                <servlet-class>com.company.servlet.AdminLogoutServlet</servlet-class>
+            </servlet>
+            <servlet-mapping>
+                <servlet-name>adminLogoutServlet</servlet-name>
+                <url-pattern>/admin/logout/*</url-pattern>
+            </servlet-mapping>
 
-    <servlet>
-        <servlet-name>adminAuthServlet</servlet-name>
-        <servlet-class>com.company.servlet.AdminAuthServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>adminAuthServlet</servlet-name>
-        <url-pattern>/admin_auth/*</url-pattern>
-    </servlet-mapping>
+            <servlet>
+                <servlet-name>adminAuthServlet</servlet-name>
+                <servlet-class>com.company.servlet.AdminAuthServlet</servlet-class>
+            </servlet>
+            <servlet-mapping>
+                <servlet-name>adminAuthServlet</servlet-name>
+                <url-pattern>/admin_auth/*</url-pattern>
+            </servlet-mapping>
 
-    <servlet>
-        <servlet-name>adminKeysServlet</servlet-name>
-        <servlet-class>com.company.servlet.AdminKeysServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>adminKeysServlet</servlet-name>
-        <url-pattern>/admin/keys/*</url-pattern>
-    </servlet-mapping>
+            <servlet>
+                <servlet-name>adminKeysServlet</servlet-name>
+                <servlet-class>com.company.servlet.AdminKeysServlet</servlet-class>
+            </servlet>
+            <servlet-mapping>
+                <servlet-name>adminKeysServlet</servlet-name>
+                <url-pattern>/admin/keys/*</url-pattern>
+            </servlet-mapping>
 
-    <servlet>
-        <servlet-name>adminDatasetsServlet</servlet-name>
-        <servlet-class>com.company.servlet.AdminDatasetServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>adminDatasetsServlet</servlet-name>
-        <url-pattern>/admin/datasets/*</url-pattern>
-    </servlet-mapping>
+        <!--    <servlet>-->
+<!--        <servlet-name>adminDatasetsServlet</servlet-name>-->
+<!--        <servlet-class>com.company.servlet.AdminDatasetServlet</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>adminDatasetsServlet</servlet-name>-->
+<!--        <url-pattern>/admin/datasets/*</url-pattern>-->
+<!--    </servlet-mapping>-->
 
     <servlet>
         <servlet-name>adminModelsServlet</servlet-name>
@@ -98,6 +112,7 @@
         <servlet-name>adminUsersServlet</servlet-name>
         <url-pattern>/admin/users/*</url-pattern>
     </servlet-mapping>
+
 
     <servlet>
         <servlet-name>userAuthServlet</servlet-name>
@@ -127,6 +142,14 @@
         <url-pattern>/user/models/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>userWorkServlet</servlet-name>
+        <servlet-class>com.company.servlet.UserWorkServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userWorkServlet</servlet-name>
+        <url-pattern>/user/work/*</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>

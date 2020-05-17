@@ -33,6 +33,10 @@ public class ModelsService {
         dao.deleteModel(model);
     }
 
+    public ModelEntity[] getAllCompletedModels() throws SelectException{
+        return dao.getAllCompletedModels();
+    }
+
 //    public DatasetEntity[] getAllOpenPolls() throws SelectException{
 //        return repository.getAllOpenPolls();
 //    }

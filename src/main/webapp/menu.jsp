@@ -87,6 +87,19 @@
                     </div>
                 </a>
             </div>
+            <div class="col s6 m6">
+                <a href="">
+                    <div class="card">
+                        <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
+                            <img src="${pageContext.request.contextPath}/img/task_icon.png">
+                            <span class="card-title"></span>
+                        </div>
+                        <div class="card-content">
+                            <p>Просмотреть список задач в системе</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
 
         </div>
 

@@ -53,7 +53,7 @@ public class UserAuthServlet extends HttpServlet {
             authPassed = true;
         ServletContext context = getServletContext();
         request.setAttribute("authPassed", authPassed);
-        context.getRequestDispatcher("/user/auth_user.jsp").forward(request, response);
+        context.getRequestDispatcher("/auth_user.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -79,6 +79,6 @@ public class UserAuthServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        context.getRequestDispatcher("/user/auth_user.jsp").forward(request, response);
+        context.getRequestDispatcher("/auth_user.jsp").forward(request, response);
     }
 }
