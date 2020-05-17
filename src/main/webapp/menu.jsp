@@ -20,10 +20,15 @@
 <jsp:include page="admin_nav.jsp" />
 <div class="row">
     <div class="col s12 m12">
-
+        <li><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/keys/">Управление ключами</a></li>
+        <li><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/datasets/">Датасеты</a></li>
+        <li><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/models/">Модели</a></li>
+        <li><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/users/">Пользователи</a></li>
+        <li><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/tasks/">Список задач в системе</a></li>
+        <li><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/logout/"> Выйти из панели администратора</a></li>
         <div class="row">
             <div class="col s6 m6">
-                <a href="">
+                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/keys/"">
                     <div class="card">
                         <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
                             <img src="${pageContext.request.contextPath}/img/key_icon.jpg">
@@ -36,7 +41,7 @@
                 </a>
             </div>
             <div class="col s6 m6">
-                <a href="">
+                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/datasets/">
                     <div class="card">
                         <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
                             <img src="${pageContext.request.contextPath}/img/dataset_icon.png">
@@ -49,7 +54,7 @@
                 </a>
             </div>
             <div class="col s6 m6">
-                <a href="">
+                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/models/">
                     <div class="card">
                         <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
                             <img src="${pageContext.request.contextPath}/img/list_icon.png">
@@ -62,7 +67,7 @@
                 </a>
             </div>
             <div class="col s6 m6">
-                <a href="">
+                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/model/">
                     <div class="card">
                         <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
                             <img src="${pageContext.request.contextPath}/img/add_icon.png">
@@ -78,7 +83,7 @@
                 <a href="">
                     <div class="card">
                         <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
-                            <img src="${pageContext.request.contextPath}/img/user_icon.png">
+                            <img src="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/users/">
                             <span class="card-title"></span>
                         </div>
                         <div class="card-content">
@@ -88,7 +93,7 @@
                 </a>
             </div>
             <div class="col s6 m6">
-                <a href="">
+                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/tasks/">
                     <div class="card">
                         <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
                             <img src="${pageContext.request.contextPath}/img/task_icon.png">
