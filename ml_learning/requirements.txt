@@ -1,0 +1,8 @@
+pymorphy2
+numpy
+scipy
+joblib
+threadpoolctl
+scikit-learn
+nltk
+pandas

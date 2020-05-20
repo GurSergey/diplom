@@ -15,14 +15,14 @@ services:
     volumes:
       - ./apps:/usr/local/tomcat/webapps
       - ./datasets:/usr/local/tomcat/datasets
-  ml:   
-      build:
-        context: ./ml_learning
-        dockerfile: dockerfile-ml     
-      volumes:
-      - ./ml_learning:/usr/local
-      working_dir: /usr/local
-      entrypoint: python test.py
+  ml:
+    build:
+      context: ./ml_learning
+      dockerfile: dockerfile-ml
+    volumes:
+    - ./ml_learning/src:/app
+    working_dir: /app
+    entrypoint: python -u test.py
   db:
     hostname: db
     image: postgres

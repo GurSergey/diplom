@@ -1,11 +1,4 @@
-FROM python:3.7-alpine as base
-FROM base as builder
-RUN mkdir /install
-WORKDIR /install
-COPY requirements.txt /requirements.txt
-RUN pip install --install-option="--prefix=/install" -r /requirements.txt
-FROM base
-COPY --from=builder /install /usr/local
-COPY src /app
+FROM  continuumio/anaconda3
+RUN pip install pymorphy2 psycopg2-binary
+RUN mkdir /app
 WORKDIR /app
-CMD ["gunicorn", "-w 4", "main:app"]
