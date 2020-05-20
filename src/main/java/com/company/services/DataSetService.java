@@ -7,6 +7,7 @@ import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.exceptions.UpdateException;
 
+import java.io.*;
 import java.security.SecureRandom;
 
 
@@ -36,6 +37,8 @@ public class DataSetService {
 
     }
 
+
+
     public DataSetService(DatasetDAO datasetDAO) {
         this.dao = datasetDAO;
     }
@@ -44,8 +47,16 @@ public class DataSetService {
         return dao.getAllDataSet();
     }
 
-    public void saveDataset(DatasetEntity dataset) throws InsertException {
-        dataset.setFilename(generateFilename());
+    public DatasetEntity getById(int id) throws SelectException {
+        return dao.getById(id);
+    }
+
+    public void saveDataset(DatasetEntity dataset, byte[] file) throws InsertException, IOException {
+        dataset.setFilename(generateFilename()+".csv");
+        String filename = "datasets"+ File.separator+dataset.getFilename();
+        File targetFile = new File(filename);
+        OutputStream outStream = new FileOutputStream(targetFile);
+        outStream.write(file);
         this.dao.saveDataset(dataset);
     }
 
@@ -53,8 +64,17 @@ public class DataSetService {
         this.dao.updateDataset(dataset);
     }
 
-    public void deleteDataset(DatasetEntity dataset) throws DeleteException {
+    public void deleteDataset(DatasetEntity dataset) throws DeleteException, SelectException {
+        dataset = this.getById(dataset.getId());
+        File file = new File("datasets"+ File.separator+dataset.getFilename());
+        if(!file.delete()) {
+            throw new DeleteException();
+        }
         this.dao.deleteDataset(dataset);
+    }
+
+    public void downloadDataset(DatasetEntity datasetEntity){
+
     }
 
 }

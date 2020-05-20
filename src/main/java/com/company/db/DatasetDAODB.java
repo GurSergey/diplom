@@ -43,6 +43,25 @@ public class DatasetDAODB implements DatasetDAO {
     }
 
     @Override
+    public DatasetEntity getById(int id) throws SelectException {
+        ArrayList<DatasetEntity> datasets = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT id, title, filename, created_date FROM dataset WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                datasets.add(new DatasetEntity(resultSet.getInt(1), resultSet.getString(2),
+                        resultSet.getString(3), resultSet.getDate(4)));
+            }
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return datasets.get(0);
+    }
+
+    @Override
     public void saveDataset(DatasetEntity dataset) throws InsertException {
         try (Connection connection = DBConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(

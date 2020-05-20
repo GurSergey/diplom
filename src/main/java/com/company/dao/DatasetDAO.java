@@ -9,6 +9,7 @@ import com.company.exceptions.UpdateException;
 
 public interface DatasetDAO {
     DatasetEntity[] getAllDataSet() throws SelectException;
+    DatasetEntity getById(int id) throws SelectException;
     void saveDataset(DatasetEntity key) throws InsertException;
     void updateDataset(DatasetEntity key) throws UpdateException;
     void deleteDataset(DatasetEntity poll) throws DeleteException;

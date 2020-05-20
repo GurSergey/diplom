@@ -79,7 +79,9 @@
                                     <td><input name="title" type="text" value="${dataset.title}" form="dataset_form_${dataset.id}"></td>
                                     <td>${dataset.filename}</td>
                                      <td>${dataset.createdDate}</td>
-                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="???" value="Скачать" form="dataset_form_${dataset.id}"></td>
+                                     <td><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/download/?id=${dataset.id}"
+                                            class="waves-effect waves-light btn-small" >Скачать</a></td>
+                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Обновить" form="dataset_form_${dataset.id}"></td>
                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="dataset_form_${dataset.id}"></td>
 
                             </tr>

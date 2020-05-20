@@ -60,17 +60,7 @@ public class AdminDatasetServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        Part filePart = request.getPart("datasetFile"); // Retrieves <input type="file" name="file">
-        InputStream fileContent = filePart.getInputStream();
-        byte[] buffer = new byte[fileContent.available()];
-        fileContent.read(buffer);
-        String filename = "datasets"+File.separator+"123.txt";
-        File targetFile = new File(filename);
-        OutputStream outStream = new FileOutputStream(targetFile);
-        outStream.write(buffer);
-
-
+        
         DatasetEntity datasetEntity = new DatasetEntity();
 
         datasetEntity.setId(request.getParameterMap().containsKey("id")
@@ -82,7 +72,11 @@ public class AdminDatasetServlet extends HttpServlet {
             DataSetService service = new DataSetService(new DatasetDAODB());
 
             if(request.getParameterMap().containsKey("save")){
-                service.saveDataset(datasetEntity);
+                Part filePart = request.getPart("datasetFile"); // Retrieves <input type="file" name="file">
+                InputStream fileContent = filePart.getInputStream();
+                byte[] buffer = new byte[fileContent.available()];
+                fileContent.read(buffer);
+                service.saveDataset(datasetEntity, buffer);
                 request.setAttribute("error", EntityError.NO_ERROR_INSERT);
             }
             if(request.getParameterMap().containsKey( "update")){
