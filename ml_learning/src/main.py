@@ -1,56 +1,83 @@
-while True:
+import psycopg2
+import time
+
 import pandas as pd
+import numpy as np
+import nltk
+from nltk.corpus import stopwords
+import pickle
+
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import GridSearchCV
+from contextlib import closing
 
-df = pd.read_csv('random_response_shufle.csv', sep = "|",header=None, encoding='utf-8')
-#Предобработка текста(удаление не нужных символов и нормальная форма):
-import re
-import pymorphy2
-morph = pymorphy2.MorphAnalyzer()
-# приведение к нормальной форме для уменьшение размера словаря уникальных слов
-def norm(word):
-    word = morph.parse(word)[0]
-    return word.normal_form
-# удаление не нужных символов из датасета
-def preprocessor(text):
-    text = re.sub('<[^>]*>', '', text)
-    text = (re.sub('[\W]+', ' ', text.lower()))
-    text_norm = ''
-    text_norm = ''.join([norm(word)+" " for word in text.split()])
-    return text_norm
-Применение предобработки к датасету:
-df[1] = df[1].apply(preprocessor)
-Процесс токенизации:
 def tokenizer(text):
     return text.split()
-Получение стоп-слов из пакета nltk
-import nltk
-nltk.download('stopwords')
-from nltk.corpus import stopwords
-Тренировочная и тестовые выборки:
-X_train = df.loc[:45000, 1].values
-y_train = df.loc[:45000, 2].values
-X_test = df.loc[5000:, 1].values
-y_test = df.loc[5000:, 2].values
+
+def learn(model_id, n_workers, filename ):
+    df = pd.read_csv(filename, sep = "|",header=None, encoding='utf-8')
 
 
+    nltk.download('stopwords')
 
-tfidf = TfidfVectorizer(strip_accents=None,
-                        lowercase=False,
-                        preprocessor=None)
-param_grid = [{'vect__ngram_range': [(1, 1)],
-               'vect__stop_words': [stop],
-               'vect__tokenizer': [tokenizer],
-               'clf__penalty': ['l1', 'l2'],
-               'clf__C': [1.0, 10.0, 100.0]}]
-lr_tfidf = Pipeline([('vect', tfidf),
-                     ('clf', LogisticRegression(random_state=0))])
-gs_lr_tfidf = GridSearchCV(lr_tfidf, param_grid,
-                           scoring='accuracy',
-                           cv=5,
-                           verbose=1,
-                           n_jobs=-1)
-gs_lr_tfidf.fit(X_train, y_train)
+    stop = stopwords.words('russian')
+
+    X_train = df.loc[:df.size*0.8, 0].values
+    y_train = df.loc[:df.size*0.8, 1].values
+    X_test = df.loc[df.size*0.1:, 0].values
+    y_test = df.loc[df.size*0.1:, 1].values
+
+    tfidf = TfidfVectorizer(strip_accents=None,
+                            lowercase=False,
+                            preprocessor=None)
+
+    param_grid = [{'vect__ngram_range': [(1, 1)],
+                   'vect__stop_words': [stop],
+                   'vect__tokenizer': [tokenizer],
+                   'clf__penalty': ['l1'], # , 'l2'
+                   'clf__C': [1.0]}] #, 10.0, 100.0
+
+    lr_tfidf = Pipeline([('vect', tfidf),
+                         ('clf', LogisticRegression(random_state=0))])
+
+    gs_lr_tfidf = GridSearchCV(lr_tfidf, param_grid,
+                               scoring='accuracy',
+                               cv=5,
+                               verbose=25,
+                               n_jobs=1)
+    gs_lr_tfidf.fit(X_train, y_train)
+    filename = str(model_id) + '.sav'
+    pickle.dump(gs_lr_tfidf, open(filename, 'wb'))
+    return gs_lr_tfidf.best_score_        
+
+
+while 1:
+    time.sleep(5)
+    with closing(psycopg2.connect(dbname='diplom', user='user', 
+                            password='secret', host='localhost', port = 5433)) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("""SELECT queue_task_ml.id, n_workers, model_id, dataset.filename FROM queue_task_ml  
+                           JOIN model ON model_id=model.id  
+                           JOIN dataset ON model.dataset_id = dataset.id 
+                           WHERE completed_task=false AND in_work=false  
+                           LIMIT 1""")
+            row = cursor.fetchone()
+            if row != None:
+                
+                row = {'id': row[0], 'n_workers': row[1], 'model_id': row[2], 'filename': row[3]}
+                print(row)
+                sql_update_query = """UPDATE queue_task_ml SET in_work = true WHERE id = %s"""
+                cursor.execute(sql_update_query,  [row['id']])
+                conn.commit()
+                accuracy = learn(row['model_id'], row['n_workers'], row['filename'])
+                print('Working with model task id =' + str(row['id']) )
+                sql_update_query = """UPDATE queue_task_ml SET completed_task = TRUE, in_work = FALSE WHERE id = %s"""
+                cursor.execute(sql_update_query, [ row['id']])
+                conn.commit()
+                sql_update_query = """UPDATE model SET test_accuracy = %s WHERE id = %s"""
+                cursor.execute(sql_update_query, [ accuracy , row['model_id']])
+                conn.commit()
+            else:
+                print("No tasks")

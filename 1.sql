@@ -43,6 +43,8 @@ INSERT INTO type_task VALUES(1, 'check_dataset'),
 CREATE TABLE check_dataset(
     id serial PRIMARY KEY,
     completed_task boolean DEFAULT false,
+    normalize boolean DEFAULT false,
+    in_work boolean DEFAULT false,
     dataset_id int REFERENCES dataset(id) ON DELETE CASCADE,
     created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 )
@@ -51,14 +53,33 @@ CREATE TABLE merge_dataset(
     id serial PRIMARY KEY,
     completed_task boolean DEFAULT false,
     dataset_id int REFERENCES dataset(id) ON DELETE CASCADE,
+    in_work boolean DEFAULT false,
     source_datasets varchar(255),
     created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 )
+
+CREATE TABLE queue_task_admin_file(
+    id serial PRIMARY KEY,
+    completed_task boolean DEFAULT false,
+    progress int DEFAULT 0,
+    in_work boolean DEFAULT false,
+    model_id int REFERENCES model(id),
+    created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP)
+
+CREATE TABLE queue_task_user_file(
+    id serial PRIMARY KEY,
+    completed_task boolean DEFAULT false,
+    progress int DEFAULT 0,
+    in_work boolean DEFAULT false,
+    user_id int REFERENCES "user"(id),
+    model_id int REFERENCES model(id),
+    created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP)
 
 CREATE TABLE queue_task_ml(
     id serial PRIMARY KEY,
     progress int DEFAULT 0,
     n_workers int DEFAULT 1,
+    in_work boolean DEFAULT false,
     completed_task boolean DEFAULT false,
     model_id int REFERENCES model(id) ON DELETE CASCADE,
     created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
