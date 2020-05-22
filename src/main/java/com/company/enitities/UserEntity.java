@@ -1,6 +1,7 @@
 package com.company.enitities;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class UserEntity implements Entity {
     public UserEntity(){}
@@ -13,15 +14,15 @@ public class UserEntity implements Entity {
         this.id = id;
     }
 
-    public Date getRegistrationDate() {
+    public Timestamp getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(Timestamp registrationDate) {
         this.registrationDate = registrationDate;
     }
 
-    public UserEntity(int id, String login, Date registrationDate, String password) {
+    public UserEntity(int id, String login, Timestamp registrationDate, String password) {
         this.id = id;
         this.login = login;
         this.registrationDate = registrationDate;
@@ -29,7 +30,7 @@ public class UserEntity implements Entity {
     }
 
     int id;
-    Date registrationDate;
+    Timestamp registrationDate;
 
     String login;
 

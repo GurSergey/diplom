@@ -128,7 +128,9 @@
                     <select name ="datasetId" style = "display: block;" form="new_form">
                         <option value="" disabled selected>Выберете датасет</option>
                         <c:forEach var="dataset" items="${datasets}">
-                            <option value="${dataset.id}">${dataset.title} - ID ${dataset.id}</option>
+                            <c:if test="${dataset.isCorrect==false}">
+                                <option value="${dataset.id}">${dataset.title} - ID ${dataset.id}</option>
+                            </c:if>
                         </c:forEach>
                     </select>
                     </div>

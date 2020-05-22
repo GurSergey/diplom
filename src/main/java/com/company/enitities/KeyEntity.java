@@ -1,6 +1,7 @@
 package com.company.enitities;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class KeyEntity implements Entity {
     public int getId() {
@@ -19,17 +20,17 @@ public class KeyEntity implements Entity {
         this.name = name;
     }
 
-    public Date getCreatedDate() {
+    public Timestamp getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
     }
 
     public KeyEntity(){};
 
-    public KeyEntity(int id, String name, String keyStr, Date createdDate) {
+    public KeyEntity(int id, String name, String keyStr, Timestamp createdDate) {
         this.id = id;
         this.name = name;
         this.keyStr = keyStr;
@@ -48,5 +49,5 @@ public class KeyEntity implements Entity {
     }
 
     private String keyStr;
-    private Date createdDate;
+    private Timestamp createdDate;
 }

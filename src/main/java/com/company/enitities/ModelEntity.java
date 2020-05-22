@@ -1,11 +1,13 @@
 package com.company.enitities;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class ModelEntity implements Entity {
     private int id;
     public ModelEntity(){}
-    public ModelEntity(int id, String title, boolean completedLearn, String datasetName, Date createDate, int progress) {
+    public ModelEntity(int id, String title, boolean completedLearn,
+                       String datasetName, Timestamp createDate, int progress) {
         this.id = id;
         this.title = title;
         this.completedLearn = completedLearn;
@@ -46,11 +48,11 @@ public class ModelEntity implements Entity {
 //        this.dataset = dataset;
 //    }
 
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
@@ -76,5 +78,5 @@ public class ModelEntity implements Entity {
 
 
     private String datasetName;
-    private Date createDate;
+    private Timestamp createDate;
 }
