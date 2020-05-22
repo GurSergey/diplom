@@ -69,4 +69,4 @@ class HandleRequests(BaseHTTPRequestHandler):
         
 host = 'localhost'
 port = 8082
-HTTPServer((host, port), HandleRequests).serve_forever() 
+HTTPServer((host, port), HandleRequests).serve_forever()

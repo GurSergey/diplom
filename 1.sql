@@ -45,6 +45,7 @@ CREATE TABLE check_dataset(
     completed_task boolean DEFAULT false,
     normalize boolean DEFAULT false,
     in_work boolean DEFAULT false,
+    is_correct boolean DEFAULT false,
     dataset_id int REFERENCES dataset(id) ON DELETE CASCADE,
     created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 )
