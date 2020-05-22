@@ -12,6 +12,7 @@
 <%--            <li><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/user_registration">Зарегестрироваться</a></li>--%>
 <%--            <li><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/user_auth">Авторизоваться</a></li>--%>
             <li><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/user/models/">Список обученных моделей</a></li>
+            <li><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/user/text_task/">Список текстовых задач</a></li>
             <li><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/user/logout/"> Выйти из профиля, ${userName}</a></li>
 
         </ul>

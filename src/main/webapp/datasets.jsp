@@ -69,6 +69,8 @@
                     <th>Название</th>
                     <th>Имя файла</th>
                     <th>Дата создания</th>
+                    <th>Датасет проверен</th>
+                    <th>Датасет корректен</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,7 +85,22 @@
                                             class="waves-effect waves-light btn-small" >Скачать</a></td>
                                      <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Обновить" form="dataset_form_${dataset.id}"></td>
                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="dataset_form_${dataset.id}"></td>
-
+                                     <td>
+                                         <c:if test="${dataset.checking==true}">
+                                             <input name="visible" type="checkbox" checked value="${dataset.checking}"  style="opacity: 1.0; pointer-events: auto;">
+                                         </c:if>
+                                         <c:if test="${dataset.checking==false}">
+                                             <input name="visible" type="checkbox" value="${dataset.checking}"  style="opacity: 1.0; pointer-events: auto;">
+                                         </c:if>
+                                     </td>
+                                     <td>
+                                         <c:if test="${dataset.isCorrect==true}">
+                                             <input name="visible" type="checkbox" checked value="${dataset.isCorrect}"  style="opacity: 1.0; pointer-events: auto;">
+                                         </c:if>
+                                         <c:if test="${dataset.isCorrect==false}">
+                                             <input name="visible" type="checkbox" value="${dataset.isCorrect}"  style="opacity: 1.0; pointer-events: auto;">
+                                         </c:if>
+                                     </td>
                             </tr>
                         </c:forEach>
             </tbody>
@@ -93,30 +110,65 @@
 
 
         <h3>Добавить новый датасет</h3>
-<%--   --%>
+
+        <h5>Добавить из файла</h5>
         <form action="" method="post" enctype="multipart/form-data" id="new_form" > </form>
 
                 <table>
-            <thead>
-            <tr>
-                <th>Название</th>
-                <th>Файл</th>
-            </tr>
-            </thead>
-            <tr>
-                <td>
-                    <input name="title" type="text"  value="" form="new_form">
-                </td>
-                <td><input name="datasetFile" type="file" form="new_form"></td>
-                <td>
-                    <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить"
-                           form="new_form"></td>
-                <td>
-                    <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
-                </td>
-            </tr>
-        </table>
-
+                    <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Файл</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td>
+                            <input name="title" type="text"  value="" form="new_form">
+                        </td>
+                        <td><input name="datasetFile" type="file" form="new_form"></td>
+                        <td>
+                            <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить"
+                                   form="new_form"></td>
+                        <td>
+                            <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
+                        </td>
+                    </tr>
+                </table>
+                <h5>Соеденить из нескольких датасетов</h5>
+                <form action="" method="post" enctype="multipart/form-data" id="new_form1" > </form>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Датасеты для объединения</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td>
+                            <input name="title" type="text"  value="" form="new_form1">
+                        </td>
+                        <td>
+                        <div class="input-field col s12">
+                            <select multiple>
+                                <option value="" disabled selected>Выбрать датасеты</option>
+                                <c:forEach var="dataset" items="${datasets}">
+                                    <c:if test="${dataset.isCorrect==true}">
+                                        <option value="${dataset.id}">${dataset.title}
+                                            id = ${dataset.id} </option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+                            <label>Выбрать несколько датасетов</label>
+                        </div>
+                        </td>
+                        <td>
+                            <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить"
+                                   form="new_form1"></td>
+                        <td>
+                            <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
+                        </td>
+                    </tr>
+                </table>
 
             </div>
         </div>

@@ -11,27 +11,16 @@
 <html>
 
 <head>
-    <title>Список моделей</title>
+    <title>Список задач</title>
     <style>
         <%@include file="css/style.css"%>
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var elems = document.querySelectorAll('select');
-            var instances = M.FormSelect.init(elems, options);
-        });
 
-        // Or with jQuery
-
-        $(document).ready(function(){
-            $('select').formSelect();
-        });
-        </script>
 </head>
     <body>
     <jsp:include page="admin_nav.jsp" />
 
-        <h1> Список моделей </h1>
+        <h1> Список задач </h1>
 
         <%@ page import="com.company.enums.EntityError" %>
         <c:if test="${error==EntityError.NO_ERROR_UPDATE}">
@@ -53,12 +42,11 @@
             <p style="color: red;">Возникла ошибка обновления записей из БД. Повторите попытку позже</p>
         </c:if>
 
-        <c:forEach var="model" items="${models}">
-            <form action="" method="post" id="model_form_${model.id}"></form>
-        </c:forEach>
+
         <div class="row">
             <div class="col s12 m12">
                 <div class="card-panel white">
+
         <table>
             <thead>
                 <tr>
