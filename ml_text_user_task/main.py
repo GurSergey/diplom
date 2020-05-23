@@ -53,12 +53,12 @@ while 1:
         cursor.close
         conn.close
         
-        model = pickle.load(open(str(row['model_id'])+'.sav', 'rb'))
+        model = pickle.load(open('../models/'+str(row['model_id'])+'.sav', 'rb'))
         print("load model with id " + str(row['model_id']))
         
         
-        with open('answer_'+str(row['id'])+'.csv', 'w', encoding='UTF-8', newline='') as csv_file:
-            task = open(str(row['id'])+'.task', "r")
+        with open('../ml_text_user/'+'answer_'+str(row['id'])+'.csv', 'w', encoding='UTF-8', newline='') as csv_file:
+            task = open('../ml_text_user/'+str(row['id'])+'.task', "r")
             writer = csv.writer(csv_file, delimiter='|')
             for line in task:
                 col_values = []

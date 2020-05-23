@@ -69,6 +69,8 @@ public class QueueTaskMlEntity {
         this.createdDate = createdDate;
     }
 
+    public QueueTaskMlEntity(){}
+
     public QueueTaskMlEntity(int id, boolean completedLearn, ModelEntity model,
                              Timestamp createdDate, boolean inWork, int nWorker, int progress ) {
         this.id = id;

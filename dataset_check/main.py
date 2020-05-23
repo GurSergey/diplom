@@ -40,7 +40,7 @@ while 1:
         cursor.close()
         conn.close()
         correct = True
-        with open(row['filename'], 'r', encoding='UTF-8', newline='') as csv_file:
+        with open('../datasets/'+row['filename'], 'r', encoding='UTF-8', newline='') as csv_file:
             reader = csv.reader(csv_file, delimiter='|')
             for row_csv in reader:
                 if not(len(row_csv) == 2 and (row_csv[1] == '1' or row_csv[1] == '0')):
@@ -49,8 +49,8 @@ while 1:
                     correct = False
                     break
         if correct == True and row['normalize'] == True:
-            with open(row['filename'], 'r', encoding='UTF-8', newline='') as csv_file, open(
-                'temp_'+row['filename'], 'w', encoding='UTF-8', newline='') as csv_new_file:
+            with open('../datasets/'+row['filename'], 'r', encoding='UTF-8', newline='') as csv_file, open(
+                '../datasets/'+'temp_'+row['filename'], 'w', encoding='UTF-8', newline='') as csv_new_file:
                 reader = csv.reader(csv_file, delimiter='|')
                 writer = csv.writer(csv_new_file, delimiter='|')
                 for row_csv in reader:
@@ -59,8 +59,9 @@ while 1:
                     col_values.append(row_csv[0])
                     col_values.append(row_csv[1])
                     writer.writerow(col_values)
-            os.remove(row['filename'])
-            os.rename('temp_'+row['filename'], row['filename'])
+            os.remove('../datasets/'+row['filename'])
+            os.rename('../datasets/'+'temp_'+row['filename'],
+                      '../datasets/' + row['filename'])
         conn = psycopg2.connect(dbname='diplom', user='user', 
                                 password='secret', host='localhost', port = 5433)
         cursor = conn.cursor()

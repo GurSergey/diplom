@@ -15,7 +15,13 @@
     <style>
         <%@include file="css/style.css"%>
     </style>
-
+<%--    <script type="text/javascript" src="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/js/materialize.min.js"></script>--%>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems, options);
+        });
+    </script>
 
 
 </head>
@@ -81,10 +87,7 @@
                                     <td><input name="title" type="text" value="${dataset.title}" form="dataset_form_${dataset.id}"></td>
                                     <td>${dataset.filename}</td>
                                      <td>${dataset.createdDate}</td>
-                                     <td><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/download/?id=${dataset.id}"
-                                            class="waves-effect waves-light btn-small" >Скачать</a></td>
-                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Обновить" form="dataset_form_${dataset.id}"></td>
-                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="dataset_form_${dataset.id}"></td>
+
                                      <td>
                                          <c:if test="${dataset.checking==true}">
                                              <input name="visible" type="checkbox" checked value="${dataset.checking}"  style="opacity: 1.0; pointer-events: auto;">
@@ -95,12 +98,18 @@
                                      </td>
                                      <td>
                                          <c:if test="${dataset.isCorrect==true}">
-                                             <input name="visible" type="checkbox" checked value="${dataset.isCorrect}"  style="opacity: 1.0; pointer-events: auto;">
+                                             <input name="visible" type="checkbox" checked value="${dataset.isCorrect}"
+                                                    style="opacity: 1.0; pointer-events: auto;">
                                          </c:if>
                                          <c:if test="${dataset.isCorrect==false}">
                                              <input name="visible" type="checkbox" value="${dataset.isCorrect}"  style="opacity: 1.0; pointer-events: auto;">
                                          </c:if>
                                      </td>
+                                     <td><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/download/?id=${dataset.id}"
+                                            class="waves-effect waves-light btn-small" >Скачать</a></td>
+                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Обновить название" form="dataset_form_${dataset.id}"></td>
+                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="dataset_form_${dataset.id}"></td>
+
                             </tr>
                         </c:forEach>
             </tbody>
@@ -118,6 +127,7 @@
                     <thead>
                     <tr>
                         <th>Название</th>
+                        <th>Нормализовать</th>
                         <th>Файл</th>
                     </tr>
                     </thead>
@@ -125,6 +135,7 @@
                         <td>
                             <input name="title" type="text"  value="" form="new_form">
                         </td>
+                        <td><input type="checkbox" value="normalize" /></td>
                         <td><input name="datasetFile" type="file" form="new_form"></td>
                         <td>
                             <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить"
@@ -148,18 +159,43 @@
                             <input name="title" type="text"  value="" form="new_form1">
                         </td>
                         <td>
-                        <div class="input-field col s12">
-                            <select multiple>
-                                <option value="" disabled selected>Выбрать датасеты</option>
-                                <c:forEach var="dataset" items="${datasets}">
-                                    <c:if test="${dataset.isCorrect==true}">
-                                        <option value="${dataset.id}">${dataset.title}
-                                            id = ${dataset.id} </option>
-                                    </c:if>
-                                </c:forEach>
-                            </select>
-                            <label>Выбрать несколько датасетов</label>
+<%--                        <div class="input-field col s12">--%>
+<%--                            <div class="select-wrapper"><input class="select-dropdown dropdown-trigger" type="text" readonly="true" data-target="select-options-996ff613-8974-c5fe-7f2a-3625147d1531"><ul id="select-options-996ff613-8974-c5fe-7f2a-3625147d1531" class="dropdown-content select-dropdown multiple-select-dropdown" tabindex="0" style=""><li class="disabled selected" id="select-options-996ff613-8974-c5fe-7f2a-3625147d15310" tabindex="0"><span><label><input type="checkbox" disabled="" "=""><span>Choose your option</span></label></span></li><li id="select-options-996ff613-8974-c5fe-7f2a-3625147d15311" tabindex="0"><span><label><input type="checkbox" "=""><span>Option 1</span></label></span></li><li id="select-options-996ff613-8974-c5fe-7f2a-3625147d15312" tabindex="0"><span><label><input type="checkbox" "=""><span>Option 2</span></label></span></li><li id="select-options-996ff613-8974-c5fe-7f2a-3625147d15313" tabindex="0"><span><label><input type="checkbox" "=""><span>Option 3</span></label></span></li></ul><svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg><select multiple="" tabindex="-1">--%>
+<%--                                <option value="" disabled="" selected="">Choose your option</option>--%>
+<%--                                <option value="1">Option 1</option>--%>
+<%--                                <option value="2">Option 2</option>--%>
+<%--                                <option value="3">Option 3</option>--%>
+<%--                            </select></div>--%>
+                        <div style="overflow-y: scroll; height:100px;">
+                            <c:forEach var="dataset" items="${datasets}">
+
+                                <c:if test="${dataset.isCorrect==true}">
+
+                                    <p>
+                                        <label>
+                                            <input type="checkbox" value="${dataset.id}" />
+                                            <span style="color: black;">${dataset.title}
+                                        id = ${dataset.id}</span>
+                                        </label>
+                                    </p>
+                                </c:if>
+
+                            </c:forEach>
                         </div>
+<%--                                <select multiple name ="datasetId" style = "display: block;">--%>
+<%--                                    <option value="" disabled selected>Выбрать датасеты</option>--%>
+<%--                                    <c:forEach var="dataset" items="${datasets}">--%>
+
+
+
+<%--                                        <c:if test="${dataset.isCorrect==true}">--%>
+<%--                                            <option value="${dataset.id}">${dataset.title}--%>
+<%--                                                id = ${dataset.id} </option>--%>
+<%--                                        </c:if>--%>
+<%--                                    </c:forEach>--%>
+<%--                                </select>--%>
+<%--                            <label>Выбрать несколько датасетов</label>--%>
+
                         </td>
                         <td>
                             <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить"
@@ -175,6 +211,8 @@
 
 
     <script>
+
+
         document.forms.namedItem("new_form").onsubmit = function() {
             upload("123");
             // var input = this.elements.datasetFile;

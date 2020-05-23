@@ -30,7 +30,7 @@ public class UserDAODB implements UserDAO {
                 users.add(new UserEntity(
                         resultSet.getInt(1),
                         resultSet.getString(2),
-                        resultSet.getDate(3),
+                        resultSet.getTimestamp(3),
                         resultSet.getString(4)
                 ));
             }
@@ -56,7 +56,7 @@ public class UserDAODB implements UserDAO {
                 return new UserEntity(
                         resultSet.getInt(1),
                         resultSet.getString(2),
-                        resultSet.getDate(3),
+                        resultSet.getTimestamp(3),
                         resultSet.getString(4)
                 );
             }

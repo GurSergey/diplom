@@ -17,7 +17,7 @@ def tokenizer(text):
     return text.split()
 
 def learn(model_id, n_workers, filename ):
-    df = pd.read_csv(filename, sep = "|",header=None, encoding='utf-8')
+    df = pd.read_csv('../datasets/'+filename, sep = "|",header=None, encoding='utf-8')
 
 
     nltk.download('stopwords')
@@ -49,7 +49,7 @@ def learn(model_id, n_workers, filename ):
                                n_jobs=1)
     gs_lr_tfidf.fit(X_train, y_train)
     filename = str(model_id) + '.sav'
-    pickle.dump(gs_lr_tfidf, open(filename, 'wb'))
+    pickle.dump(gs_lr_tfidf, open('../models/'+filename, 'wb'))
     return gs_lr_tfidf.best_score_        
 
 

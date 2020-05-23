@@ -17,7 +17,7 @@ CREATE TABLE model(
 	id serial PRIMARY KEY,
 	title varchar(255) NOT NULL,
 	test_accuracy real DEFAULT 0,
-	dataset_id int NOT NULL REFERENCES dataset(id) ON DELETE CASCADE,
+	dataset_id int NOT NULL REFERENCES dataset(id),
 	created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -27,18 +27,6 @@ CREATE TABLE key(
 	key_str varchar(255) NOT NULL,
 	created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-
-CREATE TABLE type_task(
-    id serial PRIMARY KEY,
-    name varchar (255) NOT NULL
-);
-
-INSERT INTO type_task VALUES(1, 'check_dataset'),
-(2, 'merge_dataset'),
-(3, 'ml_learning'),
-(4, 'user_file'),
-(5, 'admin_file');
-
 
 CREATE TABLE check_dataset(
     id serial PRIMARY KEY,
@@ -64,7 +52,7 @@ CREATE TABLE queue_task_admin_file(
     completed_task boolean DEFAULT false,
     progress int DEFAULT 0,
     in_work boolean DEFAULT false,
-    model_id int REFERENCES model(id),
+    model_id int REFERENCES model(id) ON DELETE CASCADE ,
     created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP)
 
 CREATE TABLE queue_task_user_file(
@@ -72,8 +60,8 @@ CREATE TABLE queue_task_user_file(
     completed_task boolean DEFAULT false,
     progress int DEFAULT 0,
     in_work boolean DEFAULT false,
-    user_id int REFERENCES "user"(id),
-    model_id int REFERENCES model(id),
+    user_id int REFERENCES "user"(id) ON DELETE CASCADE ,
+    model_id int REFERENCES model(id) ON DELETE CASCADE ,
     created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP)
 
 CREATE TABLE queue_task_ml(

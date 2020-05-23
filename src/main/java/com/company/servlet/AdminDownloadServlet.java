@@ -28,7 +28,7 @@ public class AdminDownloadServlet extends HttpServlet {
             e.printStackTrace();
         }
         response.setHeader("Content-disposition", "attachment; filename="+datasetEntity.getFilename());
-        File file = new File("datasets"+
+        File file = new File("../datasets"+
                 File.separator+datasetEntity.getFilename());
         try(InputStream in = new FileInputStream(file);
             OutputStream out = response.getOutputStream()) {

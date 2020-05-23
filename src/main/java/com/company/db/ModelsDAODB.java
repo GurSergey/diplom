@@ -56,7 +56,7 @@ public class ModelsDAODB implements ModelsDAO {
                         resultSet.getString(2),
                         resultSet.getBoolean(3),
                         resultSet.getString(4),
-                        resultSet.getDate(5),
+                        resultSet.getTimestamp(5),
                         resultSet.getInt(6)));
             }
             resultSet.close();
@@ -83,7 +83,7 @@ public class ModelsDAODB implements ModelsDAO {
                         resultSet.getString(2),
                         resultSet.getBoolean(3),
                         resultSet.getString(4),
-                        resultSet.getDate(5),
+                        resultSet.getTimestamp(5),
                         resultSet.getInt(6)));
             }
             resultSet.close();

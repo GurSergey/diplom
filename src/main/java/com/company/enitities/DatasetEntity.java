@@ -26,7 +26,7 @@ public class DatasetEntity implements Entity {
     boolean checking;
     boolean isCorrect;
 
-    public boolean isChecking() {
+    public boolean getChecking() {
         return checking;
     }
 
@@ -34,7 +34,7 @@ public class DatasetEntity implements Entity {
         this.checking = checking;
     }
 
-    public boolean isCorrect() {
+    public boolean getIsCorrect() {
         return isCorrect;
     }
 

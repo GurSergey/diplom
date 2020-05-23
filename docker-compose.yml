@@ -14,74 +14,74 @@ services:
       - 8002:8000
     volumes:
       - ./apps:/usr/local/tomcat/webapps
-      - ./datasets:/usr/local/tomcat/datasets
-  ml_learning:
-    depends_on:
-      - db
-    build:
-      context: ./build
-      dockerfile: dockerfile-ml
-    volumes:
-    - ./ml_learning:/app
-    - ./datasets:/datasets
-    - ./models:/models
-    working_dir: /app
-    entrypoint: python -u main1.py
-  dataset_check:
-    depends_on:
-      - db
-    build:
-      context: ./build
-      dockerfile: dockerfile-ml
-    volumes:
-    - ./dataset_check:/app
-    - ./datasets:/datasets
-    working_dir: /app
-    entrypoint: python -u main1.py
-  merge_datasets:
-    depends_on:
-      - db
-    build:
-      context: ./build
-      dockerfile: dockerfile-ml
-    volumes:
-    - ./merge_datasets:/app
-    - ./datasets:/datasets
-    working_dir: /app
-    entrypoint: python -u main1.py
-  ml_text_admin:
-    depends_on:
-      - db
-    build:
-      context: ./build
-      dockerfile: dockerfile-ml
-    volumes:
-    - ./ml_text_admin:/app
-    - ./text_admin_file:/text_admin_file
-    - ./models:/models
-    working_dir: /app
-    entrypoint: python -u main1.py
-  ml_text_user:
-    depends_on:
-      - db
-    build:
-      context: ./build
-      dockerfile: dockerfile-ml
-    volumes:
-    - ./ml_text_user:/app
-    - ./text_user_file:/text_user_file
-    - ./models:/models
-    working_dir: /app
-    entrypoint: python -u main1.py
-  ml_real_time:
-    build:
-      context: ./build
-      dockerfile: dockerfile-ml
-    volumes:
-    - ./ml_real_time:/app
-    - ./models:/models
-    working_dir: /app
-    entrypoint: python -u main1.py
+      - ./datasets:/usr/local/datasets
+#  ml_learning:
+#    depends_on:
+#      - db
+#    build:
+#      context: ./build
+#      dockerfile: dockerfile-ml
+#    volumes:
+#    - ./ml_learning:/app
+#    - ./datasets:/datasets
+#    - ./models:/models
+#    working_dir: /app
+#    entrypoint: python -u main1.py
+#  dataset_check:
+#    depends_on:
+#      - db
+#    build:
+#      context: ./build
+#      dockerfile: dockerfile-ml
+#    volumes:
+#    - ./dataset_check:/app
+#    - ./datasets:/datasets
+#    working_dir: /app
+#    entrypoint: python -u main1.py
+#  merge_datasets:
+#    depends_on:
+#      - db
+#    build:
+#      context: ./build
+#      dockerfile: dockerfile-ml
+#    volumes:
+#    - ./merge_datasets:/app
+#    - ./datasets:/datasets
+#    working_dir: /app
+#    entrypoint: python -u main1.py
+#  ml_text_admin:
+#    depends_on:
+#      - db
+#    build:
+#      context: ./build
+#      dockerfile: dockerfile-ml
+#    volumes:
+#    - ./ml_text_admin:/app
+#    - ./text_admin_file:/text_admin_file
+#    - ./models:/models
+#    working_dir: /app
+#    entrypoint: python -u main1.py
+#  ml_text_user:
+#    depends_on:
+#      - db
+#    build:
+#      context: ./build
+#      dockerfile: dockerfile-ml
+#    volumes:
+#    - ./ml_text_user:/app
+#    - ./text_user_file:/text_user_file
+#    - ./models:/models
+#    working_dir: /app
+#    entrypoint: python -u main1.py
+#  ml_real_time:
+#    build:
+#      context: ./build
+#      dockerfile: dockerfile-ml
+#    volumes:
+#    - ./ml_real_time:/app
+#    - ./models:/models
+#    working_dir: /app
+#    entrypoint: python -u main1.py
   db:
     hostname: db
     image: postgres

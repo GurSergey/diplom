@@ -1,9 +1,12 @@
 package com.company.db;
 
+import com.company.enitities.*;
 import com.company.exceptions.InsertException;
 import com.company.dao.QueueDAO;
+import com.company.exceptions.SelectException;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class QueueDAODB implements QueueDAO {
 
@@ -15,121 +18,288 @@ public class QueueDAODB implements QueueDAO {
         }
 
     }
+    @Override
+    public QueueMergeTaskEntity[] getAllQueueMergeTasks() throws SelectException {
+        ArrayList<QueueMergeTaskEntity> tasks = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT id, dataset.title, completed_task, in_work," +
+                            " source_datasets, created_date FROM merge_dataset " +
+                            "JOIN dataset ON dataset.id = dataset_id "
+            );
+            while (resultSet.next()) {
+                DatasetEntity dataset = new DatasetEntity();
+                dataset.setTitle(resultSet.getString(2));
+                tasks.add(new QueueMergeTaskEntity(resultSet.getInt(1), resultSet.getBoolean(3),
+                        dataset,
+                        resultSet.getBoolean(4), resultSet.getString(5),
+                        resultSet.getTimestamp(6)));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return tasks.toArray(new QueueMergeTaskEntity[tasks.size()]);
+    }
 
-//    @Override
-//    public QueueDAODB[] getAllQuestionsByPollId(int pollId) throws SelectException {
-//        ArrayList<QuestionEntity> questions = new ArrayList<>();
-//        try (Connection connection = DBConnection.getConnection()) {
-//            Statement statement = connection.createStatement();
-//            PreparedStatement preparedStatement = connection.prepareStatement(
-//                    "SELECT id, poll_id, question, created_date " +
-//                            "FROM question WHERE poll_id = ? "
-//            );
-//            preparedStatement.setInt(1, pollId);
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            while (resultSet.next()) {
-//                questions.add(new QuestionEntity(resultSet.getInt(1),
-//                        resultSet.getInt(2), null,
-//                        resultSet.getString(3), resultSet.getDate(4)));
-//            }
-//            preparedStatement.close();
-//            resultSet.close();
-//            statement.close();
-//        } catch (SQLException e) {
-//            throw new SelectException();
-//        }
-//        return questions.toArray(new QuestionEntity[questions.size()]);
-//    }
+    @Override
+    public QueueMergeTaskEntity getCurrentMergeTask() throws SelectException {
+        QueueMergeTaskEntity task = new QueueMergeTaskEntity();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT id, dataset.title, completed_task, in_work," +
+                            " source_datasets, created_date FROM merge_dataset " +
+                            "JOIN dataset ON dataset.id = dataset_id  WHERE in_work = TRUE"
+            );
+            if (resultSet.next() ) {
+                DatasetEntity dataset = new DatasetEntity();
+                dataset.setTitle(resultSet.getString(2));
+                task = (new QueueMergeTaskEntity(resultSet.getInt(1), resultSet.getBoolean(3),
+                        dataset,
+                        resultSet.getBoolean(4), resultSet.getString(5),
+                        resultSet.getTimestamp(6)));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return task;
+    }
 
-//    @Override
-//    public void saveQueue(QueueEntity queueEntity) throws InsertException {
-//        try (Connection connection = DBConnection.getConnection()) {
-//            PreparedStatement preparedStatement = connection.prepareStatement(
-//                    "INSERT INTO queue_task(id, " +
-//                    "completed_learn, " +
-//                    "model_id) " +
-//                    " VALUES (?, ?, ?)");
-//            preparedStatement.setInt(1, queueEntity.getId());
-//            preparedStatement.setBoolean(2, false);
-//            preparedStatement.setInt(3, queueEntity.getModel().getId());
-//            preparedStatement.execute();
-//            preparedStatement.close();
-//        } catch (SQLException e) {
-//            throw new InsertException();
-//        }
-//    }
+    @Override
+    public QueueCheckDataset[] getAllQueueMergeTasks() throws SelectException {
+        ArrayList<QueueCheckDataset> tasks = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT id, dataset.title, completed_task, normalize , in_work," +
+                            " is_correct, created_date FROM check_dataset " +
+                            "JOIN dataset ON dataset.id = dataset_id "
+            );
+            while (resultSet.next()) {
+                DatasetEntity dataset = new DatasetEntity();
+                dataset.setTitle(resultSet.getString(2));
+                tasks.add(new QueueCheckDataset(resultSet.getInt(1), resultSet.getBoolean(3),
+                        resultSet.getBoolean(4),
+                        resultSet.getBoolean(5),
+                        resultSet.getBoolean(6),
+                        dataset,
+                        resultSet.getTimestamp(6)));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return tasks.toArray(new QueueCheckDataset[tasks.size()]);
+    }
 
-//    @Override
-//    public void updateQuestion(QuestionEntity question) throws UpdateException {
-//        try (Connection connection = DBConnection.getConnection()) {
-//            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE question SET question=?, " +
-//                    "created_date = ? " +
-//                    "WHERE id = ? ");
-//            preparedStatement.setString(1, question.getQuestion());
-//            preparedStatement.setDate(2, question.getCreatedDate());
-//            preparedStatement.setInt(3, question.getId());
-//            preparedStatement.execute();
-//            preparedStatement.close();
-//        } catch (SQLException e) {
-//            throw new UpdateException();
-//        }
-//    }
+    @Override
+    public QueueCheckDataset getCurrentMergeTask() throws SelectException {
+        QueueCheckDataset task = new QueueCheckDataset();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT id, dataset.title, completed_task, normalize , in_work," +
+                            " is_correct, created_date FROM check_dataset " +
+                            "JOIN dataset ON dataset.id = dataset_id WHERE in_work = TRUE "
+            );
+            if (resultSet.next() ) {
+                DatasetEntity dataset = new DatasetEntity();
+                dataset.setTitle(resultSet.getString(2));
+                task = new QueueCheckDataset(resultSet.getInt(1), resultSet.getBoolean(3),
+                        resultSet.getBoolean(4),
+                        resultSet.getBoolean(5),
+                        resultSet.getBoolean(6),
+                        dataset,
+                        resultSet.getTimestamp(6));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return task;
+    }
 
-//    @Override
-//    public void deleteQuestion(QuestionEntity question) throws DeleteException {
-//        try (Connection connection = DBConnection.getConnection()) {
-//            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM question WHERE id = ?");
-//            preparedStatement.setInt(1, question.getId());
-//            preparedStatement.execute();
-//            preparedStatement.close();
-//        } catch (SQLException e) {
-//            throw new DeleteException();
-//        }
-//    }
-//
-//    public QuestionEntity getQuestionForUser(int pollId, int userId) throws SelectException{
-//         try (Connection connection = DBConnection.getConnection()){
-//             PreparedStatement preparedStatement = connection.prepareStatement(
-//            "SELECT DISTINCT poll.id, poll.title, question.question, question.id FROM poll " +
-//             "LEFT JOIN question ON poll.id=question.poll_id " +
-//             "LEFT JOIN variants ON " +
-//             "question.id = variants.question_id LEFT JOIN answer " +
-//             "ON answer.variant_id = variants.id WHERE poll.id=? AND question.id NOT IN " +
-//             "(SELECT question.id FROM question JOIN variants ON variants.question_id = question.id " +
-//             "JOIN answer ON variants.id=answer.variant_id  WHERE answer.voter_id=?) LIMIT 1");
-//             preparedStatement.setInt(1, pollId);
-//             preparedStatement.setInt(2, userId);
-//             ResultSet resultSet = preparedStatement.executeQuery();
-//             if( resultSet.next()) {
-//                 QuestionEntity question = new QuestionEntity();
-//                 DatasetEntity poll = new DatasetEntity();
-//                 poll.setId(resultSet.getInt(1));
-//                 poll.setTitle(resultSet.getString(2));
-//                 question.setQuestion(resultSet.getString(3));
-//                 question.setId(resultSet.getInt(4));
-//                 question.setPoll(poll);
-//                 ArrayList<KeyEntity> variants = new ArrayList<>();
-//
-//                 preparedStatement = connection.prepareStatement(
-//                         "SELECT id, question_id, text " +
-//                                 "FROM variants WHERE question_id = ? "
-//                 );
-//                 preparedStatement.setInt(1, question.getId());
-//                 resultSet = preparedStatement.executeQuery();
-//                 while (resultSet.next()) {
-//                     variants.add(new KeyEntity(resultSet.getInt(1), resultSet.getInt(2), null,
-//                             resultSet.getString(3)));
-//                 }
-//                 question.setVariants(variants);
-//                 preparedStatement.close();
-//                 resultSet.close();
-//                return  question;
-//             }
-//         } catch (SQLException e) {
-//             throw new SelectException();
-//         }
-//         return null;
-//    }
+    @Override
+    public QueueTaskAdminEntity[] getAllQueueTaskAdmin() throws SelectException {
+        ArrayList<QueueTaskAdminEntity> tasks = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT id, completed_task, progress, in_work, model.title," +
+                            " created_date FROM queue_task_admin_file " +
+                            "JOIN model ON model.id = model_id "
+            );
+            while (resultSet.next()) {
+                ModelEntity model = new ModelEntity();
+                model.setTitle(resultSet.getString(5));
+                tasks.add(new QueueTaskAdminEntity(resultSet.getInt(1), resultSet.getBoolean(2),
+                        resultSet.getInt(3),
+                        resultSet.getBoolean(4),
+                        model,
+                        resultSet.getTimestamp(6)));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return tasks.toArray(new QueueTaskAdminEntity[tasks.size()]);
+    }
+
+    @Override
+    public QueueTaskAdminEntity getCurrentTaskAdmin() throws SelectException {
+        QueueTaskAdminEntity task = new QueueTaskAdminEntity();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT id, completed_task, progress, in_work, model.title," +
+                            " created_date FROM queue_task_admin_file " +
+                            "JOIN model ON model.id = model_id WHERE in_work = TRUE"
+            );
+            if (resultSet.next() ) {
+                ModelEntity model = new ModelEntity();
+                model.setTitle(resultSet.getString(5));
+                task = (new QueueTaskAdminEntity(resultSet.getInt(1), resultSet.getBoolean(2),
+                        resultSet.getInt(3),
+                        resultSet.getBoolean(4),
+                        model,
+                        resultSet.getTimestamp(6)));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return task;
+    }
+
+    @Override
+    public QueueTaskUserEntity[] getAllQueueTaskUser() throws SelectException {
+        ArrayList<QueueTaskUserEntity> tasks = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT id, completed_task, progress, in_work, model.title," +
+                            " created_date, user.login FROM queue_task_user_file " +
+                            "JOIN model ON model.id = model_id JOIN user ON user.id = user_id"
+            );
+            while (resultSet.next()) {
+                ModelEntity model = new ModelEntity();
+                model.setTitle(resultSet.getString(5));
+                UserEntity user = new UserEntity();
+                user.setLogin(resultSet.getString(7));
+                tasks.add(new QueueTaskUserEntity(resultSet.getInt(1), resultSet.getBoolean(2),
+                        resultSet.getInt(3),
+                        resultSet.getBoolean(4),
+                        model,
+                        resultSet.getTimestamp(6),
+                        user));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return tasks.toArray(new QueueTaskUserEntity[tasks.size()]);
+    }
+
+    @Override
+    public QueueTaskUserEntity getCurrentTaskAdmin() throws SelectException {
+        QueueTaskUserEntity task = new QueueTaskUserEntity();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT id, completed_task, progress, in_work, model.title," +
+                            " created_date, user.login FROM queue_task_user_file " +
+                            "JOIN model ON model.id = model_id JOIN user ON user.id = user_id " +
+                            "WHERE in_work = TRUE"
+            );
+            if (resultSet.next() ) {
+                ModelEntity model = new ModelEntity();
+                model.setTitle(resultSet.getString(5));
+                UserEntity user = new UserEntity();
+                user.setLogin(resultSet.getString(7));
+                task = new QueueTaskUserEntity(resultSet.getInt(1), resultSet.getBoolean(2),
+                        resultSet.getInt(3),
+                        resultSet.getBoolean(4),
+                        model,
+                        resultSet.getTimestamp(6),
+                        user);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return task;
+    }
+
+    @Override
+    public QueueTaskMlEntity[] getAllMLTaskUser() throws SelectException {
+        ArrayList<QueueTaskMlEntity> tasks = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT id,  completed_task, progress, n_workers, in_work, model.title," +
+                            " created_date FROM queue_task_ml " +
+                            "JOIN model ON model.id = model_id"
+            );
+            while (resultSet.next()) {
+                ModelEntity model = new ModelEntity();
+                model.setTitle(resultSet.getString(6));
+
+                tasks.add(new QueueTaskMlEntity(resultSet.getInt(1), resultSet.getBoolean(2),
+                        model,
+                        resultSet.getTimestamp(7),
+                        resultSet.getBoolean(5),
+                        resultSet.getInt(4),
+                        resultSet.getInt(3)));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return tasks.toArray(new QueueTaskMlEntity[tasks.size()]);
+    }
+
+    @Override
+    public QueueTaskMlEntity getCurrentMLTaskUser() throws SelectException {
+        QueueTaskMlEntity task = new QueueTaskMlEntity();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT id,  completed_task, progress, n_workers, in_work, model.title," +
+                            " created_date FROM queue_task_ml " +
+                            "JOIN model ON model.id = model_id " +
+                            "WHERE in_work = TRUE"
+            );
+            if (resultSet.next()) {
+                ModelEntity model = new ModelEntity();
+                model.setTitle(resultSet.getString(5));
+                UserEntity user = new UserEntity();
+                user.setLogin(resultSet.getString(7));
+                task = new QueueTaskMlEntity(resultSet.getInt(1), resultSet.getBoolean(2),
+                        model,
+                        resultSet.getTimestamp(7),
+                        resultSet.getBoolean(5),
+                        resultSet.getInt(4),
+                        resultSet.getInt(3));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return task;
+    }
 
 
 }

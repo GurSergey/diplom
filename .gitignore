@@ -75,3 +75,5 @@ target/
 apps/
 datasets/*
 models/*
+ml_text_admin_task/*
+ml_text_user_task/*

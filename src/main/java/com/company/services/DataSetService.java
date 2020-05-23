@@ -37,8 +37,6 @@ public class DataSetService {
 
     }
 
-
-
     public DataSetService(DatasetDAO datasetDAO) {
         this.dao = datasetDAO;
     }
@@ -51,13 +49,13 @@ public class DataSetService {
         return dao.getById(id);
     }
 
-    public void saveDataset(DatasetEntity dataset, byte[] file) throws InsertException, IOException {
+    public void saveDataset(DatasetEntity dataset, boolean normalize, byte[] file) throws InsertException, IOException {
         dataset.setFilename(generateFilename()+".csv");
-        String filename = "datasets"+ File.separator+dataset.getFilename();
+        String filename = "../datasets"+ File.separator+dataset.getFilename();
         File targetFile = new File(filename);
         OutputStream outStream = new FileOutputStream(targetFile);
         outStream.write(file);
-        this.dao.saveDataset(dataset);
+        this.dao.saveDataset(dataset, normalize);
     }
 
     public void updateDataset(DatasetEntity dataset) throws UpdateException {
@@ -66,7 +64,7 @@ public class DataSetService {
 
     public void deleteDataset(DatasetEntity dataset) throws DeleteException, SelectException {
         dataset = this.getById(dataset.getId());
-        File file = new File("datasets"+ File.separator+dataset.getFilename());
+        File file = new File("../datasets"+ File.separator+dataset.getFilename());
         if(!file.delete()) {
             throw new DeleteException();
         }
@@ -75,6 +73,10 @@ public class DataSetService {
 
     public void downloadDataset(DatasetEntity datasetEntity){
 
+    }
+
+    public void mergeDatasets(DatasetEntity dataset, int[] ids) throws InsertException {
+        this.dao.mergeDataset(dataset, ids);
     }
 
 }

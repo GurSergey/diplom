@@ -27,9 +27,9 @@ while 1:
         for row_files in cursor:
             filenames.append(row_files[0])
 
-        with open(row['filename'], 'w') as outfile:
+        with open('../datasets/'+row['filename'], 'w') as outfile:
             for fname in filenames:
-                with open(fname) as infile:
+                with open('../datasets/'+fname) as infile:
                     for line in infile:
                         outfile.write(line)
         conn = psycopg2.connect(dbname='diplom', user='user', 

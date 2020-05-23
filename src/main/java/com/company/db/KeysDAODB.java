@@ -33,7 +33,7 @@ public class KeysDAODB implements KeysDAO {
             );
             while (resultSet.next()) {
                 keys.add(new KeyEntity(resultSet.getInt(1), resultSet.getString(2),
-                        resultSet.getString(3), resultSet.getDate(4)));
+                        resultSet.getString(3), resultSet.getTimestamp(4)));
             }
             resultSet.close();
             statement.close();

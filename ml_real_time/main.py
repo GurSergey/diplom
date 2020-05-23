@@ -58,7 +58,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         data = json.loads(post_body)
         id_model = data['id']
         if not id_model in models:
-            models[id_model] = pickle.load(open(str(id_model)+'.sav', 'rb'))
+            models[id_model] = pickle.load('../models/'+open(str(id_model)+'.sav', 'rb'))
             print("load model with id " + str(id_model))
         answers = []
         for text in data['data']:
