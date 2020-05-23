@@ -9,12 +9,22 @@ public class QueueTaskAdminEntity {
     boolean inWork;
     ModelEntity model;
     Timestamp created_date;
+    String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public QueueTaskAdminEntity() {
     }
 
-    public QueueTaskAdminEntity(int id, boolean completedTask, int progress, boolean inWork, ModelEntity model, Timestamp created_date) {
+    public QueueTaskAdminEntity(int id, String title ,boolean completedTask, int progress, boolean inWork, ModelEntity model, Timestamp created_date) {
         this.id = id;
+        this.title = title;
         this.completedTask = completedTask;
         this.progress = progress;
         this.inWork = inWork;

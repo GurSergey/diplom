@@ -212,7 +212,6 @@
 
     <script>
 
-
         document.forms.namedItem("new_form").onsubmit = function() {
             upload("123");
             // var input = this.elements.datasetFile;

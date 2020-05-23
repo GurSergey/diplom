@@ -67,7 +67,7 @@
                     <th>Флаг заврешения</th>
                     <th>Прогресс обучения</th>
                     <th>Название датасета обучения</th>
-                    <th>Точность на тестовых данных </th>>
+                    <th>Точность на тестовых данных </th>
                     <th>Дата создания</th>
                 </tr>
             </thead>
@@ -89,7 +89,7 @@
                                      <td>${model.datasetName}</td>
                                      <th>${model.testAccuracy}</th>
                                      <td>${model.createDate}<td>
-                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Сохранить" form="model_form_${model.id}"></td>
+                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Обновить название" form="model_form_${model.id}"></td>
                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="model_form_${model.id}"></td>
 
                             </tr>

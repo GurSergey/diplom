@@ -10,6 +10,15 @@ public class QueueTaskUserEntity {
     ModelEntity model;
     Timestamp created_date;
     UserEntity user;
+    String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public UserEntity getUser() {
         return user;
@@ -22,9 +31,10 @@ public class QueueTaskUserEntity {
     public QueueTaskUserEntity() {
     }
 
-    public QueueTaskUserEntity(int id, boolean completedTask, int progress, boolean inWork, ModelEntity model,
+    public QueueTaskUserEntity(int id, String title, boolean completedTask, int progress, boolean inWork, ModelEntity model,
                                Timestamp created_date, UserEntity user) {
         this.id = id;
+        this.title = title;
         this.completedTask = completedTask;
         this.progress = progress;
         this.inWork = inWork;

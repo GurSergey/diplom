@@ -49,6 +49,7 @@ CREATE TABLE merge_dataset(
 
 CREATE TABLE queue_task_admin_file(
     id serial PRIMARY KEY,
+    title VARCHAR(255),
     completed_task boolean DEFAULT false,
     progress int DEFAULT 0,
     in_work boolean DEFAULT false,
@@ -57,6 +58,7 @@ CREATE TABLE queue_task_admin_file(
 
 CREATE TABLE queue_task_user_file(
     id serial PRIMARY KEY,
+    title VARCHAR(255),
     completed_task boolean DEFAULT false,
     progress int DEFAULT 0,
     in_work boolean DEFAULT false,

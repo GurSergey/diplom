@@ -42,87 +42,274 @@
             <p style="color: red;">Возникла ошибка обновления записей из БД. Повторите попытку позже</p>
         </c:if>
 
-
+    <c:set var="count" value="0" scope="page" />
         <div class="row">
             <div class="col s12 m12">
                 <div class="card-panel white">
+                    <h4>Текущие задачи исполняемые в системе</h4>
+                    <c:if test="${empty currentMl}">
+                        <c:set var="count" value="${count + 1}" scope="page"/>
+                        <h6>Задача на обучение модели</h6>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Количество потоков</th>
+                                <th>Исполняется</th>
+                                <th>Завершенная задача</th>
+                                <th>Название модели</th>
+                                <th>Дата создания</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Название</th>
-                    <th>Флаг заврешения</th>
-                    <th>Прогресс обучения</th>
-                    <th>Название датасета обучения</th>
-                    <th>Точность на тестовых данных </th>>
-                    <th>Дата создания</th>
-                </tr>
-            </thead>
-            <tbody>
-                        <c:forEach var="model" items="${models}">
-                                 <tr>
-                                    <td>${model.id}<input name="id" type="hidden" value="${model.id}" form="model_form_${model.id}">
-                                        <input name="modelId" type="hidden" value="${model.id}" form="model_form_${model.id}"></td>
-                                    <td><input name="title" type="text" value="${model.title}" form="model_form_${model.title}"></td>
+                                <tr>
+                                    <td>${currentMl.id}</td>
+                                    <td>${currentMl.nWorker}</td>
                                     <td>
-                                         <c:if test="${model.completedLearn==true}">
-                                             <input name="visible" type="checkbox" checked value="${model.completedLearn}" form="model_form_${model.id}" style="opacity: 1.0; pointer-events: auto;">
-                                         </c:if>
-                                         <c:if test="${model.completedLearn==false}">
-                                             <input name="visible" type="checkbox" value="${model.completedLearn}" form="model_form_${model.id}" style="opacity: 1.0; pointer-events: auto;">
-                                         </c:if>
+                                        <c:if test="${currentMl.inWork==true}">
+                                            <input name="visible" type="checkbox" checked value="${currentMl.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                        </c:if>
+                                        <c:if test="${currentMl.inWork==false}">
+                                            <input name="visible" type="checkbox" value="${currentMl.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                        </c:if>
                                     </td>
-                                    <td>${model.progress}</td>
-                                     <td>${model.datasetName}</td>
-                                     <th>${model.testAccuracy}</th>
-                                     <td>${model.createDate}<td>
-                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Сохранить" form="model_form_${model.id}"></td>
-                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="model_form_${model.id}"></td>
+                                    <td>
+                                        <c:if test="${currentMl.completedTask==true}">
+                                            <input name="visible" type="checkbox" checked value="${currentMl.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                        </c:if>
+                                        <c:if test="${currentMl.completedTask==false}">
+                                            <input name="visible" type="checkbox" value="${currentMl.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                        </c:if>
+                                    </td>
+                                    <td>${currentMl.model.title}</td>
+                                    <td>${currentMl.createDate}<td>
+                                </tr>
 
+                            </tbody>
+                        </table>
+                    </c:if>
+
+                    <h4>Задачи на обучение моделей</h4>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Количество потоков</th>
+                            <th>Исполняется</th>
+                            <th>Завершенная задача</th>
+                            <th>Название модели</th>
+                            <th>Дата создания</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="task" items="${taskMl}">
+                            <tr>
+                                <td>${task.id}</td>
+                                <td>${task.nWorker}</td>
+                                <td>
+                                    <c:if test="${task.inWork==true}">
+                                        <input name="visible" type="checkbox" checked value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                    </c:if>
+                                    <c:if test="${task.inWork==false}">
+                                        <input name="visible" type="checkbox" value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                    </c:if>
+                                </td>
+                                <td>
+                                    <c:if test="${task.completedTask==true}">
+                                        <input name="visible" type="checkbox" checked value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                    </c:if>
+                                    <c:if test="${task.completedTask==false}">
+                                        <input name="visible" type="checkbox" value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                    </c:if>
+                                </td>
+                                <td>${task.model.title}</td>
+                                <td>${task.createDate}<td>
                             </tr>
                         </c:forEach>
-            </tbody>
-        </table>
+                        </tbody>
+                    </table>
         </div>
+                <br>
+                <h4>Задачи на валидацию новых датасетов</h4>
+
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Нормализовать</th>
+                                    <th>Название датасета</th>
+                                    <th>Исполняется</th>
+                                    <th>Задача завершена</th>
+                                    <th>Корректность</th>
+                                    <th>Дата создания</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="task" items="${taskCheck}">
+                                    <tr>
+                                        <td>${task.id}</td>
+                                        <td>${task.normalize}</td>
+                                        <td>${task.dataset.title}</td>
+                                        <td>
+                                            <c:if test="${task.inWork==true}">
+                                                <input name="visible" type="checkbox" checked value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                            </c:if>
+                                            <c:if test="${task.inWork==false}">
+                                                <input name="visible" type="checkbox" value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                            </c:if>
+                                        </td>
+                                        <td>
+                                            <c:if test="${task.completedTask==true}">
+                                                <input name="visible" type="checkbox" checked value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                            </c:if>
+                                            <c:if test="${task.completedTask==false}">
+                                                <input name="visible" type="checkbox" value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                            </c:if>
+                                        </td>
+                                        <td>
+                                            <c:if test="${task.completedTask==true}">
+                                                <input name="visible" type="checkbox" checked value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                            </c:if>
+                                            <c:if test="${task.completedTask==false}">
+                                                <input name="visible" type="checkbox" value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                            </c:if>
+                                        </td>
+                                        <td>${task.createDate}<td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
 
 
+                <h4>Задачи на слияние датасетов</h4>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>id</th>
 
-        <h3>Добавить новую модель</h3>
+                        <th>Название датасета</th>
+                        <th>Исполняется</th>
+                        <th>Задача завершена</th>
+                        <th>Список датасетов для слияния</th>
+                        <th>Дата создания</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="task" items="${taskMerge}">
+                        <tr>
+                            <td>${task.id}</td>
+                            <td>${task.dataset.title}</td>
 
-        <form action="" method="post" id="new_form"></form>
-
-        <table>
-            <thead>
-            <tr>
-                <th>Название</th>
-                <th>Датасет для обучения</th>
-            </tr>
-            </thead>
-            <tr>
-                <td>
-                    <input name="title" type="text" value="" form="new_form">
-
-<%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
-                </td>
-                <td>
-                    <div class="input-field col s12">
-                    <select name ="datasetId" style = "display: block;" form="new_form">
-                        <option value="" disabled selected>Выберете датасет</option>
-                        <c:forEach var="dataset" items="${datasets}">
-                            <c:if test="${dataset.isCorrect==true}">
-                                <option value="${dataset.id}">${dataset.title} - ID ${dataset.id}</option>
-                            </c:if>
-                        </c:forEach>
-                    </select>
-                    </div>
-                </td>
-                <td>
-                    <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить" form="new_form"></td>
-            </tr>
-        </table>
-
-
+                            <td>
+                                <c:if test="${task.inWork==true}">
+                                    <input name="visible" type="checkbox" checked value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                                <c:if test="${task.inWork==false}">
+                                    <input name="visible" type="checkbox" value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                            </td>
+                            <td>
+                                <c:if test="${task.completedTask==true}">
+                                    <input name="visible" type="checkbox" checked value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                                <c:if test="${task.completedTask==false}">
+                                    <input name="visible" type="checkbox" value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                            </td>
+                            <td>
+                               ${task.sourceDatasets}
+                            </td>
+                            <td>${task.createDate}<td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <h4>Задачи на решение текстовых файлов администратора</h4>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Название задачи</th>
+                        <th>Название модели</th>
+                        <th>Исполняется</th>
+                        <th>Задача завершена</th>
+                        <th>Дата создания</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="task" items="${taskAdmin}">
+                        <tr>
+                            <td>${task.id}</td>
+                            <td>${task.title}</td>
+                            <td>${task.model.title}</td>
+                            <td>
+                                <c:if test="${task.inWork==true}">
+                                    <input name="visible" type="checkbox" checked value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                                <c:if test="${task.inWork==false}">
+                                    <input name="visible" type="checkbox" value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                            </td>
+                            <td>
+                                <c:if test="${task.completedTask==true}">
+                                    <input name="visible" type="checkbox" checked value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                                <c:if test="${task.completedTask==false}">
+                                    <input name="visible" type="checkbox" value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                            </td>
+                            <td>
+                                    ${task.sourceDatasets}
+                            </td>
+                            <td>${task.createDate}<td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <h4>Задачи на решение текстовых файлов пользователей</h4>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Название задачи</th>
+                        <th>Название модели</th>
+                        <th>Логин пользователя</th>
+                        <th>Исполняется</th>
+                        <th>Задача завершена</th>
+                        <th>Дата создания</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="task" items="${taskUser}">
+                        <tr>
+                            <td>${task.id}</td>
+                            <td>${task.title}</td>
+                            <td>${task.model.title}</td>
+                            <td>${task.user.login}</td>
+                            <td>
+                                <c:if test="${task.inWork==true}">
+                                    <input name="visible" type="checkbox" checked value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                                <c:if test="${task.inWork==false}">
+                                    <input name="visible" type="checkbox" value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                            </td>
+                            <td>
+                                <c:if test="${task.completedTask==true}">
+                                    <input name="visible" type="checkbox" checked value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                                <c:if test="${task.completedTask==false}">
+                                    <input name="visible" type="checkbox" value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                </c:if>
+                            </td>
+                            <td>${task.sourceDatasets}
+                            </td>
+                            <td>${task.createDate}<td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
     <jsp:include page="footer.jsp" />

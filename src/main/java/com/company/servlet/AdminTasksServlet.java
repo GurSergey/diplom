@@ -1,50 +1,27 @@
 package com.company.servlet;
 
-
 import com.company.db.DatasetDAODB;
-import com.company.db.KeysDAODB;
 import com.company.enitities.DatasetEntity;
-import com.company.enitities.KeyEntity;
 import com.company.enums.EntityError;
 import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.exceptions.UpdateException;
 import com.company.services.DataSetService;
-import com.company.services.KeysService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.io.InputStream;
 
-import static jdk.nashorn.internal.objects.NativeError.getFileName;
-
-
-@MultipartConfig(fileSizeThreshold = 1024 * 1024,
-        maxFileSize = 1024 * 1024 * 400,
-        maxRequestSize = 1024 * 1024 * 512)
-@WebServlet(
-        name = "adminDatasetsServlet",
-        urlPatterns = { "/admin/datasets/*"},
-        loadOnStartup = 1
-)
-public class AdminDatasetServlet extends HttpServlet {
-    public AdminDatasetServlet(){
+public class AdminTasksServlet extends HttpServlet {
+    public AdminTasksServlet(){
         super();
     }
-
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -60,14 +37,13 @@ public class AdminDatasetServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         DatasetEntity datasetEntity = new DatasetEntity();
 
         datasetEntity.setId(request.getParameterMap().containsKey("id")
                 ? Integer.parseInt(request.getParameter("id"))
                 : -1);
         datasetEntity.setTitle(request.getParameter("title"));
-        boolean normalize = request.getParameter("normalize")!=null;
         ServletContext context = this.getServletContext();
         try {
             DataSetService service = new DataSetService(new DatasetDAODB());
@@ -77,7 +53,7 @@ public class AdminDatasetServlet extends HttpServlet {
                 InputStream fileContent = filePart.getInputStream();
                 byte[] buffer = new byte[fileContent.available()];
                 fileContent.read(buffer);
-                service.saveDataset(datasetEntity, normalize, buffer);
+                service.saveDataset(datasetEntity, buffer);
                 request.setAttribute("error", EntityError.NO_ERROR_INSERT);
             }
             if(request.getParameterMap().containsKey( "update")){

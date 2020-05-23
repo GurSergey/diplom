@@ -71,7 +71,7 @@ public class QueueDAODB implements QueueDAO {
     }
 
     @Override
-    public QueueCheckDataset[] getAllQueueMergeTasks() throws SelectException {
+    public QueueCheckDataset[] getAllQueueCheckTasks() throws SelectException {
         ArrayList<QueueCheckDataset> tasks = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
@@ -99,7 +99,7 @@ public class QueueDAODB implements QueueDAO {
     }
 
     @Override
-    public QueueCheckDataset getCurrentMergeTask() throws SelectException {
+    public QueueCheckDataset getCurrentCheckTask() throws SelectException {
         QueueCheckDataset task = new QueueCheckDataset();
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
@@ -138,12 +138,13 @@ public class QueueDAODB implements QueueDAO {
             );
             while (resultSet.next()) {
                 ModelEntity model = new ModelEntity();
-                model.setTitle(resultSet.getString(5));
-                tasks.add(new QueueTaskAdminEntity(resultSet.getInt(1), resultSet.getBoolean(2),
-                        resultSet.getInt(3),
-                        resultSet.getBoolean(4),
+                model.setTitle(resultSet.getString(6));
+                tasks.add(new QueueTaskAdminEntity(resultSet.getInt(1), resultSet.getString(2),
+                        resultSet.getBoolean(3),
+                        resultSet.getInt(4),
+                        resultSet.getBoolean(5),
                         model,
-                        resultSet.getTimestamp(6)));
+                        resultSet.getTimestamp(7)));
             }
             resultSet.close();
             statement.close();
@@ -159,18 +160,18 @@ public class QueueDAODB implements QueueDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT id, completed_task, progress, in_work, model.title," +
+                    "SELECT id, title , completed_task, progress, in_work, model.title," +
                             " created_date FROM queue_task_admin_file " +
                             "JOIN model ON model.id = model_id WHERE in_work = TRUE"
             );
             if (resultSet.next() ) {
                 ModelEntity model = new ModelEntity();
-                model.setTitle(resultSet.getString(5));
-                task = (new QueueTaskAdminEntity(resultSet.getInt(1), resultSet.getBoolean(2),
-                        resultSet.getInt(3),
-                        resultSet.getBoolean(4),
+                model.setTitle(resultSet.getString(6));
+                task = (new QueueTaskAdminEntity(resultSet.getInt(1), resultSet.getString(2), resultSet.getBoolean(3),
+                        resultSet.getInt(4),
+                        resultSet.getBoolean(5),
                         model,
-                        resultSet.getTimestamp(6)));
+                        resultSet.getTimestamp(7)));
             }
             resultSet.close();
             statement.close();
@@ -186,20 +187,21 @@ public class QueueDAODB implements QueueDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT id, completed_task, progress, in_work, model.title," +
+                    "SELECT id, title, completed_task, progress, in_work, model.title," +
                             " created_date, user.login FROM queue_task_user_file " +
                             "JOIN model ON model.id = model_id JOIN user ON user.id = user_id"
             );
             while (resultSet.next()) {
                 ModelEntity model = new ModelEntity();
-                model.setTitle(resultSet.getString(5));
+                model.setTitle(resultSet.getString(6));
                 UserEntity user = new UserEntity();
                 user.setLogin(resultSet.getString(7));
-                tasks.add(new QueueTaskUserEntity(resultSet.getInt(1), resultSet.getBoolean(2),
-                        resultSet.getInt(3),
-                        resultSet.getBoolean(4),
+                tasks.add(new QueueTaskUserEntity(resultSet.getInt(1), resultSet.getString(2),
+                        resultSet.getBoolean(3),
+                        resultSet.getInt(4),
+                        resultSet.getBoolean(5),
                         model,
-                        resultSet.getTimestamp(6),
+                        resultSet.getTimestamp(7),
                         user));
             }
             resultSet.close();
@@ -211,26 +213,62 @@ public class QueueDAODB implements QueueDAO {
     }
 
     @Override
-    public QueueTaskUserEntity getCurrentTaskAdmin() throws SelectException {
+    public QueueTaskUserEntity[] getAllQueueTaskUserByUserId(int id) throws SelectException {
+        ArrayList<QueueTaskUserEntity> tasks = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            //ResultSet resultSet = statement.executeQuery(
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT id, title, completed_task, progress, in_work, model.title," +
+                            " created_date, user.login FROM queue_task_user_file " +
+                            "JOIN model ON model.id = model_id JOIN user ON user.id = user_id " +
+                            "WHERE user.id = ?"
+            );
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                ModelEntity model = new ModelEntity();
+                model.setTitle(resultSet.getString(6));
+                UserEntity user = new UserEntity();
+                user.setLogin(resultSet.getString(7));
+                tasks.add(new QueueTaskUserEntity(resultSet.getInt(1), resultSet.getString(2),
+                        resultSet.getBoolean(3),
+                        resultSet.getInt(4),
+                        resultSet.getBoolean(5),
+                        model,
+                        resultSet.getTimestamp(7),
+                        user));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return tasks.toArray(new QueueTaskUserEntity[tasks.size()]);
+    }
+
+
+    @Override
+    public QueueTaskUserEntity getCurrentTaskUser() throws SelectException {
         QueueTaskUserEntity task = new QueueTaskUserEntity();
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT id, completed_task, progress, in_work, model.title," +
+                    "SELECT id, title completed_task, progress, in_work, model.title," +
                             " created_date, user.login FROM queue_task_user_file " +
                             "JOIN model ON model.id = model_id JOIN user ON user.id = user_id " +
                             "WHERE in_work = TRUE"
             );
             if (resultSet.next() ) {
                 ModelEntity model = new ModelEntity();
-                model.setTitle(resultSet.getString(5));
+                model.setTitle(resultSet.getString(6));
                 UserEntity user = new UserEntity();
                 user.setLogin(resultSet.getString(7));
-                task = new QueueTaskUserEntity(resultSet.getInt(1), resultSet.getBoolean(2),
-                        resultSet.getInt(3),
-                        resultSet.getBoolean(4),
+                task = new QueueTaskUserEntity(resultSet.getInt(1), resultSet.getString(2) ,resultSet.getBoolean(3),
+                        resultSet.getInt(4),
+                        resultSet.getBoolean(5),
                         model,
-                        resultSet.getTimestamp(6),
+                        resultSet.getTimestamp(7),
                         user);
             }
             resultSet.close();
@@ -242,7 +280,41 @@ public class QueueDAODB implements QueueDAO {
     }
 
     @Override
-    public QueueTaskMlEntity[] getAllMLTaskUser() throws SelectException {
+    public QueueTaskUserEntity getCurrentTaskUserByUserId(int id) throws SelectException {
+        QueueTaskUserEntity task = new QueueTaskUserEntity();
+        try (Connection connection = DBConnection.getConnection()) {
+            Statement statement = connection.createStatement();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT id, title completed_task, progress, in_work, model.title," +
+                            " created_date, user.login FROM queue_task_user_file " +
+                            "JOIN model ON model.id = model_id JOIN user ON user.id = user_id " +
+                            "WHERE in_work = TRUE WHERE user.id = ?"
+            );
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next() ) {
+                ModelEntity model = new ModelEntity();
+                model.setTitle(resultSet.getString(6));
+                UserEntity user = new UserEntity();
+                user.setLogin(resultSet.getString(7));
+                task = new QueueTaskUserEntity(resultSet.getInt(1), resultSet.getString(2) ,resultSet.getBoolean(3),
+                        resultSet.getInt(4),
+                        resultSet.getBoolean(5),
+                        model,
+                        resultSet.getTimestamp(7),
+                        user);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            throw new SelectException();
+        }
+        return task;
+    }
+
+    @Override
+    public QueueTaskMlEntity[] getAllMLTask() throws SelectException {
         ArrayList<QueueTaskMlEntity> tasks = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
@@ -271,7 +343,7 @@ public class QueueDAODB implements QueueDAO {
     }
 
     @Override
-    public QueueTaskMlEntity getCurrentMLTaskUser() throws SelectException {
+    public QueueTaskMlEntity getCurrentMLTask() throws SelectException {
         QueueTaskMlEntity task = new QueueTaskMlEntity();
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
