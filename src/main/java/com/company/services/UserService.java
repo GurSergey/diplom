@@ -49,11 +49,10 @@ public class UserService {
 //        return repository.getVoterById(id);
 //    }
 
-//    public void updateUser(UserEntity user) throws UpdateException{
-//        user.setPassword(hashedPassword(user.getPassword()));
-//        dao.
-//        dao.updateUser(user);
-//    }
+    public void updateUser(UserEntity user) throws UpdateException{
+        user.setPassword(hashedPassword(user.getPassword()));
+        dao.updateUser(user);
+    }
 
     public void createUser(UserEntity user) throws InsertException {
         user.setPassword(hashedPassword(user.getPassword()));

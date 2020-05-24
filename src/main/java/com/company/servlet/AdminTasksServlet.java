@@ -1,6 +1,7 @@
 package com.company.servlet;
 
 import com.company.db.DatasetDAODB;
+import com.company.db.QueueDAODB;
 import com.company.enitities.DatasetEntity;
 import com.company.enums.EntityError;
 import com.company.exceptions.DeleteException;
@@ -8,6 +9,7 @@ import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.exceptions.UpdateException;
 import com.company.services.DataSetService;
+import com.company.services.QueueService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -27,12 +29,12 @@ public class AdminTasksServlet extends HttpServlet {
             throws ServletException, IOException {
         ServletContext context = this.getServletContext();
         try {
-            DataSetService service = new DataSetService(new DatasetDAODB());
-            request.setAttribute("datasets", service.getAllDataSet());
+            QueueService service = new QueueService(new QueueDAODB());
+            request.setAttribute("tasks", service.getAllQueueTaskAdmin());
         } catch (SelectException e){
             request.setAttribute("error", EntityError.SELECT);
         }
-        getServletContext().getRequestDispatcher("/datasets.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/admin_add_task.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,14 +48,14 @@ public class AdminTasksServlet extends HttpServlet {
         datasetEntity.setTitle(request.getParameter("title"));
         ServletContext context = this.getServletContext();
         try {
-            DataSetService service = new DataSetService(new DatasetDAODB());
+            QueueService service = new QueueService(new QueueDAODB());
 
             if(request.getParameterMap().containsKey("save")){
-                Part filePart = request.getPart("datasetFile"); // Retrieves <input type="file" name="file">
+                Part filePart = request.getPart("taskFile"); // Retrieves <input type="file" name="file">
                 InputStream fileContent = filePart.getInputStream();
                 byte[] buffer = new byte[fileContent.available()];
                 fileContent.read(buffer);
-                service.saveDataset(datasetEntity, buffer);
+                service(datasetEntity, buffer);
                 request.setAttribute("error", EntityError.NO_ERROR_INSERT);
             }
             if(request.getParameterMap().containsKey( "update")){

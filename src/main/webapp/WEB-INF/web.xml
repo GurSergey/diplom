@@ -61,7 +61,7 @@
 
             <servlet>
                 <servlet-name>adminDownloadServlet</servlet-name>
-                <servlet-class>com.company.servlet.AdminDownloadServlet</servlet-class>
+                <servlet-class>com.company.servlet.AdminDownloadDatasetServlet</servlet-class>
             </servlet>
             <servlet-mapping>
                 <servlet-name>adminDownloadServlet</servlet-name>

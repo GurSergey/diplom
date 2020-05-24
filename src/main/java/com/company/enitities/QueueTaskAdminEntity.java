@@ -11,6 +11,16 @@ public class QueueTaskAdminEntity {
     Timestamp created_date;
     String title;
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    String filename;
+
     public String getTitle() {
         return title;
     }

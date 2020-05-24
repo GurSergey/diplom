@@ -5,6 +5,7 @@ import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.dao.UserDAO;
+import com.company.exceptions.UpdateException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -92,6 +93,21 @@ public class UserDAODB implements UserDAO {
         } catch (SQLException e) {
             throw new DeleteException();
         }
+    }
+
+        public UserEntity updateUser(UserEntity user) throws UpdateException {
+        try (Connection connection = DBConnection.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE voter SET  password = ?" +
+                            " WHERE id = ?");
+            preparedStatement.setString(1, user.getPassword());
+            preparedStatement.execute();
+
+        } catch (SQLException e){
+            throw new UpdateException();
+        }
+        return null;
     }
 
 //    public UserEntity getVoterById(int id) throws SelectException {

@@ -46,6 +46,7 @@
         <div class="row">
             <div class="col s12 m12">
                 <div class="card-panel white">
+<%--Текущие задачи                    --%>
                     <h4>Текущие задачи исполняемые в системе</h4>
                     <c:if test="${empty currentMl}">
                         <c:set var="count" value="${count + 1}" scope="page"/>
@@ -89,7 +90,195 @@
                             </tbody>
                         </table>
                     </c:if>
+                    <c:if test="${empty currentCheck}">
+                    <c:set var="count" value="${count + 1}" scope="page"/>
+                    <h6>Задача на проверку датасета</h6>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Нормализовать</th>
+                            <th>Название датасета</th>
+                            <th>Исполняется</th>
+                            <th>Задача завершена</th>
+                            <th>Корректность</th>
+                            <th>Дата создания</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
+                            <tr>
+                                <td>${currentCheck.id}</td>
+                                <td>${currentCheck.normalize}</td>
+                                <td>${currentCheck.dataset.title}</td>
+                                <td>
+                                    <c:if test="${currentCheck.inWork==true}">
+                                        <input name="visible" type="checkbox" checked value="${currentCheck.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                    </c:if>
+                                    <c:if test="${currentCheck.inWork==false}">
+                                        <input name="visible" type="checkbox" value="${currentCheck.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                    </c:if>
+                                </td>
+                                <td>
+                                    <c:if test="${currentCheck.completedTask==true}">
+                                        <input name="visible" type="checkbox" checked value="${currentCheck.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                    </c:if>
+                                    <c:if test="${currentCheck.completedTask==false}">
+                                        <input name="visible" type="checkbox" value="${currentCheck.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                    </c:if>
+                                </td>
+                                <td>
+                                    <c:if test="${currentCheck.completedTask==true}">
+                                        <input name="visible" type="checkbox" checked value="${currentCheck.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                    </c:if>
+                                    <c:if test="${currentCheck.completedTask==false}">
+                                        <input name="visible" type="checkbox" value="${currentCheck.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                    </c:if>
+                                </td>
+                                <td>${currentCheck.createDate}<td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    </c:if>
+    <c:if test="${empty currentMerge}">
+    <c:set var="count" value="${count + 1}" scope="page"/>
+    <h5>Задача на слияние датасетов</h5>
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+
+            <th>Название датасета</th>
+            <th>Исполняется</th>
+            <th>Задача завершена</th>
+            <th>Список датасетов для слияния</th>
+            <th>Дата создания</th>
+        </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>${currentMerge.id}</td>
+                <td>${currentMerge.dataset.title}</td>
+
+                <td>
+                    <c:if test="${currentMerge.inWork==true}">
+                        <input name="visible" type="checkbox" checked value="${currentMerge.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                    <c:if test="${currentMerge.inWork==false}">
+                        <input name="visible" type="checkbox" value="${currentMerge.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                </td>
+                <td>
+                    <c:if test="${currentMerge.completedTask==true}">
+                        <input name="visible" type="checkbox" checked value="${currentMerge.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                    <c:if test="${currentMerge.completedTask==false}">
+                        <input name="visible" type="checkbox" value="${currentMerge.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                </td>
+                <td>
+                        ${currentMerge.sourceDatasets}
+                </td>
+                <td>${currentMerge.createDate}<td>
+            </tr>
+
+        </tbody>
+    </table>
+    </c:if>
+    <c:if test="${empty currentAdmin}">
+    <c:set var="count" value="${count + 1}" scope="page"/>
+    <h5>Задачи на решение текстовых файлов администратора</h5>
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>Название задачи</th>
+            <th>Название модели</th>
+            <th>Исполняется</th>
+            <th>Задача завершена</th>
+            <th>Дата создания</th>
+        </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>${currentAdmin.id}</td>
+                <td>${currentAdmin.title}</td>
+                <td>${currentAdmin.model.title}</td>
+                <td>
+                    <c:if test="${currentAdmin.inWork==true}">
+                        <input name="visible" type="checkbox" checked value="${currentAdmin.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                    <c:if test="${currentAdmin.inWork==false}">
+                        <input name="visible" type="checkbox" value="${currentAdmin.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                </td>
+                <td>
+                    <c:if test="${currentAdmin.completedTask==true}">
+                        <input name="visible" type="checkbox" checked value="${currentAdmin.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                    <c:if test="${currentAdmin.completedTask==false}">
+                        <input name="visible" type="checkbox" value="${currentAdmin.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                </td>
+                <td>${currentAdmin.createDate}<td>
+            </tr>
+
+        </tbody>
+    </table>
+    </c:if>
+    <c:if test="${empty currentUser}">
+    <c:set var="count" value="${count + 1}" scope="page"/>
+    <h5>Задачи на решение текстовых файлов пользователей</h5>
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>Название задачи</th>
+            <th>Название модели</th>
+            <th>Логин пользователя</th>
+            <th>Исполняется</th>
+            <th>Задача завершена</th>
+            <th>Дата создания</th>
+        </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>${currentUser.id}</td>
+                <td>${currentUser.title}</td>
+                <td>${currentUser.model.title}</td>
+                <td>${currentUser.user.login}</td>
+                <td>
+                    <c:if test="${currentUser.inWork==true}">
+                        <input name="visible" type="checkbox" checked value="${currentUser.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                    <c:if test="${currentUser.inWork==false}">
+                        <input name="visible" type="checkbox" value="${currentUser.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                </td>
+                <td>
+                    <c:if test="${currentUser.completedTask==true}">
+                        <input name="visible" type="checkbox" checked value="${currentUser.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                    <c:if test="${currentUser.completedTask==false}">
+                        <input name="visible" type="checkbox" value="${currentUser.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                    </c:if>
+                </td>
+                <td>${currentUser.sourceDatasets}
+                </td>
+                <td>${currentUser.createDate}<td>
+            </tr>
+
+        </tbody>
+    </table>
+    </c:if>
+    <c:if test="${count==0}">
+        <span>Нет текущих задач</span>
+    </c:if>
+<%-- Список задач--%>
                     <h4>Задачи на обучение моделей</h4>
                     <table>
                         <thead>

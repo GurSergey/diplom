@@ -84,8 +84,15 @@
         <td>
             <input name="title" type="text"  value="" form="new_form">
         </td>
-        
-        <td><input name="datasetFile" type="file" form="new_form"></td>
+        <td> <div class="input-field col s12">
+            <select name ="modelId" style = "display: block;" form="new_form">
+                <option value="" disabled selected>Выберете модель</option>
+                <c:forEach var="model" items="${models}">
+                        <option value="${model.id}">${model.title} - ID ${model.id}</option>
+                </c:forEach>
+            </select>
+        </div></td>
+        <td><input name="taskFile" type="file" form="new_form"></td>
         <td>
             <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить"
                    form="new_form"></td>

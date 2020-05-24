@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-public class AdminDownloadServlet extends HttpServlet {
+public class AdminDownloadDatasetServlet extends HttpServlet {
     private final int ARBITARY_SIZE = 4096;
-    public AdminDownloadServlet(){
+    public AdminDownloadDatasetServlet(){
         super();
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

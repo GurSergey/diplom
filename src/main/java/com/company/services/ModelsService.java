@@ -8,6 +8,8 @@ import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 import com.company.exceptions.UpdateException;
 
+import java.io.File;
+
 
 public class ModelsService {
     ModelsDAO dao;
@@ -30,6 +32,10 @@ public class ModelsService {
     }
 
     public void deleteModel(ModelEntity model) throws DeleteException {
+        File file = new File("../models"+ File.separator+model.getId()+".sav");
+        if(!file.delete()) {
+            throw new DeleteException();
+        }
         dao.deleteModel(model);
     }
 

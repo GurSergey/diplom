@@ -17,10 +17,10 @@
     </style>
 </head>
 <body>
-<jsp:include page="admin_nav.jsp" />
+<jsp:include page="user_nav.jsp" />
 <div class="row">
     <div class="col s12 m12">
-      <div class="row">
+    <div class="row">
             <div class="col s6 m6">
                 <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/keys/"">
                     <div class="card">

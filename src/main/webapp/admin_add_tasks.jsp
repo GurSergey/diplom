@@ -69,9 +69,40 @@
         </div>
     </div>
 </div>
+<h5>Добавить задание из файла</h5>
+<form action="" method="post" enctype="multipart/form-data" id="new_form" > </form>
+
+<table>
+    <thead>
+    <tr>
+        <th>Название</th>
+
+        <th>Файл</th>
+    </tr>
+    </thead>
+    <tr>
+        <td>
+            <input name="title" type="text"  value="" form="new_form">
+        </td>
+        <td> <div class="input-field col s12">
+            <select name ="modelId" style = "display: block;" form="new_form">
+                <option value="" disabled selected>Выберете модель</option>
+                <c:forEach var="model" items="${models}">
+                    <option value="${model.id}">${model.title} - ID ${model.id}</option>
+                </c:forEach>
+            </select>
+        </div></td>
+        <td><input name="taskFile" type="file" form="new_form"></td>
+        <td>
+            <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить"
+                   form="new_form"></td>
+        <td>
+            <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
+        </td>
+    </tr>
+</table>
+
 <script>
-
-
     document.forms.namedItem("new_form").onsubmit = function() {
         upload("123");
         // var input = this.elements.datasetFile;
