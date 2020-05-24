@@ -137,7 +137,7 @@ public class DatasetDAODB implements DatasetDAO {
             datasets = joiner.toString();
             preparedStatement.close();
             preparedStatement = connection.prepareStatement("INSERT INTO merge_dataset(" +
-                    " model_id, source_datasets) " +
+                    " dataset_id, source_datasets) " +
                     "VALUES (?, ?)");
             preparedStatement.setInt( 1, datasetId);
             preparedStatement.setString( 2, datasets);

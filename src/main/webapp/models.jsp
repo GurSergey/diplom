@@ -65,7 +65,7 @@
                     <th>id</th>
                     <th>Название</th>
                     <th>Флаг заврешения</th>
-                    <th>Прогресс обучения</th>
+<%--                    <th>Прогресс обучения</th>--%>
                     <th>Название датасета обучения</th>
                     <th>Точность на тестовых данных </th>
                     <th>Дата создания</th>
@@ -76,7 +76,7 @@
                                  <tr>
                                     <td>${model.id}<input name="id" type="hidden" value="${model.id}" form="model_form_${model.id}">
                                         <input name="modelId" type="hidden" value="${model.id}" form="model_form_${model.id}"></td>
-                                    <td><input name="title" type="text" value="${model.title}" form="model_form_${model.title}"></td>
+                                    <td><input name="title" type="text" value="${model.title}" form="model_form_${model.id}"></td>
                                     <td>
                                          <c:if test="${model.completedLearn==true}">
                                              <input name="visible" type="checkbox" checked value="${model.completedLearn}" form="model_form_${model.id}" style="opacity: 1.0; pointer-events: auto;">
@@ -85,12 +85,14 @@
                                              <input name="visible" type="checkbox" value="${model.completedLearn}" form="model_form_${model.id}" style="opacity: 1.0; pointer-events: auto;">
                                          </c:if>
                                     </td>
-                                    <td>${model.progress}</td>
+<%--                                    <td>${model.progress}</td>--%>
                                      <td>${model.datasetName}</td>
                                      <th>${model.testAccuracy}</th>
                                      <td>${model.createDate}<td>
                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Обновить название" form="model_form_${model.id}"></td>
                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="model_form_${model.id}"></td>
+                                     <c:if test="${model.completedLearn==true}"><td><a class="waves-effect waves-light btn-small"
+                                       href="${pageContext.request.contextPath}/admin/model?id=${model.id}">Перейти к модели  </a></td></c:if>
 
                             </tr>
                         </c:forEach>

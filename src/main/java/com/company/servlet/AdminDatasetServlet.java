@@ -25,6 +25,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -86,6 +87,22 @@ public class AdminDatasetServlet extends HttpServlet {
             }
             if(request.getParameterMap().containsKey("delete")){
                 service.deleteDataset(datasetEntity);
+                request.setAttribute("error", EntityError.NO_ERROR_DELETE);
+            }
+            if(request.getParameterMap().containsKey("merge")){
+                int length = Integer.parseInt(request.getParameter("count"));
+
+                ArrayList<Integer> arrayList = new ArrayList<>();
+                for(int i = 1; i < length+1; i++){
+                    if( request.getParameterMap().containsKey("dataset_"+i))
+                            arrayList.add(Integer.parseInt(request.getParameter("dataset_"+i)));
+//                    ids [i-1] = Integer.parseInt(request.getParameter("dataset_"+i));
+                }
+                int[] ids = new int[arrayList.size()];
+                for(int i = 0; i < ids.length; i++) {
+                    ids[i] = arrayList.get(i);
+                }
+                service.mergeDatasets(datasetEntity, ids);
                 request.setAttribute("error", EntityError.NO_ERROR_DELETE);
             }
             request.setAttribute("datasets", service.getAllDataSet());

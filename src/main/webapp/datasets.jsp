@@ -152,7 +152,7 @@
                     </tr>
                 </table>
                 <h5>Соеденить из нескольких датасетов</h5>
-                <form action="" method="post" enctype="multipart" id="new_form1" > </form>
+                <form action="" method="post" id="new_form1" > </form>
                 <table>
                     <thead>
                     <tr>
@@ -167,13 +167,15 @@
                         <td>
 
                         <div style="overflow-y: scroll; height:100px;">
+                            <c:set var="countMerge" value="0" scope="page" />
                             <c:forEach var="dataset" items="${datasets}">
 
                                 <c:if test="${dataset.isCorrect==true}">
-
+                                    <c:set var="countMerge" value="${countMerge + 1}" scope="page"/>
                                     <p>
                                         <label>
-                                            <input type="checkbox" value="${dataset.id}" />
+                                            <input type="checkbox" name="dataset_${countMerge}" value="${dataset.id}"
+                                                   form="new_form1"/>
                                             <span style="color: black;">${dataset.title}
                                         id = ${dataset.id}</span>
                                         </label>
@@ -181,12 +183,14 @@
                                 </c:if>
 
                             </c:forEach>
+                            <input name="count" type="hidden" value="${countMerge}" form="new_form1">
+                            <input name="typeReq" type="hidden" value="merge" form="new_form1">
                         </div>
 
 
                         </td>
                         <td>
-                            <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить"
+                            <input type="submit" class="waves-effect waves-light btn-small" name="merge" value="Сохранить"
                                    form="new_form1"></td>
                         <td>
                             <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>

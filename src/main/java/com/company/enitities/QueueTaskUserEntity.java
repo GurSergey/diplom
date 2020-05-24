@@ -8,7 +8,7 @@ public class QueueTaskUserEntity {
     int progress;
     boolean inWork;
     ModelEntity model;
-    Timestamp created_date;
+    Timestamp createdDate;
     UserEntity user;
     String title;
 
@@ -49,7 +49,7 @@ public class QueueTaskUserEntity {
         this.progress = progress;
         this.inWork = inWork;
         this.model = model;
-        this.created_date = created_date;
+        this.createdDate = created_date;
         this.user = user;
     }
 
@@ -93,11 +93,11 @@ public class QueueTaskUserEntity {
         this.model = model;
     }
 
-    public Timestamp getCreated_date() {
-        return created_date;
+    public Timestamp getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreated_date(Timestamp created_date) {
-        this.created_date = created_date;
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
     }
 }

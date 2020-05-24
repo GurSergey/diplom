@@ -3,6 +3,7 @@ package com.company.services;
 import com.company.dao.ModelsDAO;
 import com.company.dao.QueueDAO;
 import com.company.enitities.*;
+import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 
@@ -89,6 +90,16 @@ public class QueueService {
         outStream.write(file);
         this.dao.AddAdminTextTask(task);
     }
+
+    public void DeleteAdminTextTask(QueueTaskAdminEntity task) throws InsertException, IOException, SelectException, DeleteException {
+        task = dao.getAdminTaskById(task.getId());
+        File file = new File("../text_user_file"+ File.separator+task.getFilename());
+        if(!file.delete()) {
+            throw new DeleteException();
+        }
+        this.dao.DeleteAdminTextTask(task);
+    }
+
     public void AddUserTextTask(QueueTaskUserEntity task, byte[] file) throws InsertException, IOException {
         task.setFilename(generateFilename()+".task");
         String filename = "../text_user_file"+ File.separator+task.getFilename();

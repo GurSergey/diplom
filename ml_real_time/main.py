@@ -58,15 +58,15 @@ class HandleRequests(BaseHTTPRequestHandler):
         data = json.loads(post_body)
         id_model = data['id']
         if not id_model in models:
-            models[id_model] = pickle.load('../models/'+open(str(id_model)+'.sav', 'rb'))
+            models[id_model] = pickle.load(open('../models/'+str(id_model)+'.sav', 'rb'))
             print("load model with id " + str(id_model))
         answers = []
         for text in data['data']:
             answer = {'text': text, 'answer': int(models[id_model].predict([preprocessor(text)])[0])}
             answers.append(answer)
             print (answer)
-        self.wfile.write(bytearray(json.dumps(answers), 'utf-8'))
+        self.wfile.write(bytearray(json.dumps({"answers": answers}), 'utf-8'))
         
-host = 'localhost'
+host = 'ml_real_time'
 port = 8082
 HTTPServer((host, port), HandleRequests).serve_forever()

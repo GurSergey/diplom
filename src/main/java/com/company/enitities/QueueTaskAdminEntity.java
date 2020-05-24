@@ -8,7 +8,7 @@ public class QueueTaskAdminEntity {
     int progress;
     boolean inWork;
     ModelEntity model;
-    Timestamp created_date;
+    Timestamp createdDate;
     String title;
 
     public String getFilename() {
@@ -39,7 +39,7 @@ public class QueueTaskAdminEntity {
         this.progress = progress;
         this.inWork = inWork;
         this.model = model;
-        this.created_date = created_date;
+        this.createdDate = created_date;
     }
 
     public int getId() {
@@ -82,11 +82,11 @@ public class QueueTaskAdminEntity {
         this.model = model;
     }
 
-    public Timestamp getCreated_date() {
-        return created_date;
+    public Timestamp getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreated_date(Timestamp created_date) {
-        this.created_date = created_date;
+    public void setCreated_date(Timestamp createdDate) {
+        this.createdDate = createdDate;
     }
 }

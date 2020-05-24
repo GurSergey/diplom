@@ -7,13 +7,14 @@ public class ModelEntity implements Entity {
     private int id;
     public ModelEntity(){}
     public ModelEntity(int id, String title, boolean completedLearn,
-                       String datasetName, Timestamp createDate, int progress) {
+                       String datasetName, Timestamp createDate, int progress, double testAccuracy) {
         this.id = id;
         this.title = title;
         this.completedLearn = completedLearn;
         this.datasetName = datasetName;
         this.createDate = createDate;
         this.progress = progress;
+        this.testAccuracy = testAccuracy;
     }
 
     public int getId() {
@@ -75,6 +76,15 @@ public class ModelEntity implements Entity {
     private String title;
     private boolean completedLearn;
 
+    public double getTestAccuracy() {
+        return testAccuracy;
+    }
+
+    public void setTestAccuracy(double testAccuracy) {
+        this.testAccuracy = testAccuracy;
+    }
+
+    private double testAccuracy;
 
 
     private String datasetName;

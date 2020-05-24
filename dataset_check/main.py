@@ -22,7 +22,7 @@ def preprocessor(text):
 while 1:
     time.sleep(5)
     conn = psycopg2.connect(dbname='diplom', user='user', 
-                            password='secret', host='localhost', port = 5433)
+                            password='secret', host='db', port = 5432)
     cursor = conn.cursor()
     cursor.execute("""SELECT check_dataset.id, dataset.id ,filename, normalize FROM check_dataset  
                    JOIN dataset ON dataset.id=check_dataset.dataset_id  
@@ -63,7 +63,7 @@ while 1:
             os.rename('../datasets/'+'temp_'+row['filename'],
                       '../datasets/' + row['filename'])
         conn = psycopg2.connect(dbname='diplom', user='user', 
-                                password='secret', host='localhost', port = 5433)
+                                password='secret', host='db', port = 5432)
         cursor = conn.cursor()
         sql_update_query = """UPDATE check_dataset SET completed_task = TRUE, in_work = FALSE WHERE id = %s"""
         cursor.execute(sql_update_query, [ row['id']])

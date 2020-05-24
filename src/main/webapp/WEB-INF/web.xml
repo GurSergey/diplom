@@ -67,6 +67,24 @@
                 <servlet-name>adminTasksServlet</servlet-name>
                 <url-pattern>/admin/tasks/*</url-pattern>
             </servlet-mapping>
+            <servlet>
+                <servlet-name>adminAllTasksServlet</servlet-name>
+                <servlet-class>com.company.servlet.AdminAllTasksServlet</servlet-class>
+            </servlet>
+            <servlet-mapping>
+                <servlet-name>adminAllTasksServlet</servlet-name>
+                <url-pattern>/admin/all_tasks/*</url-pattern>
+            </servlet-mapping>
+            <servlet>
+                <servlet-name>adminWorkServlet</servlet-name>
+                <servlet-class>com.company.servlet.AdminWorkServlet</servlet-class>
+            </servlet>
+            <servlet-mapping>
+                <servlet-name>adminWorkServlet</servlet-name>
+                <url-pattern>/admin/model/*</url-pattern>
+            </servlet-mapping>
+
+
 
             <servlet>
                 <servlet-name>adminDownloadServlet</servlet-name>

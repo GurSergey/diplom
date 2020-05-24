@@ -1,6 +1,7 @@
 package com.company.db;
 
 import com.company.enitities.*;
+import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.dao.QueueDAO;
 import com.company.exceptions.SelectException;
@@ -24,8 +25,8 @@ public class QueueDAODB implements QueueDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT id, dataset.title, completed_task, in_work," +
-                            " source_datasets, created_date FROM merge_dataset " +
+                    "SELECT merge_dataset.id, dataset.title, completed_task, in_work," +
+                            " source_datasets, merge_dataset.created_date FROM merge_dataset " +
                             "JOIN dataset ON dataset.id = dataset_id "
             );
             while (resultSet.next()) {
@@ -50,8 +51,8 @@ public class QueueDAODB implements QueueDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT id, dataset.title, completed_task, normalize , in_work," +
-                            " is_correct, created_date FROM check_dataset " +
+                    "SELECT check_dataset.id, dataset.title, completed_task, normalize , in_work," +
+                            " dataset.is_correct, check_dataset.created_date FROM check_dataset " +
                             "JOIN dataset ON dataset.id = dataset_id "
             );
             while (resultSet.next()) {
@@ -62,7 +63,7 @@ public class QueueDAODB implements QueueDAO {
                         resultSet.getBoolean(5),
                         resultSet.getBoolean(6),
                         dataset,
-                        resultSet.getTimestamp(6)));
+                        resultSet.getTimestamp(7)));
             }
             resultSet.close();
             statement.close();
@@ -80,8 +81,9 @@ public class QueueDAODB implements QueueDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT id, completed_task, progress, in_work, model.title," +
-                            " created_date FROM queue_task_admin_file " +
+                    "SELECT queue_task_admin_file.id, queue_task_admin_file.title," +
+                            " completed_task, progress, in_work, model.title," +
+                            " queue_task_admin_file.created_date FROM queue_task_admin_file " +
                             "JOIN model ON model.id = model_id "
             );
             while (resultSet.next()) {
@@ -136,8 +138,8 @@ public class QueueDAODB implements QueueDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT id, completed_task, progress, in_work, model.title," +
-                            " created_date FROM queue_task_admin_file " +
+                    "SELECT queue_task_admin_file.id, queue_task_admin_file.title, completed_task, progress, in_work, model.title," +
+                            " queue_task_admin_file.created_date FROM queue_task_admin_file " +
                             "JOIN model ON model.id = model_id WHERE queue_task_admin_file.id = ?"
             );
             preparedStatement.setInt(1, id);
@@ -159,10 +161,98 @@ public class QueueDAODB implements QueueDAO {
         }
         return task;
     }
-
+    @Override
     public void AddAdminTextTask(QueueTaskAdminEntity task) throws InsertException{
+        try (Connection connection = DBConnection.getConnection()) {
 
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO queue_task_admin_file(model_id, title, filename) VALUES (?, ?, ?)"
+            );
+            preparedStatement.setInt(1, task.getModel().getId());
+            preparedStatement.setString(2, task.getTitle());
+            preparedStatement.setString(3, task.getFilename());
+            preparedStatement.execute();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new InsertException();
+        }
     }
+    @Override
+    public void AddUserTextTask(QueueTaskUserEntity task) throws InsertException{
+        try (Connection connection = DBConnection.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO queue_task_user_file(model_id, title, filename, user_id) VALUES (?, ?, ?, ?)"
+            );
+            preparedStatement.setInt(1, task.getModel().getId());
+            preparedStatement.setString(2, task.getTitle());
+            preparedStatement.setString(3, task.getFilename());
+            preparedStatement.setInt(4, task.getUser().getId());
+            preparedStatement.execute();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new InsertException();
+        }
+    }
+    @Override
+    public void UpdateUserTextTask(QueueTaskUserEntity task) throws InsertException{
+        try (Connection connection = DBConnection.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE queue_task_user_file SET title = ? WHERE id = ?"
+            );
+            preparedStatement.setString(1, task.getTitle());
+            preparedStatement.setInt(2, task.getId());
+            preparedStatement.execute();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new InsertException();
+        }
+    }
+    @Override
+    public void UpdateAdminTextTask(QueueTaskAdminEntity task) throws InsertException{
+        try (Connection connection = DBConnection.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE queue_task_admin_file SET title = ? WHERE id = ?"
+            );
+            preparedStatement.setString(1, task.getTitle());
+            preparedStatement.setInt(2, task.getId());
+            preparedStatement.execute();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new InsertException();
+        }
+    }
+    @Override
+    public void DeleteAdminTextTask(QueueTaskAdminEntity task) throws DeleteException{
+        try (Connection connection = DBConnection.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "DELETE FROM queue_task_admin_file WHERE id = ?"
+            );
+            preparedStatement.setInt(1, task.getModel().getId());
+            preparedStatement.execute();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new DeleteException();
+        }
+    }
+    @Override
+    public void DeleteUserTextTask(QueueTaskUserEntity task) throws DeleteException{
+        try (Connection connection = DBConnection.getConnection()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "DELETE FROM queue_task_user_file WHERE id = ?"
+            );
+            preparedStatement.setInt(1, task.getModel().getId());
+            preparedStatement.execute();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new DeleteException();
+        }
+    }
+
 
     @Override
     public QueueTaskUserEntity[] getAllQueueTaskUser() throws SelectException {
@@ -170,9 +260,9 @@ public class QueueDAODB implements QueueDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT id, title, completed_task, progress, in_work, model.title," +
-                            " created_date, user.login FROM queue_task_user_file " +
-                            "JOIN model ON model.id = model_id JOIN user ON user.id = user_id"
+                    "SELECT queue_task_user_file.id, queue_task_user_file.title, completed_task, progress, in_work, model.title," +
+                            " queue_task_user_file.created_date, \"user\".login FROM queue_task_user_file " +
+                            "JOIN model ON model.id = model_id JOIN \"user\" ON \"user\".id = user_id"
             );
             while (resultSet.next()) {
                 ModelEntity model = new ModelEntity();
@@ -202,8 +292,8 @@ public class QueueDAODB implements QueueDAO {
             Statement statement = connection.createStatement();
             //ResultSet resultSet = statement.executeQuery(
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT id, title, completed_task, progress, in_work, model.title," +
-                            " created_date, user.login FROM queue_task_user_file " +
+                    "SELECT queue_task_user_file.id, queue_task_user_file.title, completed_task, progress, in_work, model.title," +
+                            " queue_task_user_file.created_date, user.login FROM queue_task_user_file " +
                             "JOIN model ON model.id = model_id JOIN user ON user.id = user_id " +
                             "WHERE user.id = ?"
             );
@@ -237,8 +327,8 @@ public class QueueDAODB implements QueueDAO {
             Statement statement = connection.createStatement();
             //ResultSet resultSet = statement.executeQuery(
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT id, title, completed_task, progress, in_work, model.title," +
-                            " created_date, user.login FROM queue_task_user_file " +
+                    "SELECT queue_task_user_file.id, title, completed_task, progress, in_work, model.title," +
+                            " queue_task_user_file.created_date, user.login FROM queue_task_user_file " +
                             "JOIN model ON model.id = model_id JOIN user ON user.id = user_id " +
                             "WHERE queue_task_user_file.id = ?"
             );
@@ -265,9 +355,6 @@ public class QueueDAODB implements QueueDAO {
         return task;
     }
 
-    public void AddUserTextTask(QueueTaskUserEntity task) throws InsertException{
-
-    }
 
     @Override
     public QueueTaskMlEntity[] getAllMLTask() throws SelectException {
@@ -275,8 +362,8 @@ public class QueueDAODB implements QueueDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT id,  completed_task, progress, n_workers, in_work, model.title," +
-                            " created_date FROM queue_task_ml " +
+                    "SELECT queue_task_ml.id,  completed_task, progress, n_workers, in_work, model.title," +
+                            " queue_task_ml.created_date FROM queue_task_ml " +
                             "JOIN model ON model.id = model_id"
             );
             while (resultSet.next()) {

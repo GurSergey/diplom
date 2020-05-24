@@ -22,83 +22,45 @@
     <div class="col s12 m12">
     <div class="row">
             <div class="col s6 m6">
-                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/keys/"">
+                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/user/">
                     <div class="card">
                         <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
-                            <img src="${pageContext.request.contextPath}/img/key_icon.jpg">
+                            <img src="${pageContext.request.contextPath}/img/task_text_icon.png">
                             <span class="card-title"></span>
                         </div>
                         <div class="card-content">
-                            <p>Добавить ключ доступа API</p>
+                            <p>Добавить текстовое задание</p>
                         </div>
                     </div>
                 </a>
             </div>
             <div class="col s6 m6">
-                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/datasets/">
+                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/user/">
                     <div class="card">
                         <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
-                            <img src="${pageContext.request.contextPath}/img/dataset_icon.png">
+                            <img src="${pageContext.request.contextPath}/img/classification_icon.png">
                             <span class="card-title"></span>
                         </div>
                         <div class="card-content">
-                            <p>Добавить датасет</p>
+                            <p>Классификация в реальном времени</p>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col s6 m6">
-                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/models/">
-                    <div class="card">
-                        <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
-                            <img src="${pageContext.request.contextPath}/img/list_icon.png">
-                            <span class="card-title"></span>
-                        </div>
-                        <div class="card-content">
-                            <p>Список моделей</p>
-                        </div>
+        <div class="col s6 m6">
+            <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/user/">
+                <div class="card">
+                    <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
+                        <img src="${pageContext.request.contextPath}/img/password_icon.png">
+                        <span class="card-title"></span>
                     </div>
-                </a>
-            </div>
-            <div class="col s6 m6">
-                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/model/">
-                    <div class="card">
-                        <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
-                            <img src="${pageContext.request.contextPath}/img/add_icon.png">
-                            <span class="card-title"></span>
-                        </div>
-                        <div class="card-content">
-                            <p>Создать модель</p>
-                        </div>
+                    <div class="card-content">
+                        <p>Сменить пароль</p>
                     </div>
-                </a>
-            </div>
-            <div class="col s6 m6">
-                <a href="">
-                    <div class="card">
-                        <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
-                            <img src="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/users/">
-                            <span class="card-title"></span>
-                        </div>
-                        <div class="card-content">
-                            <p>Управление списком пользователей</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col s6 m6">
-                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/tasks/">
-                    <div class="card">
-                        <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
-                            <img src="${pageContext.request.contextPath}/img/task_icon.png">
-                            <span class="card-title"></span>
-                        </div>
-                        <div class="card-content">
-                            <p>Просмотреть список задач в системе</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                </div>
+            </a>
+        </div>
+
 
         </div>
 

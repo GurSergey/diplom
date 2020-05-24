@@ -22,7 +22,7 @@
     <div class="col s12 m12">
       <div class="row">
             <div class="col s6 m6">
-                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/keys/"">
+                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/keys/">
                     <div class="card">
                         <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
                             <img src="${pageContext.request.contextPath}/img/key_icon.png">
@@ -60,24 +60,24 @@
                     </div>
                 </a>
             </div>
+<%--            <div class="col s6 m6">--%>
+<%--                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/model/">--%>
+<%--                    <div class="card">--%>
+<%--                        <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">--%>
+<%--                            <img src="${pageContext.request.contextPath}/img/add_icon.png">--%>
+<%--                            <span class="card-title"></span>--%>
+<%--                        </div>--%>
+<%--                        <div class="card-content">--%>
+<%--                            <p>Создать модель</p>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </a>--%>
+<%--            </div>--%>
             <div class="col s6 m6">
-                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/model/">
+                <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/users/">
                     <div class="card">
                         <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
-                            <img src="${pageContext.request.contextPath}/img/add_icon.png">
-                            <span class="card-title"></span>
-                        </div>
-                        <div class="card-content">
-                            <p>Создать модель</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col s6 m6">
-                <a href="">
-                    <div class="card">
-                        <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
-                            <img src="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/users/">
+                            <img src="${pageContext.request.contextPath}/img/user_icon.png">
                             <span class="card-title"></span>
                         </div>
                         <div class="card-content">
@@ -86,6 +86,19 @@
                     </div>
                 </a>
             </div>
+          <div class="col s6 m6">
+              <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/te">
+                  <div class="card">
+                      <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
+                          <img src="${pageContext.request.contextPath}/img/task_text_icon.png">
+                          <span class="card-title"></span>
+                      </div>
+                      <div class="card-content">
+                          <p>Добавить задачу в текстовом файле</p>
+                      </div>
+                  </div>
+              </a>
+          </div>
             <div class="col s6 m6">
                 <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/tasks/">
                     <div class="card">

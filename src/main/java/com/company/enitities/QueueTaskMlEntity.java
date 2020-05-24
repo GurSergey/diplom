@@ -32,6 +32,14 @@ public class QueueTaskMlEntity {
         return progress;
     }
 
+    public int getnWorker() {
+        return nWorker;
+    }
+
+    public void setnWorker(int nWorker) {
+        this.nWorker = nWorker;
+    }
+
     public void setProgress(int progress) {
         this.progress = progress;
     }

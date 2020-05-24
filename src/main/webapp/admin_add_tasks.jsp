@@ -76,7 +76,7 @@
     <thead>
     <tr>
         <th>Название</th>
-
+        <th>Модель</th>
         <th>Файл</th>
     </tr>
     </thead>
@@ -86,7 +86,7 @@
         </td>
         <td> <div class="input-field col s12">
             <select name ="modelId" style = "display: block;" form="new_form">
-                <option value="" disabled selected>Выберете модель</option>
+                <option value="" disabled selected>Выберете модель для решения</option>
                 <c:forEach var="model" items="${models}">
                     <option value="${model.id}">${model.title} - ID ${model.id}</option>
                 </c:forEach>

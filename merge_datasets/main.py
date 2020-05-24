@@ -4,7 +4,7 @@ import time
 while 1:
     time.sleep(5)
     conn = psycopg2.connect(dbname='diplom', user='user', 
-                                    password='secret', host='localhost', port = 5433) 
+                                    password='secret', host='db', port = 5432)
     cursor = conn.cursor()
     cursor.execute("""SELECT merge_dataset.id, dataset_id, source_datasets, filename FROM merge_dataset  
                    JOIN dataset ON dataset.id=merge_dataset.dataset_id  
@@ -33,7 +33,7 @@ while 1:
                     for line in infile:
                         outfile.write(line)
         conn = psycopg2.connect(dbname='diplom', user='user', 
-                                password='secret', host='localhost', port = 5433)
+                                password='secret', host='db', port = 5432)
         cursor = conn.cursor()
         sql_update_query = """UPDATE merge_dataset SET completed_task = TRUE, in_work = FALSE WHERE id = %s"""
         cursor.execute(sql_update_query, [ row['id']])

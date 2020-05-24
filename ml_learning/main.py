@@ -36,7 +36,7 @@ def learn(model_id, n_workers, filename ):
     param_grid = [{'vect__ngram_range': [(1, 1)],
                    'vect__stop_words': [stop],
                    'vect__tokenizer': [tokenizer],
-                   'clf__penalty': ['l1'], # , 'l2'
+                   'clf__penalty': ['l2'], # , 'l1'
                    'clf__C': [1.0]}] #, 10.0, 100.0
 
     lr_tfidf = Pipeline([('vect', tfidf),
@@ -56,7 +56,7 @@ def learn(model_id, n_workers, filename ):
 while 1:
     time.sleep(5)
     conn = psycopg2.connect(dbname='diplom', user='user', 
-                            password='secret', host='localhost', port = 5433))
+                            password='secret', host='db', port = 5432)
     cursor = conn.cursor()
     cursor.execute("""SELECT queue_task_ml.id, n_workers, model_id, dataset.filename FROM queue_task_ml  
                    JOIN model ON model_id=model.id  
@@ -75,7 +75,7 @@ while 1:
         accuracy = learn(row['model_id'], row['n_workers'], row['filename'])
         print('Working with model task id =' + str(row['id']) )
         conn = psycopg2.connect(dbname='diplom', user='user', 
-                            password='secret', host='localhost', port = 5433))
+                            password='secret', host='db', port = 5432)
         cursor = conn.cursor()
         sql_update_query = """UPDATE queue_task_ml SET completed_task = TRUE, in_work = FALSE WHERE id = %s"""
         cursor.execute(sql_update_query, [ row['id']])

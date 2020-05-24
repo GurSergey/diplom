@@ -36,7 +36,7 @@ public class AdminTasksServlet extends HttpServlet {
         } catch (SelectException e){
             request.setAttribute("error", EntityError.SELECT);
         }
-        getServletContext().getRequestDispatcher("/admin_add_task.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/admin_add_tasks.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

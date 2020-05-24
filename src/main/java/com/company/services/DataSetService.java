@@ -71,11 +71,12 @@ public class DataSetService {
         this.dao.deleteDataset(dataset);
     }
 
-    public void downloadDataset(DatasetEntity datasetEntity){
-
-    }
+//    public void downloadDataset(DatasetEntity datasetEntity){
+//
+//    }
 
     public void mergeDatasets(DatasetEntity dataset, int[] ids) throws InsertException {
+        dataset.setFilename(generateFilename()+".csv");
         this.dao.mergeDataset(dataset, ids);
     }
 
