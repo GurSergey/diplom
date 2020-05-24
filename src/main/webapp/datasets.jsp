@@ -85,7 +85,7 @@
                                     <td>${dataset.id}<input name="id" type="hidden" value="${dataset.id}" form="dataset_form_${dataset.id}">
                                         <input name="modelId" type="hidden" value="${dataset.id}" form="dataset_form_${dataset.id}"></td>
                                     <td><input name="title" type="text" value="${dataset.title}" form="dataset_form_${dataset.id}"></td>
-                                    <td>${dataset.filename}</td>
+                                    <td style="max-width: 15%;"><input name="filename" type="text" value="${dataset.filename}"></td>
                                      <td>${dataset.createdDate}</td>
 
                                      <td>
@@ -105,11 +105,16 @@
                                              <input name="visible" type="checkbox" value="${dataset.isCorrect}"  style="opacity: 1.0; pointer-events: auto;">
                                          </c:if>
                                      </td>
-                                     <td><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/download/?id=${dataset.id}"
-                                            class="waves-effect waves-light btn-small" >Скачать</a></td>
-                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Обновить название" form="dataset_form_${dataset.id}"></td>
-                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="dataset_form_${dataset.id}"></td>
 
+                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Обновить название" form="dataset_form_${dataset.id}"></td>
+                                     <c:if test="${dataset.checking==true}">
+                                         <td><a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/download/?id=${dataset.id}"
+                                                class="waves-effect waves-light btn-small" >Скачать</a></td>
+                                     </c:if>
+                                     <c:if test="${dataset.checking==true}">
+                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="dataset_form_${dataset.id}"></td>
+                                     </c:if>
+                                     <input name="typeReq" type="hidden" value="update" form="dataset_form_${dataset.id}">
                             </tr>
                         </c:forEach>
             </tbody>
@@ -121,7 +126,7 @@
         <h3>Добавить новый датасет</h3>
 
         <h5>Добавить из файла</h5>
-        <form action="" method="post" enctype="multipart/form-data" id="new_form" > </form>
+        <form action=""  enctype="multipart/form-data" id="new_form" > </form>
 
                 <table>
                     <thead>
@@ -135,18 +140,19 @@
                         <td>
                             <input name="title" type="text"  value="" form="new_form">
                         </td>
-                        <td><input type="checkbox" value="normalize" /></td>
+                        <td><input type="checkbox" name="normalize" value="normalize" style="opacity: 1.0; pointer-events: auto;" form="new_form"/></td>
                         <td><input name="datasetFile" type="file" form="new_form"></td>
                         <td>
-                            <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить"
-                                   form="new_form"></td>
+                            <button class="waves-effect waves-light btn-small" onclick="onclickSubmit()">Сохранить</button>
+<%--                            <input type="submit" class="waves-effect waves-light btn-small" name="save" value="Сохранить"--%>
+<%--                                   form="new_form"></td>--%>
                         <td>
-                            <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
+                            <input name="typeReq" type="hidden" value="save" form="new_form">
                         </td>
                     </tr>
                 </table>
                 <h5>Соеденить из нескольких датасетов</h5>
-                <form action="" method="post" enctype="multipart/form-data" id="new_form1" > </form>
+                <form action="" method="post" enctype="multipart" id="new_form1" > </form>
                 <table>
                     <thead>
                     <tr>
@@ -159,13 +165,7 @@
                             <input name="title" type="text"  value="" form="new_form1">
                         </td>
                         <td>
-<%--                        <div class="input-field col s12">--%>
-<%--                            <div class="select-wrapper"><input class="select-dropdown dropdown-trigger" type="text" readonly="true" data-target="select-options-996ff613-8974-c5fe-7f2a-3625147d1531"><ul id="select-options-996ff613-8974-c5fe-7f2a-3625147d1531" class="dropdown-content select-dropdown multiple-select-dropdown" tabindex="0" style=""><li class="disabled selected" id="select-options-996ff613-8974-c5fe-7f2a-3625147d15310" tabindex="0"><span><label><input type="checkbox" disabled="" "=""><span>Choose your option</span></label></span></li><li id="select-options-996ff613-8974-c5fe-7f2a-3625147d15311" tabindex="0"><span><label><input type="checkbox" "=""><span>Option 1</span></label></span></li><li id="select-options-996ff613-8974-c5fe-7f2a-3625147d15312" tabindex="0"><span><label><input type="checkbox" "=""><span>Option 2</span></label></span></li><li id="select-options-996ff613-8974-c5fe-7f2a-3625147d15313" tabindex="0"><span><label><input type="checkbox" "=""><span>Option 3</span></label></span></li></ul><svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg><select multiple="" tabindex="-1">--%>
-<%--                                <option value="" disabled="" selected="">Choose your option</option>--%>
-<%--                                <option value="1">Option 1</option>--%>
-<%--                                <option value="2">Option 2</option>--%>
-<%--                                <option value="3">Option 3</option>--%>
-<%--                            </select></div>--%>
+
                         <div style="overflow-y: scroll; height:100px;">
                             <c:forEach var="dataset" items="${datasets}">
 
@@ -182,19 +182,7 @@
 
                             </c:forEach>
                         </div>
-<%--                                <select multiple name ="datasetId" style = "display: block;">--%>
-<%--                                    <option value="" disabled selected>Выбрать датасеты</option>--%>
-<%--                                    <c:forEach var="dataset" items="${datasets}">--%>
 
-
-
-<%--                                        <c:if test="${dataset.isCorrect==true}">--%>
-<%--                                            <option value="${dataset.id}">${dataset.title}--%>
-<%--                                                id = ${dataset.id} </option>--%>
-<%--                                        </c:if>--%>
-<%--                                    </c:forEach>--%>
-<%--                                </select>--%>
-<%--                            <label>Выбрать несколько датасетов</label>--%>
 
                         </td>
                         <td>
@@ -211,18 +199,20 @@
 
 
     <script>
-
-        document.forms.namedItem("new_form").onsubmit = function() {
-            upload("123");
-            // var input = this.elements.datasetFile;
-            // var title = this.elements.title;
-            // var file = input.files[0];
-            // if (file) {
-            //     upload(file);
-            // }
-            // return false;
+        function onclickSubmit() {
+            upload();
         }
-        function upload(file) {
+        // document.forms.namedItem("new_form").onsubmit = function() {
+        //     upload("123");
+        //     // var input = this.elements.datasetFile;
+        //     // var title = this.elements.title;
+        //     // var file = input.files[0];
+        //     // if (file) {
+        //     //     upload(file);
+        //     // }
+        //     // return false;
+        // }
+        function upload() {
 
             var formData = new FormData(document.forms.new_form);
 
@@ -241,6 +231,7 @@
                 if (this.status === 200) {
                     console.log("success");
                     document.getElementById("preloader").style.display = "none";
+                    document.location.reload(true)
                 } else {
                     console.log("error " + this.status);
                 }

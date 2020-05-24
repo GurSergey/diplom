@@ -3,6 +3,7 @@ package com.company.servlet;
 import com.company.db.DatasetDAODB;
 import com.company.db.QueueDAODB;
 import com.company.enitities.DatasetEntity;
+import com.company.enitities.QueueTaskAdminEntity;
 import com.company.enitities.QueueTaskUserEntity;
 import com.company.exceptions.SelectException;
 import com.company.services.DataSetService;
@@ -21,7 +22,7 @@ public class AdminDownloadTaskServlet extends HttpServlet {
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
-        QueueTaskUserEntity taskUser = null;
+        QueueTaskAdminEntity taskUser = null;
         int id = Integer.parseInt(request.getParameter("id"));
         QueueService service = new QueueService(new QueueDAODB());
         try {

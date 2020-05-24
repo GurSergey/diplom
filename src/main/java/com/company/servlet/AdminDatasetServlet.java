@@ -60,7 +60,7 @@ public class AdminDatasetServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         DatasetEntity datasetEntity = new DatasetEntity();
 
         datasetEntity.setId(request.getParameterMap().containsKey("id")
@@ -72,7 +72,7 @@ public class AdminDatasetServlet extends HttpServlet {
         try {
             DataSetService service = new DataSetService(new DatasetDAODB());
 
-            if(request.getParameterMap().containsKey("save")){
+            if(request.getParameter("typeReq").equals("save")){
                 Part filePart = request.getPart("datasetFile"); // Retrieves <input type="file" name="file">
                 InputStream fileContent = filePart.getInputStream();
                 byte[] buffer = new byte[fileContent.available()];

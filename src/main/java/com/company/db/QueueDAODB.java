@@ -160,6 +160,10 @@ public class QueueDAODB implements QueueDAO {
         return task;
     }
 
+    public void AddAdminTextTask(QueueTaskAdminEntity task) throws InsertException{
+
+    }
+
     @Override
     public QueueTaskUserEntity[] getAllQueueTaskUser() throws SelectException {
         ArrayList<QueueTaskUserEntity> tasks = new ArrayList<>();
@@ -261,6 +265,9 @@ public class QueueDAODB implements QueueDAO {
         return task;
     }
 
+    public void AddUserTextTask(QueueTaskUserEntity task) throws InsertException{
+
+    }
 
     @Override
     public QueueTaskMlEntity[] getAllMLTask() throws SelectException {

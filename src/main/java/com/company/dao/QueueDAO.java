@@ -23,10 +23,11 @@ public interface QueueDAO {
 //    public QueueCheckDataset getCurrentCheckTask() throws SelectException;
     public QueueTaskAdminEntity[] getAllQueueTaskAdmin() throws SelectException;
     public QueueTaskAdminEntity getAdminTaskById(int id) throws SelectException;
-
+    public void AddAdminTextTask(QueueTaskAdminEntity task) throws InsertException;
 //    public QueueTaskAdminEntity getCurrentTaskAdmin() throws SelectException;
     public QueueTaskUserEntity[] getAllQueueTaskUser() throws SelectException ;
-    public QueueTaskUserEntity getUserTaskById(int id) throws SelectException
+    public QueueTaskUserEntity getUserTaskById(int id) throws SelectException;
+    public void AddUserTextTask(QueueTaskUserEntity task) throws InsertException;
 //    public QueueTaskUserEntity getCurrentTaskUser() throws SelectException ;
     public QueueTaskMlEntity[] getAllMLTask() throws SelectException;
 //    public QueueTaskMlEntity getCurrentMLTask() throws SelectException;

@@ -29,7 +29,7 @@ public class DatasetDAODB implements DatasetDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT id, title, filename, created_date, checking, is_correct FROM dataset "
+                    "SELECT id, title, filename, created_date, checking, is_correct FROM dataset  "
             );
             while (resultSet.next()) {
                 datasets.add(new DatasetEntity(resultSet.getInt(1), resultSet.getString(2),
@@ -71,7 +71,8 @@ public class DatasetDAODB implements DatasetDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO dataset (title, " +
                     "filename " +
-                    ") VALUES (?, ?)");
+                    ") VALUES (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, dataset.getTitle());
             preparedStatement.setString(2, dataset.getFilename());
 //            preparedStatement.setDate(3, key.getCreatedDate());
@@ -110,7 +111,8 @@ public class DatasetDAODB implements DatasetDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO dataset (title, " +
                             "filename " +
-                            ") VALUES (?, ?)");
+                            ") VALUES (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, dataset.getTitle());
             preparedStatement.setString(2, dataset.getFilename());
 //            preparedStatement.setDate(3, key.getCreatedDate());

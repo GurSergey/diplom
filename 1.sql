@@ -9,6 +9,7 @@ CREATE TABLE dataset (
 	id serial PRIMARY KEY,
 	title varchar(255) NOT NULL,
 	filename varchar(255) NOT NULL,
+	is_correct boolean DEFAULT false,
 	checking boolean DEFAULT false ,
 	created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

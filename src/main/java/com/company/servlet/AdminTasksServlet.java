@@ -3,6 +3,8 @@ package com.company.servlet;
 import com.company.db.DatasetDAODB;
 import com.company.db.QueueDAODB;
 import com.company.enitities.DatasetEntity;
+import com.company.enitities.QueueTaskAdminEntity;
+import com.company.enitities.QueueTaskUserEntity;
 import com.company.enums.EntityError;
 import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
@@ -40,12 +42,12 @@ public class AdminTasksServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        DatasetEntity datasetEntity = new DatasetEntity();
+        QueueTaskAdminEntity task = new QueueTaskAdminEntity();
 
-        datasetEntity.setId(request.getParameterMap().containsKey("id")
+        task.setId(request.getParameterMap().containsKey("id")
                 ? Integer.parseInt(request.getParameter("id"))
                 : -1);
-        datasetEntity.setTitle(request.getParameter("title"));
+        task.setTitle(request.getParameter("title"));
         ServletContext context = this.getServletContext();
         try {
             QueueService service = new QueueService(new QueueDAODB());
@@ -55,28 +57,28 @@ public class AdminTasksServlet extends HttpServlet {
                 InputStream fileContent = filePart.getInputStream();
                 byte[] buffer = new byte[fileContent.available()];
                 fileContent.read(buffer);
-                service(datasetEntity, buffer);
+                service.AddAdminTextTask(task, buffer);
                 request.setAttribute("error", EntityError.NO_ERROR_INSERT);
             }
-            if(request.getParameterMap().containsKey( "update")){
-                service.updateDataset(datasetEntity);
-                request.setAttribute("error", EntityError.NO_ERROR_UPDATE);
-            }
-            if(request.getParameterMap().containsKey("delete")){
-                service.deleteDataset(datasetEntity);
-                request.setAttribute("error", EntityError.NO_ERROR_DELETE);
-            }
-            request.setAttribute("datasets", service.getAllDataSet());
+//            if(request.getParameterMap().containsKey( "update")){
+//                service.(task);
+//                request.setAttribute("error", EntityError.NO_ERROR_UPDATE);
+//            }
+//            if(request.getParameterMap().containsKey("delete")){
+//                service.(datasetEntity);
+//                request.setAttribute("error", EntityError.NO_ERROR_DELETE);
+//            }
+            request.setAttribute("tasks", service.getAllQueueTaskAdmin());
 
         } catch (SelectException e){
             request.setAttribute("error", EntityError.SELECT);
         } catch (InsertException e){
-            request.setAttribute("error", EntityError.INSERT);
-        } catch (UpdateException e) {
-            request.setAttribute("error", EntityError.UPDATE);
-        } catch (DeleteException e) {
-            request.setAttribute("error", EntityError.DELETE);
-        }
+            request.setAttribute("error", EntityError.INSERT);}
+//        } catch (UpdateException e) {
+//            request.setAttribute("error", EntityError.UPDATE);
+//        } catch (DeleteException e) {
+//            request.setAttribute("error", EntityError.DELETE);
+//        }
         getServletContext().getRequestDispatcher("/datasets.jsp").forward(request, response);
     }
 }

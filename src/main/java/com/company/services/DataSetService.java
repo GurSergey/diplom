@@ -51,11 +51,11 @@ public class DataSetService {
 
     public void saveDataset(DatasetEntity dataset, boolean normalize, byte[] file) throws InsertException, IOException {
         dataset.setFilename(generateFilename()+".csv");
+        this.dao.saveDataset(dataset, normalize);
         String filename = "../datasets"+ File.separator+dataset.getFilename();
         File targetFile = new File(filename);
         OutputStream outStream = new FileOutputStream(targetFile);
         outStream.write(file);
-        this.dao.saveDataset(dataset, normalize);
     }
 
     public void updateDataset(DatasetEntity dataset) throws UpdateException {

@@ -6,6 +6,10 @@ import com.company.enitities.*;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.security.SecureRandom;
 
 public class QueueService {
@@ -76,19 +80,30 @@ public class QueueService {
 //        return this.dao.getCurrentMLTask();
 //    }
 
-    public void AddAdminTextTask() throws InsertException {
-        this.dao.ge
+    public void AddAdminTextTask(QueueTaskAdminEntity task, byte[] file) throws InsertException, IOException {
+//        task.setFilename(generateFilename());
+        task.setFilename(generateFilename()+".task");
+        String filename = "../text_admin_file"+ File.separator+task.getFilename();
+        File targetFile = new File(filename);
+        OutputStream outStream = new FileOutputStream(targetFile);
+        outStream.write(file);
+        this.dao.AddAdminTextTask(task);
     }
-    public void AddUserTextTask() throws InsertException {
-
+    public void AddUserTextTask(QueueTaskUserEntity task, byte[] file) throws InsertException, IOException {
+        task.setFilename(generateFilename()+".task");
+        String filename = "../text_user_file"+ File.separator+task.getFilename();
+        File targetFile = new File(filename);
+        OutputStream outStream = new FileOutputStream(targetFile);
+        outStream.write(file);
+        this.dao.AddUserTextTask(task);
     }
 
     public QueueTaskAdminEntity getByIdAdminTask(int id) throws SelectException {
-        this.dao.getAdminTaskById(id);
+        return this.dao.getAdminTaskById(id);
     }
 
-    public QueueTaskUserEntity getByIdUserTask(int id){
-        this.dao.getUserTaskById(id);
+    public QueueTaskUserEntity getByIdUserTask(int id) throws SelectException {
+        return this.dao.getUserTaskById(id);
     }
 
 }

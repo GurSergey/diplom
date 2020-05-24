@@ -25,7 +25,7 @@
                 <a href="${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/admin/keys/"">
                     <div class="card">
                         <div class="card-image" style="margin-left:auto; margin-right:auto; height: 300px; width: 300px;">
-                            <img src="${pageContext.request.contextPath}/img/key_icon.jpg">
+                            <img src="${pageContext.request.contextPath}/img/key_icon.png">
                             <span class="card-title"></span>
                         </div>
                         <div class="card-content">

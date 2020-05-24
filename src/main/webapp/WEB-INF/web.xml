@@ -60,6 +60,15 @@
             </servlet-mapping>
 
             <servlet>
+                <servlet-name>adminTasksServlet</servlet-name>
+                <servlet-class>com.company.servlet.AdminTasksServlet</servlet-class>
+            </servlet>
+            <servlet-mapping>
+                <servlet-name>adminTasksServlet</servlet-name>
+                <url-pattern>/admin/tasks/*</url-pattern>
+            </servlet-mapping>
+
+            <servlet>
                 <servlet-name>adminDownloadServlet</servlet-name>
                 <servlet-class>com.company.servlet.AdminDownloadDatasetServlet</servlet-class>
             </servlet>
