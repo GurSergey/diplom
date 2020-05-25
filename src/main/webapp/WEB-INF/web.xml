@@ -60,13 +60,14 @@
             </servlet-mapping>
 
             <servlet>
-                <servlet-name>adminTasksServlet</servlet-name>
-                <servlet-class>com.company.servlet.AdminTasksServlet</servlet-class>
+                <servlet-name>AdminDownloadTaskServlet</servlet-name>
+                <servlet-class>com.company.servlet.AdminDownloadTaskServlet</servlet-class>
             </servlet>
             <servlet-mapping>
-                <servlet-name>adminTasksServlet</servlet-name>
-                <url-pattern>/admin/tasks/*</url-pattern>
+                <servlet-name>AdminDownloadTaskServlet</servlet-name>
+                <url-pattern>/admin/download_tasks/*</url-pattern>
             </servlet-mapping>
+
             <servlet>
                 <servlet-name>adminAllTasksServlet</servlet-name>
                 <servlet-class>com.company.servlet.AdminAllTasksServlet</servlet-class>
@@ -83,8 +84,6 @@
                 <servlet-name>adminWorkServlet</servlet-name>
                 <url-pattern>/admin/model/*</url-pattern>
             </servlet-mapping>
-
-
 
             <servlet>
                 <servlet-name>adminDownloadServlet</servlet-name>
@@ -179,6 +178,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>userMenuServlet</servlet-name>
+        <servlet-class>com.company.servlet.UserMenuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userMenuServlet</servlet-name>
+        <url-pattern>/user/menu/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>userWorkServlet</servlet-name>
         <servlet-class>com.company.servlet.UserWorkServlet</servlet-class>
     </servlet>
@@ -186,6 +194,13 @@
         <servlet-name>userWorkServlet</servlet-name>
         <url-pattern>/user/work/*</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+        <servlet-name>UserEditProfileServlet</servlet-name>
+        <servlet-class>com.company.servlet.UserEditProfileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserEditProfileServlet</servlet-name>
+        <url-pattern>/user/account/*</url-pattern>
+    </servlet-mapping>
 
 </web-app>

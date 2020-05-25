@@ -6,6 +6,7 @@ import com.company.enitities.*;
 import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.exceptions.SelectException;
+import com.company.exceptions.UpdateException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -86,18 +87,26 @@ public class QueueService {
         task.setFilename(generateFilename()+".task");
         String filename = "../text_admin_file"+ File.separator+task.getFilename();
         File targetFile = new File(filename);
-        OutputStream outStream = new FileOutputStream(targetFile);
+            OutputStream outStream = new FileOutputStream(targetFile);
         outStream.write(file);
         this.dao.AddAdminTextTask(task);
     }
 
     public void DeleteAdminTextTask(QueueTaskAdminEntity task) throws InsertException, IOException, SelectException, DeleteException {
         task = dao.getAdminTaskById(task.getId());
-        File file = new File("../text_user_file"+ File.separator+task.getFilename());
+        File file = new File("../text_admin_file"+ File.separator+task.getFilename());
         if(!file.delete()) {
             throw new DeleteException();
         }
         this.dao.DeleteAdminTextTask(task);
+    }
+
+    public void UpdateAdminTextTask(QueueTaskAdminEntity task) throws UpdateException {
+        this.dao.UpdateAdminTextTask(task);
+    }
+
+    public void UpdateUserTextTask(QueueTaskUserEntity task) throws UpdateException {
+        this.dao.UpdateUserTextTask(task);
     }
 
     public void AddUserTextTask(QueueTaskUserEntity task, byte[] file) throws InsertException, IOException {
@@ -107,6 +116,15 @@ public class QueueService {
         OutputStream outStream = new FileOutputStream(targetFile);
         outStream.write(file);
         this.dao.AddUserTextTask(task);
+    }
+
+    public void DeleteUserTextTask(QueueTaskUserEntity task) throws SelectException, DeleteException {
+        task = dao.getUserTaskById(task.getId());
+        File file = new File("../text_user_file"+ File.separator+task.getFilename());
+        if(!file.delete()) {
+            throw new DeleteException();
+        }
+        this.dao.DeleteUserTextTask(task);
     }
 
     public QueueTaskAdminEntity getByIdAdminTask(int id) throws SelectException {

@@ -99,9 +99,10 @@ public class UserDAODB implements UserDAO {
         try (Connection connection = DBConnection.getConnection()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE voter SET  password = ?" +
+                    "UPDATE \"user\" SET  password = ?" +
                             " WHERE id = ?");
             preparedStatement.setString(1, user.getPassword());
+            preparedStatement.setInt(2, user.getId());
             preparedStatement.execute();
 
         } catch (SQLException e){

@@ -26,13 +26,15 @@ public class UserWorkServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext context = getServletContext();
+        int id = Integer.parseInt(request.getParameter("id"));
+        request.setAttribute("idModel", id);
         context.getRequestDispatcher("/work.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String tasks = request.getParameter("tasks");
-        URL url = new URL("ml:8082");
+        URL url = new URL("http://ml_real_time:8082");
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json; utf-8");

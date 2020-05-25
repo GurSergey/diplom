@@ -1,12 +1,9 @@
 package com.company.servlet;
 
-import com.company.db.DatasetDAODB;
 import com.company.db.QueueDAODB;
-import com.company.enitities.DatasetEntity;
 import com.company.enitities.QueueTaskAdminEntity;
 import com.company.enitities.QueueTaskUserEntity;
 import com.company.exceptions.SelectException;
-import com.company.services.DataSetService;
 import com.company.services.QueueService;
 
 import javax.servlet.ServletException;
@@ -15,24 +12,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-public class AdminDownloadTaskServlet extends HttpServlet {
+public class UserDownloadTaskServlet extends HttpServlet {
     private final int ARBITARY_SIZE = 4096;
-    public AdminDownloadTaskServlet(){
+    public UserDownloadTaskServlet(){
         super();
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
-        QueueTaskAdminEntity taskAdminEntity = null;
+        QueueTaskUserEntity taskUserEntity = null;
         int id = Integer.parseInt(request.getParameter("id"));
         QueueService service = new QueueService(new QueueDAODB());
         try {
-            taskAdminEntity = service.getByIdAdminTask(id);
+            taskUserEntity = service.getByIdUserTask(id);
         } catch (SelectException e) {
             e.printStackTrace();
         }
-        response.setHeader("Content-disposition", "attachment; filename="+taskAdminEntity.getFilename()+".csv");
-        File file = new File("../text_admin_file"+
-                File.separator+taskAdminEntity.getFilename()+".csv");
+        response.setHeader("Content-disposition", "attachment; filename="+taskUserEntity.getFilename()+".csv");
+        File file = new File("../text_user_file"+
+                File.separator+taskUserEntity.getFilename()+".csv");
         try(InputStream in = new FileInputStream(file);
             OutputStream out = response.getOutputStream()) {
 

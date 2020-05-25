@@ -15,6 +15,6 @@ public class UserMenuServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext context = getServletContext();
-        context.getRequestDispatcher("/menu.jsp").forward(request, response);
+        context.getRequestDispatcher("/user_menu.jsp").forward(request, response);
     }
 }

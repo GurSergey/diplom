@@ -42,11 +42,12 @@
             <div class="col s12 m12">
                 <div class="card">
                     <div class="card-content black-text">
-                        <h4>Смена пароля</h4>>
+                        <h4>Смена пароля</h4>
                         <form action="" method="post">
                             <p>Пароль:<input name="password" type="password" value=""> </p>
                             <p>Повторите пароль:<input name="passwordRepeat" type="password" value=""></p>
                             <p><input type="submit"></p>
+                            <input type="hidden" name="id" value="${user.id}">
                         </form>
                     </div>
                     <div class="card-action">

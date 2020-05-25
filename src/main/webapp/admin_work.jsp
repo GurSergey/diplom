@@ -26,8 +26,9 @@
 <%--                    <form action="" method="post" id="work">--%>
                         <div class="row">
                             <div class="input-field col s12">
+                                <span >Данные для классификации</span>
                                 <textarea name="data" id="textarea1" class="materialize-textarea"> </textarea>
-                                <label for="textarea1">Данные для классификации</label>
+
                             </div>
                         </div>
                         <button  class="waves-effect waves-light btn-small"  id="send" onclick="send()">Классифицировать текст!</button>
@@ -46,7 +47,7 @@
             let json = {id: document.getElementById("idModel").innerText,
                 data: tasks1}
                 json = JSON.stringify(json)
-            alert(json)
+            // alert(json)
             var body = 'tasks=' + encodeURIComponent(json);
 
             xhr.open("POST", '', true);

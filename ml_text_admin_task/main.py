@@ -40,12 +40,12 @@ while 1:
     conn = psycopg2.connect(dbname='diplom', user='user', 
                             password='secret', host='localhost', port = 5433) 
     cursor = conn.cursor()
-    cursor.execute("""SELECT id, model_id FROM queue_task_admin_file    
+    cursor.execute("""SELECT id, model_id, filename FROM queue_task_admin_file    
                    WHERE completed_task=false AND in_work=false  
                    LIMIT 1""")
     row = cursor.fetchone()
     if row != None:
-        row = {'id': row[0], 'model_id': row[1]}
+        row = {'id': row[0], 'model_id': row[1], 'filename': row[2]}
         print("Start task admin file id " + str(row['id']))
         sql_update_query = """UPDATE queue_task_admin_file SET in_work = true WHERE id = %s"""
         cursor.execute(sql_update_query,  [row['id']])
@@ -57,8 +57,8 @@ while 1:
         print("load model with id " + str(row['model_id']))
         
         
-        with open('../ml_text_admin/'+'answer_'+str(row['id'])+'.csv', 'w', encoding='UTF-8', newline='') as csv_file:
-            task = open('../ml_text_admin/'+str(row['id'])+'.task', "r")
+        with open('../ml_text_admin/'+str(row['filename'])+'.csv', 'w', encoding='UTF-8', newline='') as csv_file:
+            task = open('../ml_text_admin/'+str(row['filename']), "r")
             writer = csv.writer(csv_file, delimiter='|')
             for line in task:
                 col_values = []

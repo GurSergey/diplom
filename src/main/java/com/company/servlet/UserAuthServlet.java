@@ -70,7 +70,7 @@ public class UserAuthServlet extends HttpServlet {
                         request.getContextPath() + "/user");
                 UserSessionStorage.setSession(sessionId, voter);
                 request.setAttribute("authPassed", true);
-                response.sendRedirect(request.getContextPath() + "/user/models");
+                response.sendRedirect(request.getContextPath() + "/user/menu    ");
                 return;
             } else {
                 request.setAttribute("authPassed", false);

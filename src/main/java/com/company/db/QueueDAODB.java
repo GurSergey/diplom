@@ -5,6 +5,7 @@ import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
 import com.company.dao.QueueDAO;
 import com.company.exceptions.SelectException;
+import com.company.exceptions.UpdateException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -139,7 +140,7 @@ public class QueueDAODB implements QueueDAO {
             Statement statement = connection.createStatement();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT queue_task_admin_file.id, queue_task_admin_file.title, completed_task, progress, in_work, model.title," +
-                            " queue_task_admin_file.created_date FROM queue_task_admin_file " +
+                            " queue_task_admin_file.created_date, filename FROM queue_task_admin_file " +
                             "JOIN model ON model.id = model_id WHERE queue_task_admin_file.id = ?"
             );
             preparedStatement.setInt(1, id);
@@ -153,6 +154,7 @@ public class QueueDAODB implements QueueDAO {
                         resultSet.getBoolean(5),
                         model,
                         resultSet.getTimestamp(7)));
+                task.setFilename(resultSet.getString(8));
             }
             resultSet.close();
             statement.close();
@@ -195,7 +197,7 @@ public class QueueDAODB implements QueueDAO {
         }
     }
     @Override
-    public void UpdateUserTextTask(QueueTaskUserEntity task) throws InsertException{
+    public void UpdateUserTextTask(QueueTaskUserEntity task) throws UpdateException{
         try (Connection connection = DBConnection.getConnection()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -206,11 +208,11 @@ public class QueueDAODB implements QueueDAO {
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
-            throw new InsertException();
+            throw new UpdateException();
         }
     }
     @Override
-    public void UpdateAdminTextTask(QueueTaskAdminEntity task) throws InsertException{
+    public void UpdateAdminTextTask(QueueTaskAdminEntity task) throws UpdateException{
         try (Connection connection = DBConnection.getConnection()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -221,7 +223,7 @@ public class QueueDAODB implements QueueDAO {
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
-            throw new InsertException();
+            throw new UpdateException();
         }
     }
     @Override
@@ -293,9 +295,9 @@ public class QueueDAODB implements QueueDAO {
             //ResultSet resultSet = statement.executeQuery(
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT queue_task_user_file.id, queue_task_user_file.title, completed_task, progress, in_work, model.title," +
-                            " queue_task_user_file.created_date, user.login FROM queue_task_user_file " +
-                            "JOIN model ON model.id = model_id JOIN user ON user.id = user_id " +
-                            "WHERE user.id = ?"
+                            " queue_task_user_file.created_date, \"user\".login FROM queue_task_user_file " +
+                            "JOIN model ON model.id = model_id JOIN \"user\" ON \"user\".id = user_id " +
+                            "WHERE \"user\".id = ?"
             );
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -328,7 +330,7 @@ public class QueueDAODB implements QueueDAO {
             //ResultSet resultSet = statement.executeQuery(
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT queue_task_user_file.id, title, completed_task, progress, in_work, model.title," +
-                            " queue_task_user_file.created_date, user.login FROM queue_task_user_file " +
+                            " queue_task_user_file.created_date, user.login, filename FROM queue_task_user_file " +
                             "JOIN model ON model.id = model_id JOIN user ON user.id = user_id " +
                             "WHERE queue_task_user_file.id = ?"
             );
@@ -346,6 +348,7 @@ public class QueueDAODB implements QueueDAO {
                         model,
                         resultSet.getTimestamp(7),
                         user));
+                task.setFilename(resultSet.getString(8));
             }
             resultSet.close();
             statement.close();

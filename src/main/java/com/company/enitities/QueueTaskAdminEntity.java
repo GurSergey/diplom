@@ -9,7 +9,13 @@ public class QueueTaskAdminEntity {
     boolean inWork;
     ModelEntity model;
     Timestamp createdDate;
+
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
+    }
+
     String title;
+    String filename;
 
     public String getFilename() {
         return filename;
@@ -19,7 +25,6 @@ public class QueueTaskAdminEntity {
         this.filename = filename;
     }
 
-    String filename;
 
     public String getTitle() {
         return title;

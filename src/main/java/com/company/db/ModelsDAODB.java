@@ -74,10 +74,10 @@ public class ModelsDAODB implements ModelsDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT model.id, model.title, queue_task.completed_learn, dataset.title, model.created_date, " +
-                            "queue_task.progress, test_accuracy " +
-                            "FROM model JOIN dataset ON dataset_id = dataset.id JOIN queue_task " +
-                            "ON queue_task.model_id = model.id WHERE queue_task.completed_learn = true"
+                    "SELECT model.id, model.title, queue_task_ml.completed_task, dataset.title, model.created_date, " +
+                            "queue_task_ml.progress, test_accuracy " +
+                            "FROM model JOIN dataset ON dataset_id = dataset.id JOIN queue_task_ml " +
+                            "ON queue_task_ml.model_id = model.id WHERE queue_task_ml.completed_task = true"
             );
             while (resultSet.next()) {
                 models.add(new ModelEntity(resultSet.getInt(1),

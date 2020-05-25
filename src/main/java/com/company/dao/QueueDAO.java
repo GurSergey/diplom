@@ -31,8 +31,8 @@ public interface QueueDAO {
 //    public QueueTaskUserEntity getCurrentTaskUser() throws SelectException ;
     public QueueTaskMlEntity[] getAllMLTask() throws SelectException;
 //    public QueueTaskMlEntity getCurrentMLTask() throws SelectException;
-public void UpdateUserTextTask(QueueTaskUserEntity task) throws InsertException;
-    public void UpdateAdminTextTask(QueueTaskAdminEntity task) throws InsertException;
+    public void UpdateUserTextTask(QueueTaskUserEntity task) throws UpdateException;
+    public void UpdateAdminTextTask(QueueTaskAdminEntity task) throws UpdateException;
     public void DeleteAdminTextTask(QueueTaskAdminEntity task) throws DeleteException;
     public void DeleteUserTextTask(QueueTaskUserEntity task) throws DeleteException;
 
