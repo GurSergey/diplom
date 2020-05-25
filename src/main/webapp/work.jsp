@@ -26,7 +26,7 @@
         function start(){
             started = !started;
             if(started){
-                document.getElementById("bStart").innerHTML = '<i style="font-size: 6rem;" class="material-icons">mic_off</i>'
+                document.getElementById("bStart").innerHTML = '<i style="font-size: 3rem;" class="material-icons">mic_off</i>'
                 recognition.onresult = function(event) {
                     console.log(event);
                     // output.innerHTML = "";
@@ -37,7 +37,7 @@
                 }
                 recognition.start();
             } else{
-                document.getElementById("bStart").innerHTML = '<i style="font-size: 6rem;" class="material-icons">mic</i>'
+                document.getElementById("bStart").innerHTML = '<i style="font-size: 3rem;" class="material-icons">mic</i>'
                 document.getElementById("textarea1").value += "\n"
                 recognition.stop();
             }
