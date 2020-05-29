@@ -31,7 +31,7 @@ public class UserEntity implements Entity {
 
     int id;
     Timestamp registrationDate;
-
+    String password;
     String login;
 
     public String getLogin() {
@@ -50,6 +50,6 @@ public class UserEntity implements Entity {
         this.password = password;
     }
 
-    String password;
+
 
 }

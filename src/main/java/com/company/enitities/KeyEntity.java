@@ -28,6 +28,13 @@ public class KeyEntity implements Entity {
         this.createdDate = createdDate;
     }
 
+    public String getKeyStr() {
+        return keyStr;
+    }
+    public void setKeyStr(String keyStr) {
+        this.keyStr = keyStr;
+    }
+
     public KeyEntity(){};
 
     public KeyEntity(int id, String name, String keyStr, Timestamp createdDate) {
@@ -39,15 +46,6 @@ public class KeyEntity implements Entity {
 
     private int id;
     private String name;
-
-    public String getKeyStr() {
-        return keyStr;
-    }
-
-    public void setKeyStr(String keyStr) {
-        this.keyStr = keyStr;
-    }
-
     private String keyStr;
     private Timestamp createdDate;
 }

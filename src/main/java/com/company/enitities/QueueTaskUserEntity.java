@@ -2,7 +2,7 @@ package com.company.enitities;
 
 import java.sql.Timestamp;
 
-public class QueueTaskUserEntity {
+public class QueueTaskUserEntity implements Entity{
     int id;
     boolean completedTask;
     int progress;

@@ -2,9 +2,9 @@ package com.company.enitities;
 
 import java.sql.Timestamp;
 
-public class QueueCheckDataset {
+public class QueueCheckDataset  implements Entity{
 
-    int id;
+
 
     public int getId() {
         return id;
@@ -74,7 +74,7 @@ public class QueueCheckDataset {
         this.dataset = dataset;
         this.createdDate = createdDate;
     }
-
+    int id;
     boolean completedTask ;
     boolean normalize ;
     boolean inWork;

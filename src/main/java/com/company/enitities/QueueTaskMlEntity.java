@@ -3,9 +3,8 @@ package com.company.enitities;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class QueueTaskMlEntity {
-    private int id;
-    private boolean completedTask;
+public class QueueTaskMlEntity implements Entity{
+
 
     public boolean isCompletedTask() {
         return completedTask;
@@ -22,7 +21,8 @@ public class QueueTaskMlEntity {
     public void setInWork(boolean inWork) {
         this.inWork = inWork;
     }
-
+    private int id;
+    private boolean completedTask;
     private boolean inWork;
     private ModelEntity model;
     private Timestamp createdDate;

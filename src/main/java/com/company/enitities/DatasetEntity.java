@@ -6,9 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class DatasetEntity implements Entity {
-    public int getId() {
-        return id;
-    }
+
 
     public DatasetEntity(){}
 
@@ -25,6 +23,12 @@ public class DatasetEntity implements Entity {
     int id;
     boolean checking;
     boolean isCorrect;
+    String title;
+    String filename;
+    Timestamp createdDate;
+    public int getId() {
+        return id;
+    }
 
     public boolean getChecking() {
         return checking;
@@ -70,9 +74,7 @@ public class DatasetEntity implements Entity {
         this.createdDate = createdDate;
     }
 
-    String title;
-    String filename;
-    Timestamp createdDate;
+
 
 
 

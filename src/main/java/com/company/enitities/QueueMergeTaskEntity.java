@@ -2,7 +2,7 @@ package com.company.enitities;
 
 import java.sql.Timestamp;
 
-public class QueueMergeTaskEntity {
+public class QueueMergeTaskEntity implements Entity {
     int id ;
     boolean completedTask;
     DatasetEntity dataset;

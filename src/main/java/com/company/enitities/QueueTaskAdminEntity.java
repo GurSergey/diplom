@@ -2,20 +2,20 @@ package com.company.enitities;
 
 import java.sql.Timestamp;
 
-public class QueueTaskAdminEntity {
+public class QueueTaskAdminEntity extends QueueTaskMlEntity implements Entity {
     int id;
     boolean completedTask;
     int progress;
     boolean inWork;
     ModelEntity model;
     Timestamp createdDate;
-
+    String title;
+    String filename;
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
     }
 
-    String title;
-    String filename;
+
 
     public String getFilename() {
         return filename;

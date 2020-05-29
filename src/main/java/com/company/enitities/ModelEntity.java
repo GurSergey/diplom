@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class ModelEntity implements Entity {
-    private int id;
+
     public ModelEntity(){}
     public ModelEntity(int id, String title, boolean completedLearn,
                        String datasetName, Timestamp createDate, int progress, double testAccuracy) {
@@ -71,10 +71,31 @@ public class ModelEntity implements Entity {
     public void setDatasetName(String datasetName) {
         this.datasetName = datasetName;
     }
-
+    private int id;
     private int progress;
     private String title;
     private boolean completedLearn;
+    private String positiveLabel;
+    private String negativeLabel;
+    private double testAccuracy;
+    private String datasetName;
+    private Timestamp createDate;
+
+    public String getPositiveLabel() {
+        return positiveLabel;
+    }
+
+    public void setPositiveLabel(String positiveLabel) {
+        this.positiveLabel = positiveLabel;
+    }
+
+    public String getNegativeLabel() {
+        return negativeLabel;
+    }
+
+    public void setNegativeLabel(String negativeLabel) {
+        this.negativeLabel = negativeLabel;
+    }
 
     public double getTestAccuracy() {
         return testAccuracy;
@@ -84,9 +105,5 @@ public class ModelEntity implements Entity {
         this.testAccuracy = testAccuracy;
     }
 
-    private double testAccuracy;
 
-
-    private String datasetName;
-    private Timestamp createDate;
 }
