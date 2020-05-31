@@ -38,7 +38,7 @@ def preprocessor(text):
 while 1:
     time.sleep(5)
     conn = psycopg2.connect(dbname='diplom', user='user', 
-                            password='secret', host='localhost', port = 5433) 
+                            password='secret', host='db', port = 5432)
     cursor = conn.cursor()
     cursor.execute("""SELECT id, model_id, filename FROM queue_task_admin_file    
                    WHERE completed_task=false AND in_work=false  
@@ -57,8 +57,8 @@ while 1:
         print("load model with id " + str(row['model_id']))
         
         
-        with open('../ml_text_admin/'+str(row['filename'])+'.csv', 'w', encoding='UTF-8', newline='') as csv_file:
-            task = open('../ml_text_admin/'+str(row['filename']), "r")
+        with open('../text_admin_file/'+str(row['filename'])+'.csv', 'w', encoding='UTF-8', newline='') as csv_file:
+            task = open('../text_admin_file/'+str(row['filename']), "r")
             writer = csv.writer(csv_file, delimiter='|')
             for line in task:
                 col_values = []
@@ -67,7 +67,7 @@ while 1:
                 writer.writerow(col_values)
             
         conn = psycopg2.connect(dbname='diplom', user='user', 
-                                password='secret', host='localhost', port = 5433)
+                                password='secret', host='db', port = 5432)
         cursor = conn.cursor()
         sql_update_query = """UPDATE queue_task_admin_file SET completed_task = TRUE,
         in_work = FALSE WHERE id = %s"""

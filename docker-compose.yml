@@ -60,7 +60,7 @@ services:
       context: ./build
       dockerfile: dockerfile-ml
     volumes:
-    - ./ml_text_admin:/app
+    - ./ml_text_admin_task:/app
     - ./text_admin_file:/text_admin_file
     - ./models:/models
     working_dir: /app
@@ -72,7 +72,7 @@ services:
       context: ./build
       dockerfile: dockerfile-ml
     volumes:
-    - ./ml_text_user:/app
+    - ./ml_text_user_task:/app
     - ./text_user_file:/text_user_file
     - ./models:/models
     working_dir: /app

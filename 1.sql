@@ -17,6 +17,8 @@ CREATE TABLE dataset (
 CREATE TABLE model(
 	id serial PRIMARY KEY,
 	title varchar(255) NOT NULL,
+	positive_label varchar(255) DEFAULT 'positive',
+	negative_label varchar(255) DEFAULT 'negative',
 	test_accuracy real DEFAULT 0,
 	dataset_id int NOT NULL REFERENCES dataset(id),
 	created_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP

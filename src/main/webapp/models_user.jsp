@@ -31,6 +31,9 @@
                 <tr>
                     <th>Название</th>
                     <th>Название датасета обучения</th>
+                    <th>Положительная метка</th>
+                    <th>Негативная метка</th>
+                    <th>Точность на тестовых данных </th>
                     <th>Дата создания</th>
                 </tr>
             </thead>
@@ -42,6 +45,9 @@
 
                                     <td>${model.progress}</td>
                                      <td>${model.datasetName}</td>
+                                     <td>${model.positiveLabel}</td>
+                                     <td>${model.negativeLabel}</td>
+                                     <td>${model.testAccuracy}</td>
                                      <td>${model.createDate}<td>
                                     <td><a class="waves-effect waves-light btn-small"
                                            href="${pageContext.request.contextPath}/user/work?id=${model.id}">Перейти к работе с моделью </a></td>

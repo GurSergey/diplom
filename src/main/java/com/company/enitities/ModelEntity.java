@@ -7,7 +7,8 @@ public class ModelEntity implements Entity {
 
     public ModelEntity(){}
     public ModelEntity(int id, String title, boolean completedLearn,
-                       String datasetName, Timestamp createDate, int progress, double testAccuracy) {
+                       String datasetName, Timestamp createDate, int progress, double testAccuracy,
+                       String positiveLabel, String negativeLabel) {
         this.id = id;
         this.title = title;
         this.completedLearn = completedLearn;
@@ -15,6 +16,8 @@ public class ModelEntity implements Entity {
         this.createDate = createDate;
         this.progress = progress;
         this.testAccuracy = testAccuracy;
+        this.positiveLabel = positiveLabel;
+        this.negativeLabel = negativeLabel;
     }
 
     public int getId() {

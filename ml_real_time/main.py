@@ -8,6 +8,7 @@ import numpy as np
 import nltk
 from nltk.corpus import stopwords
 import pickle
+import psycopg2
 
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
@@ -16,6 +17,8 @@ from sklearn.model_selection import GridSearchCV
 from contextlib import closing
 
 models = {}
+positive_labels = {}
+negative_labels = {}
 
 morph = pymorphy2.MorphAnalyzer()
 # приведение к нормальной форме для уменьшение размера словаря уникальных слов
@@ -58,13 +61,29 @@ class HandleRequests(BaseHTTPRequestHandler):
         data = json.loads(post_body)
         id_model = data['id']
         if not id_model in models:
+            conn = psycopg2.connect(dbname='diplom', user='user',
+                                    password='secret', host='db', port = 5432)
+            cursor = conn.cursor()
+            cursor.execute("""SELECT negative_label, positive_label FROM model WHERE id = %s""", [str(id_model)])
+            row = cursor.fetchone()
+            row = {'negative_label': row[0], 'positive_label': row[1]}
+            positive_labels[id_model] = row['positive_label']
+            negative_labels[id_model] = row['negative_label']
             models[id_model] = pickle.load(open('../models/'+str(id_model)+'.sav', 'rb'))
             print("load model with id " + str(id_model))
         answers = []
         for text in data['data']:
-            answer = {'text': text, 'answer': int(models[id_model].predict([preprocessor(text)])[0])}
-            answers.append(answer)
-            print (answer)
+            label = ''
+            answer = int(models[id_model].predict([preprocessor(text)])[0])
+            if answer == 1:
+                label = positive_labels[id_model]
+            if answer == 0:
+                label = negative_labels[id_model]
+            answer_json = {'text': text, 'answer': answer,
+                      "label": label}
+            answers.append(answer_json)
+            print (answer_json)
+
         self.wfile.write(bytearray(json.dumps({"answers": answers}), 'utf-8'))
         
 host = 'ml_real_time'

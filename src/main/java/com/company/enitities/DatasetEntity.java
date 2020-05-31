@@ -12,6 +12,7 @@ public class DatasetEntity implements Entity {
 
     public DatasetEntity(int id, String title, String filename, boolean checking,
                          boolean isCorrect, Timestamp createDate) {
+
         this.id = id;
         this.title = title;
         this.filename = filename;

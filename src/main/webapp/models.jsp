@@ -64,6 +64,9 @@
                 <tr>
                     <th>id</th>
                     <th>Название</th>
+                    <th>Положительный класс</th>
+                    <th>Негативный класс</th>
+                    <th>Название</th>
                     <th>Флаг заврешения</th>
 <%--                    <th>Прогресс обучения</th>--%>
                     <th>Название датасета обучения</th>
@@ -77,19 +80,27 @@
                                     <td>${model.id}<input name="id" type="hidden" value="${model.id}" form="model_form_${model.id}">
                                         <input name="modelId" type="hidden" value="${model.id}" form="model_form_${model.id}"></td>
                                     <td><input name="title" type="text" value="${model.title}" form="model_form_${model.id}"></td>
-                                    <td>
+                                     <td><input name="positive_label" type="text" value="${model.positiveLabel}" form="model_form_${model.id}"></td>
+                                     <td><input name="negative_label" type="text" value="${model.negativeLabel}" form="model_form_${model.id}"></td>
+                                     <td>
                                          <c:if test="${model.completedLearn==true}">
-                                             <input name="visible" type="checkbox" checked value="${model.completedLearn}" form="model_form_${model.id}" style="opacity: 1.0; pointer-events: auto;">
+                                             <label>
+                                             <input name="visible" type="checkbox" checked value="${model.completedLearn}" form="model_form_${model.id}" style="opacity: 0.0; pointer-events: auto;">
+                                                 <span></span>
+                                             </label>
                                          </c:if>
                                          <c:if test="${model.completedLearn==false}">
-                                             <input name="visible" type="checkbox" value="${model.completedLearn}" form="model_form_${model.id}" style="opacity: 1.0; pointer-events: auto;">
+                                             <label>
+                                             <input name="visible" type="checkbox" value="${model.completedLearn}" form="model_form_${model.id}" style="opacity: 0.0; pointer-events: auto;">
+                                             <span></span>
+                                             </label>
                                          </c:if>
                                     </td>
 <%--                                    <td>${model.progress}</td>--%>
                                      <td>${model.datasetName}</td>
                                      <th>${model.testAccuracy}</th>
                                      <td>${model.createDate}<td>
-                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Обновить название" form="model_form_${model.id}"></td>
+                                    <td><input type="submit" class="waves-effect waves-light btn-small" name="update" value="Обновить" form="model_form_${model.id}"></td>
                                     <td><input type="submit" class="waves-effect waves-light btn-small" name="delete" value="Удалить" form="model_form_${model.id}"></td>
                                      <c:if test="${model.completedLearn==true}"><td><a class="waves-effect waves-light btn-small"
                                        href="${pageContext.request.contextPath}/admin/model?id=${model.id}">Перейти к модели  </a></td></c:if>
@@ -110,6 +121,9 @@
             <thead>
             <tr>
                 <th>Название</th>
+                <th>Положительный класс</th>
+                <th>Негативный класс</th>
+                <th>Количество ядер для задачи</th>
                 <th>Датасет для обучения</th>
             </tr>
             </thead>
@@ -120,7 +134,28 @@
 <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
                 </td>
                 <td>
+                    <input name="positive_label" type="text" value="1" form="new_form">
+
+                    <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
+                </td>
+                <td>
+                    <input name="negative_label" type="text" value="0" form="new_form">
+
+                    <%--                    <input name="typeReq" type="hidden" value="save" form="new_form">--%>
+                </td>
+                <td>
                     <div class="input-field col s12">
+                        <select name ="countWorkers" style = "display: block;" form="new_form">
+                            <option value="" disabled selected>Количество ядер ЦП для обучения</option>
+                            <c:forEach begin = "1" end = "${kernels}" varStatus="loop">
+                                <option value="${loop.index}">${loop.index}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-field col s12">
+
                     <select name ="datasetId" style = "display: block;" form="new_form">
                         <option value="" disabled selected>Выберете датасет</option>
                         <c:forEach var="dataset" items="${datasets}">

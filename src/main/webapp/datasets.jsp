@@ -90,19 +90,31 @@
 
                                      <td>
                                          <c:if test="${dataset.checking==true}">
-                                             <input name="visible" type="checkbox" checked value="${dataset.checking}"  style="opacity: 1.0; pointer-events: auto;">
+                                             <label>
+                                             <input name="visible" type="checkbox" checked value="${dataset.checking}"  style="opacity: 0.0; pointer-events: auto;">
+                                             <span></span>
+                                             </label>
                                          </c:if>
                                          <c:if test="${dataset.checking==false}">
-                                             <input name="visible" type="checkbox" value="${dataset.checking}"  style="opacity: 1.0; pointer-events: auto;">
+                                             <label>
+                                             <input name="visible" type="checkbox" value="${dataset.checking}"  style="opacity: 0.0; pointer-events: auto;">
+                                             <span></span>
+                                             </label>
                                          </c:if>
                                      </td>
                                      <td>
                                          <c:if test="${dataset.isCorrect==true}">
+                                             <label>
                                              <input name="visible" type="checkbox" checked value="${dataset.isCorrect}"
-                                                    style="opacity: 1.0; pointer-events: auto;">
+                                                    style="opacity: 0.0; pointer-events: auto;">
+                                             <span></span>
+                                             </label>
                                          </c:if>
                                          <c:if test="${dataset.isCorrect==false}">
-                                             <input name="visible" type="checkbox" value="${dataset.isCorrect}"  style="opacity: 1.0; pointer-events: auto;">
+                                             <label>
+                                             <input name="visible" type="checkbox" value="${dataset.isCorrect}"  style="opacity: 0.0; pointer-events: auto;">
+                                             <span></span>
+                                             </label>
                                          </c:if>
                                      </td>
 
@@ -138,9 +150,17 @@
                     </thead>
                     <tr>
                         <td>
+                            <label>
                             <input name="title" type="text"  value="" form="new_form">
+                            <span></span>
+                            </label>
                         </td>
-                        <td><input type="checkbox" name="normalize" value="normalize" style="opacity: 1.0; pointer-events: auto;" form="new_form"/></td>
+                        <td>
+                            <label>
+                            <input type="checkbox" name="normalize" value="normalize" style="opacity: 0.0; pointer-events: auto;" form="new_form"/>
+                            <span></span>
+                            </label>
+                        </td>
                         <td><input name="datasetFile" type="file" form="new_form"></td>
                         <td>
                             <button class="waves-effect waves-light btn-small" onclick="onclickSubmit()">Сохранить</button>

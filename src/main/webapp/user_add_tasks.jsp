@@ -74,18 +74,30 @@
                         <td>${task.model.title}</td>
                         <td>
                             <c:if test="${task.inWork==true}">
-                                <input name="visible" type="checkbox" checked value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                <label>
+                                <input name="visible" type="checkbox" checked value="${task.inWork}" style="opacity: 0.0; pointer-events: auto;">
+                                <span></span>
+                                </label>
                             </c:if>
                             <c:if test="${task.inWork==false}">
-                                <input name="visible" type="checkbox" value="${task.inWork}" style="opacity: 1.0; pointer-events: auto;">
+                                <label>
+                                <input name="visible" type="checkbox" value="${task.inWork}" style="opacity: 0.0; pointer-events: auto;">
+                                <span></span>
+                                </label>
                             </c:if>
                         </td>
                         <td>
                             <c:if test="${task.completedTask==true}">
-                                <input name="visible" type="checkbox" class="filled-in"  checked value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                <label>
+                                <input name="visible" type="checkbox" class="filled-in"  checked value="${task.completedTask}" style="opacity: 0.0; pointer-events: auto;">
+                                <span></span>
+                                </label>
                             </c:if>
                             <c:if test="${task.completedTask==false}">
-                                <input name="visible" type="checkbox" class="filled-in"  value="${task.completedTask}" style="opacity: 1.0; pointer-events: auto;">
+                                <label>
+                                <input name="visible" type="checkbox" class="filled-in"  value="${task.completedTask}" style="opacity: 0.0; pointer-events: auto;">
+                                <span></span>
+                                </label>
                             </c:if>
                         </td>
                         <td>

@@ -46,7 +46,7 @@
 
 </head>
 <body>
-<jsp:include page="user_nav.jsp" />
+<jsp:include page="admin_nav.jsp" />
 <div id ="idModel" hidden>${idModel}</div>
 <div class="row">
     <div class="col s12 m12">
@@ -87,11 +87,11 @@
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
         xhr.onreadystatechange = function() {
-            // console.log(this.responseText );
+
             obj = JSON.parse(this.responseText )
             str = ""
             for (let i = 0; i < obj.answers.length; i++) {
-                str += obj.answers[i].text +" Метка: "+obj.answers[i].answer+"<br>";
+                str += '"'+obj.answers[i].text+'"' +" - "+ obj.answers[i].label +"  Метка= "+obj.answers[i].answer+"<br>";
             }
             document.getElementById("answer").innerHTML = str
         }

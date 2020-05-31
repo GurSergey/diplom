@@ -32,6 +32,7 @@ public class AdminModelsServlet extends HttpServlet {
             ModelsService service = new ModelsService(new ModelsDAODB());
             request.setAttribute("models", service.getModels());
             request.setAttribute("datasets", new DataSetService(new DatasetDAODB()).getAllDataSet());
+            request.setAttribute("kernels", Runtime.getRuntime().availableProcessors());
         } catch (SelectException e){
             request.setAttribute("error", EntityError.SELECT);
         }
@@ -45,7 +46,8 @@ public class AdminModelsServlet extends HttpServlet {
         modelEntity.setId(request.getParameterMap().containsKey("id") ? Integer.parseInt(request.getParameter("id"))
                 : -1);
         modelEntity.setTitle( request.getParameter("title"));
-
+        modelEntity.setNegativeLabel(request.getParameter("negative_label"));
+        modelEntity.setPositiveLabel(request.getParameter("positive_label"));
         ServletContext context = this.getServletContext();
         try {
             ModelsService service = new ModelsService(new ModelsDAODB());
@@ -65,6 +67,7 @@ public class AdminModelsServlet extends HttpServlet {
                 request.setAttribute("error", EntityError.NO_ERROR_DELETE);
             }
             request.setAttribute("models", service.getModels());
+            request.setAttribute("kernels", Runtime.getRuntime().availableProcessors());
 //            DatasetEntity[] test = new DataSetService(new DatasetDAODB()).getAllDataSet();
             request.setAttribute("datasets", new DataSetService(new DatasetDAODB()).getAllDataSet());
         } catch (SelectException e){

@@ -46,8 +46,10 @@ public class ModelsDAODB implements ModelsDAO {
         try (Connection connection = DBConnection.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT model.id, model.title, queue_task_ml.completed_task, dataset.title, model.created_date, " +
-                            "queue_task_ml.progress, test_accuracy " +
+                    "SELECT model.id, model.title, queue_task_ml.completed_task, " +
+                            " dataset.title, model.created_date, " +
+                            "queue_task_ml.progress, test_accuracy, " +
+                            "positive_label, negative_label  " +
                             "FROM model JOIN dataset ON dataset_id = dataset.id JOIN queue_task_ml " +
                             "ON queue_task_ml.model_id = model.id"
             );
@@ -58,7 +60,9 @@ public class ModelsDAODB implements ModelsDAO {
                         resultSet.getString(4),
                         resultSet.getTimestamp(5),
                         resultSet.getInt(6),
-                        resultSet.getDouble(7)));
+                        resultSet.getDouble(7),
+                        resultSet.getString(8),
+                        resultSet.getString(9)));
             }
             resultSet.close();
             statement.close();
@@ -75,7 +79,8 @@ public class ModelsDAODB implements ModelsDAO {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
                     "SELECT model.id, model.title, queue_task_ml.completed_task, dataset.title, model.created_date, " +
-                            "queue_task_ml.progress, test_accuracy " +
+                            "queue_task_ml.progress, test_accuracy, " +
+                            "positive_label, negative_label  " +
                             "FROM model JOIN dataset ON dataset_id = dataset.id JOIN queue_task_ml " +
                             "ON queue_task_ml.model_id = model.id WHERE queue_task_ml.completed_task = true"
             );
@@ -86,7 +91,9 @@ public class ModelsDAODB implements ModelsDAO {
                         resultSet.getString(4),
                         resultSet.getTimestamp(5),
                         resultSet.getInt(6),
-                        resultSet.getDouble(7)));
+                        resultSet.getDouble(7),
+                        resultSet.getString(8),
+                        resultSet.getString(9)));
             }
             resultSet.close();
             statement.close();
@@ -102,11 +109,13 @@ public class ModelsDAODB implements ModelsDAO {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO model(title, " +
-                    "dataset_id) " +
-                    "VALUES (?, ?)",
+                    "dataset_id, negative_label, positive_label) " +
+                    "VALUES (?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, model.getTitle());
             preparedStatement.setInt(2, dataset.getId());
+            preparedStatement.setString(3, model.getNegativeLabel());
+            preparedStatement.setString(4, model.getPositiveLabel());
 //            preparedStatement.execute();
 //            preparedStatement.close();
             int affectedRows = preparedStatement.executeUpdate();
@@ -139,9 +148,12 @@ public class ModelsDAODB implements ModelsDAO {
     public void updateModel(ModelEntity model) throws UpdateException {
         try (Connection connection = DBConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE model SET  " +
-                    "title = ?  WHERE id = ?");
+                    "title = ?, positive_label = ?, negative_label = ?  WHERE id = ?");
             preparedStatement.setString(1, model.getTitle());
-            preparedStatement.setInt(2, model.getId());
+
+            preparedStatement.setString(2, model.getPositiveLabel());
+            preparedStatement.setString(3, model.getNegativeLabel());
+            preparedStatement.setInt(4, model.getId());
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
