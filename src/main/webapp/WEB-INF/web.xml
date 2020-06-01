@@ -41,6 +41,15 @@
             </filter-mapping>
 
             <filter>
+                <filter-name>ApiKeysFilter</filter-name>
+                <filter-class>com.company.filters.ApiKeysFilter</filter-class>
+            </filter>
+            <filter-mapping>
+                <filter-name>ApiKeysFilter</filter-name>
+                <url-pattern>/api/*</url-pattern>
+            </filter-mapping>
+
+            <filter>
                 <filter-name>AdminSessionFilter</filter-name>
                 <filter-class>com.company.filters.AdminSessionFilter</filter-class>
             </filter>
@@ -51,6 +60,25 @@
 
 
             <servlet>
+                <servlet-name>ApiModelsServlet</servlet-name>
+                <servlet-class>com.company.servlet.ApiModelsServlet</servlet-class>
+            </servlet>
+            <servlet-mapping>
+                <servlet-name>ApiModelsServlet</servlet-name>
+                <url-pattern>/api/models/*</url-pattern>
+            </servlet-mapping>
+
+            <servlet>
+                <servlet-name>ApiClassificationServlet</servlet-name>
+                <servlet-class>com.company.servlet.ApiClassificationServlet</servlet-class>
+            </servlet>
+            <servlet-mapping>
+                <servlet-name>ApiClassificationServlet</servlet-name>
+                <url-pattern>/api/work/*</url-pattern>
+            </servlet-mapping>
+
+
+    <servlet>
                 <servlet-name>adminMenuServlet</servlet-name>
                 <servlet-class>com.company.servlet.AdminMenuServlet</servlet-class>
             </servlet>

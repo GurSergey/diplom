@@ -1,6 +1,8 @@
 package com.company.filters;
 
+import com.company.db.KeysDAODB;
 import com.company.helpers.CookieHelper;
+import com.company.services.KeysService;
 import com.company.session.AdminSessionStorage;
 import com.company.session.ApiKeysStorage;
 
@@ -12,7 +14,7 @@ import java.io.IOException;
 public class ApiKeysFilter implements Filter{
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        KeysService.initKeys();
     }
 
     @Override
@@ -22,7 +24,9 @@ public class ApiKeysFilter implements Filter{
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+            httpResponse.getWriter().println("Error of Authorization");
             httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
         }
     }
 

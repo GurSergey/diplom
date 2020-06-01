@@ -1,6 +1,7 @@
 package com.company.services;
 
 import com.company.dao.KeysDAO;
+import com.company.db.KeysDAODB;
 import com.company.enitities.KeyEntity;
 import com.company.exceptions.DeleteException;
 import com.company.exceptions.InsertException;
@@ -11,13 +12,11 @@ import com.company.session.ApiKeysStorage;
 public class KeysService {
     private KeysDAO dao;
 
-//    private static ApiKeysStorage keysStorage = new ApiKeysStorage();
-    public KeysService(KeysDAO dao){
-        this.dao = dao;
+    public static void initKeys(){
         if (!ApiKeysStorage.isIsInit())
         {
             try {
-                KeyEntity[] keyEntities = this.getAllKeys();
+                KeyEntity[] keyEntities = new KeysService(new KeysDAODB()).getAllKeys();
                 for (KeyEntity key: keyEntities) {
                     ApiKeysStorage.addKey(key.getKeyStr());
                 }
@@ -25,6 +24,11 @@ public class KeysService {
                 e.printStackTrace();
             }
         }
+    }
+//    private static ApiKeysStorage keysStorage = new ApiKeysStorage();
+    public KeysService(KeysDAO dao){
+        this.dao = dao;
+
     }
 
 

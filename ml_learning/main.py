@@ -36,7 +36,7 @@ def learn(model_id, n_workers, filename ):
     param_grid = [{'vect__ngram_range': [(1, 1)],
                    'vect__stop_words': [stop],
                    'vect__tokenizer': [tokenizer],
-                   'clf__penalty': ['l2', 'l1'], #
+                   'clf__penalty': ['l2'], #, 'l1'
                    'clf__C': [1.0, 10.0, 100.0]}] #
 
     lr_tfidf = Pipeline([('vect', tfidf),
@@ -46,7 +46,7 @@ def learn(model_id, n_workers, filename ):
                                scoring='accuracy',
                                cv=5,
                                verbose=25,
-                               n_jobs=1)
+                               n_jobs=n_workers)
     gs_lr_tfidf.fit(X_train, y_train)
     filename = str(model_id) + '.sav'
     pickle.dump(gs_lr_tfidf, open('../models/'+filename, 'wb'))
